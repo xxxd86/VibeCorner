@@ -680,3 +680,75 @@ ui-logic 在 ≤899px 生成 `.card-direction` + `.dir-item.is-mobile`：
 - 关闭方式：点 × / 点图片外区域 / Esc（ui-logic 绑定）；关闭后焦点回到照片条。
 - 画布重绘：打开下一帧 `initCanvas → setImage → renderOverlays → zoom('fit')`（ui-logic 已实现，ResizeObserver 也会在 `display:flex` 后触发）。
 - 桌面：`.photo-strip`、`.canvas-close` 一律 `display:none`；`#canvas-panel` 三栏布局不变。
+
+## 28. V4 · 家人回应（从表态到行动）
+
+新增接口见 `docs/CONTRACT-V4.md`。UI 只加样式，不改 JS 结构。
+
+### 28.1 家庭页「我能做什么」（`share.css`）
+```html
+<section class="share-section respond-section">
+  <h2 class="share-section-title">我能做什么（选一个就行，不用登录）</h2>
+  <div class="respond-block">
+    <div class="respond-actions">4 × .respond-btn[data-action]</div>
+    <div class="respond-form" hidden>
+      <input class="respond-note"><input class="respond-name">
+      <div class="respond-photo-fields" hidden>
+        <input class="respond-file" type="file">
+        <label class="respond-consent"><input type="checkbox">…</label>
+        <img class="respond-preview">
+      </div>
+      <button class="respond-submit">发送</button>
+      <p class="respond-error" hidden></p>
+    </div>
+    <p class="respond-done" hidden>已告诉 TA</p>
+    <p class="respond-foot">你回的这些只会发给设置这个角落的人，不会公开。</p>
+  </div>
+</section>
+```
+| 选择器 / class | 用途 / 规则 |
+|---|---|
+| `.respond-block` | 区容器（顶部分隔线，与投票区分开） |
+| `.respond-block .respond-actions` | **2 列网格**，gap 8px |
+| `.respond-btn` | 动作按钮，min-height 44px；`data-action=measure\|photo\|disagree\|agree` |
+| `.respond-btn[aria-pressed="true"]`（或 `.is-selected`） | 选中态：accent 浅底 + accent 描边 + 600 字重 |
+| `.respond-btn svg` / `.respond-ic` | 内联 SVG 18px、stroke currentColor（不要用 emoji） |
+| `.respond-form` | 展开表单；`[hidden]` 时 display:none |
+| `.respond-note` / `.respond-name` | 单行输入，min-height 44px |
+| `.respond-photo-fields` | photo 动作专属（文件 + consent + 预览） |
+| `input.respond-file` | 原生 file input 显示成一行虚线框（base.css 默认 `display:none`，这里显式 `display:block`） |
+| `.respond-consent` | 勾选行，min-height 44px |
+| `.respond-preview` | 已选照片预览，最大 220×148、圆角 |
+| `.respond-submit` | 主按钮，宽 100%、min-height 44px；`[disabled]` 时 45% 透明 |
+| `.respond-error` | 红色错误句，12px |
+| `.respond-done` | 「已告诉 TA」ok 色 + 圆点 |
+| `.respond-foot` / `.respond-privacy` | 页脚隐私小字 11px ink-4 |
+
+### 28.2 主人端「家人意见 / 家人回应」双段卡（`components.css`）
+`.card.card-votes` 内保持原 `.vote-summary` / `.vote-list`，新增：
+| 选择器 / class | 用途 |
+|---|---|
+| `.respond-section` | 第二段；顶部 `1px solid var(--line)` 分隔 |
+| `.respond-section-title` | 「家人回应」12px/600 + 右侧最近更新时间 |
+| `.respond-list` / `.respond-row` | 回应列表；行间 dashed 分隔 |
+| `.vote-avatar` | 沿用投票头像圆点（30px） |
+| `.respond-main` | 右侧主区；`padding-right:46px` 给相对时间留位 |
+| `.respond-who` / `.respond-action` | 「名字 · 动作标签」；动作标签 19px 小 pill |
+| `.respond-main > blockquote` | 留言：13px `--ink-2` + 左侧 2px 线 + 浅底 |
+| `.respond-when` | 相对时间，absolute 右上，11px ink-4 |
+| `.respond-photo` | 72×72 圆角 10px、`object-fit:cover`、`cursor:zoom-in` |
+| `.respond-use` | 「设为改造后照片」ghost 按钮，40px 视觉 + 44px 热区（手机 `#feed` 内 44px） |
+| `.respond-photo-viewer` | 家人照片大图 overlay（fixed inset 0、深色底、44px 关闭）；若复用 `#canvas-panel` 则不生效 |
+| `.card-votes[data-only="responds"]` | 无投票只有回应；结构不变，只去掉第一段上间距 |
+
+### 28.3 测量卡已提交反馈
+| 选择器 / class | 用途 |
+|---|---|
+| `.measure-item.is-submitted` / `.is-done` / `[data-submitted="true"]` | 浅 ok 底 + ok 描边 + 输入框半透明白；`.m-head::after` 补「已记下」 |
+| `.m-confirm` | 卡头/提交后的确认条：浅 ok 底、12px、前置圆点；文案如「已记下 1/2，填完下面这个就提交」 |
+
+### 28.4 交付卡三数字（≤899px）
+`.stat-triple` / `.handoff-stats` 两列；最后一个 `.stat` / `.handoff-stat` `grid-column: 1 / -1` 并补上边线，保证「3 | 6」一行、「3+6」独占一行且左对齐。
+
+### 28.5 分享面板访问数
+`.share-views`：分享面板里的「已访问 N 次」小字（11px ink-3 + accent 圆点），由 ui-logic 异步填 ShareView.viewCount。

@@ -107,8 +107,16 @@ export async function listSessions() {
   return Array.isArray(data && data.sessions) ? data.sessions : [];
 }
 
+/** 服务端个别图片对象只带 imageId；补出 url，避免对比卡等渲染成空 */
+function normalizeSession(session) {
+  if (session && session.afterImage && !session.afterImage.url && session.afterImage.imageId) {
+    session.afterImage.url = `/api/image/${session.afterImage.imageId}`;
+  }
+  return session;
+}
+
 export async function getSession(id) {
-  return request(`/api/sessions/${encodeURIComponent(id)}`);
+  return normalizeSession(await request(`/api/sessions/${encodeURIComponent(id)}`));
 }
 
 export async function deleteSession(id) {
@@ -167,19 +175,44 @@ export async function revokeShare(sessionId) {
   return request(`/api/sessions/${encodeURIComponent(sessionId)}/share`, { method: 'DELETE' });
 }
 
-/** 主人侧家人意见：{votes, counts, voteCount} */
+/** 主人侧家人意见/回应：{votes, counts, voteCount, responds, respondCount} */
 export async function getVotes(sessionId) {
   const data = await request(`/api/sessions/${encodeURIComponent(sessionId)}/votes`);
-  if (Array.isArray(data)) return { votes: data, counts: {}, voteCount: data.length };
+  if (Array.isArray(data)) {
+    return { votes: data, counts: {}, voteCount: data.length, responds: [], respondCount: 0 };
+  }
+  const votes = Array.isArray(data && data.votes) ? data.votes : [];
+  const responds = Array.isArray(data && data.responds) ? data.responds : [];
   return {
-    votes: Array.isArray(data && data.votes) ? data.votes : [],
+    votes,
     counts: (data && data.counts) || {},
-    voteCount: Number.isFinite(Number(data && data.voteCount))
-      ? Number(data.voteCount)
-      : Array.isArray(data && data.votes)
-      ? data.votes.length
-      : 0,
+    voteCount: Number.isFinite(Number(data && data.voteCount)) ? Number(data.voteCount) : votes.length,
+    responds,
+    respondCount: Number.isFinite(Number(data && data.respondCount)) ? Number(data.respondCount) : responds.length,
+    viewCount: Number.isFinite(Number(data && data.viewCount)) ? Number(data.viewCount) : null,
+    expiresAt: (data && data.expiresAt) || null,
   };
+}
+
+/** 家庭页行动回应（measure/photo/disagree/agree） */
+export async function respondShare(token, { action, note = '', name = '', deviceId = '', consent = false, photoDataUrl = '' } = {}) {
+  const body = { action, note, name, deviceId, consent };
+  if (photoDataUrl) body.photoDataUrl = photoDataUrl;
+  return request(`/api/share/${encodeURIComponent(token)}/respond`, {
+    method: 'POST',
+    body,
+    timeout: 30000,
+  });
+}
+
+/** 主人：把家人回传的现场照设为改造后照片 */
+export async function useSharePhotoAsAfter(sessionId, respondId) {
+  const data = await request(`/api/sessions/${encodeURIComponent(sessionId)}/after-from-respond`, {
+    method: 'POST',
+    body: { respondId },
+    timeout: 30000,
+  });
+  return normalizeSession(data && data.session ? data.session : data);
 }
 
 /** 上传「改造后」照片，返回更新后的 session */
@@ -189,7 +222,7 @@ export async function uploadAfter(sessionId, { dataUrl, width, height } = {}) {
     body: { dataUrl, width, height },
     timeout: 30000,
   });
-  return data && data.session ? data.session : data;
+  return normalizeSession(data && data.session ? data.session : data);
 }
 
 export async function deleteAfter(sessionId) {

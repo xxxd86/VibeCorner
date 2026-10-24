@@ -930,6 +930,21 @@ function openShareSheet(share) {
   linkRow.append(linkInput);
   body.append(linkRow);
 
+  // V4：分享链接被打开过几次（不记录身份）
+  const views = el('p', 'share-views');
+  views.hidden = !Number.isFinite(Number(share.viewCount));
+  if (Number.isFinite(Number(share.viewCount))) views.textContent = '已访问 ' + Number(share.viewCount) + ' 次';
+  body.append(views);
+  api
+    .fetchShareView(share.token)
+    .then((view) => {
+      const count = Number(view && view.viewCount);
+      if (!Number.isFinite(count) || !views.isConnected) return;
+      views.hidden = false;
+      views.textContent = '已访问 ' + count + ' 次';
+    })
+    .catch(() => {});
+
   const notes = el('ul', 'share-notes');
   ['24 小时内有效', '仅同一 Wi-Fi 可打开', '可随时撤销'].forEach((text) => notes.append(el('li', 'share-note', text)));
   body.append(notes);

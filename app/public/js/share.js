@@ -1,8 +1,22 @@
 // share.js — /s/<token> 家庭分享页入口（独立只读页，移动优先）。
 // 结构由 share.html 提供：root[data-state] + #share-loading / #share-invalid / #share-content。
-import { fetchShareView, vote } from './api.js';
+import { fetchShareView, vote, respondShare } from './api.js';
+import { prepareShareThumb } from './image-utils.js';
 
 const VOTE_LABELS = { yes: '支持', unsure: '犹豫', no: '反对' };
+// 同一时刻只允许一个表单编辑：展开回应表单时收起投票输入，点投票按钮时收起回应表单
+let collapseRespondFormUi = null;
+
+/** 收起所有目标卡的输入区（可保留一张）；默认投票只显示按钮+统计 */
+function collapseAllVoteInputs(exceptBlock) {
+  document.querySelectorAll('#share-vote .vote-block').forEach((block) => {
+    if (exceptBlock && block === exceptBlock) return;
+    block.classList.remove('is-voting');
+    block.querySelectorAll('.vote-fields, .vote-submit').forEach((node) => {
+      node.hidden = true;
+    });
+  });
+}
 const DECISION_TEXT = {
   ok: '可以放',
   conditional: '有条件可放',
@@ -265,9 +279,21 @@ function voteBlock(target, token) {
     btn.dataset.vote = choice;
     btn.setAttribute('aria-pressed', 'false');
     btn.addEventListener('click', () => {
+      const alreadyOpen = block.classList.contains('is-voting') && selected === choice;
+      if (alreadyOpen) {
+        block.classList.remove('is-voting');
+        fields.hidden = true;
+        submit.hidden = true;
+        return;
+      }
       selected = choice;
       buttons.forEach((other) => other.setAttribute('aria-pressed', other === btn ? 'true' : 'false'));
       done.hidden = true;
+      collapseAllVoteInputs(block);
+      block.classList.add('is-voting');
+      fields.hidden = false;
+      submit.hidden = false;
+      if (typeof collapseRespondFormUi === 'function') collapseRespondFormUi();
     });
     actions.append(btn);
     return btn;
@@ -275,6 +301,7 @@ function voteBlock(target, token) {
   block.append(actions);
 
   const fields = el('div', 'vote-fields');
+  fields.hidden = true;
   const note = document.createElement('input');
   note.type = 'text';
   note.className = 'vote-note';
@@ -292,6 +319,7 @@ function voteBlock(target, token) {
 
   const submit = el('button', 'vote-submit', '告诉 TA 我的意见');
   submit.type = 'button';
+  submit.hidden = true;
   const done = el('p', 'vote-done');
   done.hidden = true;
 
@@ -356,6 +384,229 @@ function renderVotes(view) {
   targets.forEach((target) => host.append(voteBlock(target, view.token)));
 }
 
+/* ------------------------------------------------------------- V4 我能做什么 */
+
+const RESPOND_ACTIONS = {
+  measure: {
+    label: '我周末来量',
+    svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 2v12M11.8 2v12M4.2 4.4h7.6M4.2 7.4h7.6M4.2 10.4h7.6"/></svg>',
+  },
+  photo: {
+    label: '我拍了现场照',
+    svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="4.4" width="12" height="9" rx="2"/><circle cx="8" cy="8.9" r="2.6"/><path d="M5.6 4.4 6.6 2.6h2.8l1 1.8"/></svg>',
+  },
+  disagree: {
+    label: '这个位置我不同意',
+    svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8"/><path d="M4.2 11.8 11.8 4.2"/></svg>',
+  },
+  agree: {
+    label: '就按这个来',
+    svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3.2 8.4 3.2 3.2 6.4-7.2"/></svg>',
+  },
+};
+
+function deviceId() {
+  let id = '';
+  try {
+    id = window.localStorage.getItem('corner.deviceId') || '';
+  } catch {
+    id = '';
+  }
+  if (!id) {
+    id = 'd_' + Math.random().toString(16).slice(2, 10) + Date.now().toString(16).slice(-4);
+    try {
+      window.localStorage.setItem('corner.deviceId', id);
+    } catch {
+      /* 隐私模式忽略 */
+    }
+  }
+  return id;
+}
+
+function renderResponds(view) {
+  const voteHost = document.getElementById('share-vote');
+  const content = document.getElementById('share-content');
+  if (!content) return;
+  const section = el('section', 'share-section respond-section');
+  section.append(el('h2', 'share-section-title', '我能做什么（选一个就行，不用登录）'));
+
+  const block = el('div', 'respond-block');
+  // 标题下 12px 直接是按钮；未展开时不留空块/分隔线
+  block.style.marginTop = '12px';
+  block.style.paddingTop = '0';
+  block.style.borderTop = '0';
+  const actionsRow = el('div', 'respond-actions');
+  const form = el('div', 'respond-form');
+  form.hidden = true;
+  form.style.display = 'none';
+  const note = document.createElement('input');
+  note.type = 'text';
+  note.className = 'respond-note';
+  note.maxLength = 40;
+  note.placeholder = '一句话留言（选填，40 字内）';
+  note.setAttribute('aria-label', '一句话留言');
+  const name = document.createElement('input');
+  name.type = 'text';
+  name.className = 'respond-name';
+  name.maxLength = 12;
+  name.placeholder = '昵称（选填，默认匿名）';
+  name.setAttribute('aria-label', '昵称');
+
+  const photoFields = el('div', 'respond-photo-fields');
+  photoFields.hidden = true;
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.className = 'respond-file';
+  fileInput.setAttribute('aria-label', '选择现场照片');
+  const consentLabel = el('label', 'respond-consent');
+  const consent = document.createElement('input');
+  consent.type = 'checkbox';
+  consent.className = 'respond-consent-check';
+  consentLabel.append(consent, document.createTextNode(' 这张照片会发给设置这个角落的人'));
+  const preview = document.createElement('img');
+  preview.className = 'respond-preview';
+  preview.alt = '现场照预览';
+  preview.hidden = true;
+  photoFields.append(fileInput, consentLabel, preview);
+
+  const submit = el('button', 'btn btn-primary respond-submit', '发送');
+  submit.type = 'button';
+  const error = el('p', 'respond-error');
+  error.hidden = true;
+  const done = el('p', 'respond-done');
+  done.hidden = true;
+  form.append(note, name, photoFields, submit, error);
+  block.append(actionsRow, form, done);
+  block.append(el('p', 'respond-foot', '你回的这些只会发给设置这个角落的人，不会公开。'));
+  section.append(block);
+  const anchorSection = voteHost && voteHost.closest('section');
+  if (anchorSection && anchorSection.parentNode) anchorSection.insertAdjacentElement('afterend', section);
+  else {
+    const foot = content.querySelector('.share-foot');
+    if (foot) content.insertBefore(section, foot);
+    else content.append(section);
+  }
+
+  let selectedAction = '';
+  let file = null;
+  let sending = false;
+  const buttons = {};
+
+  /** 同一时刻只编辑一个表单：回应展开时收起投票输入，反之亦然 */
+  const setVoteInputsCollapsed = () => {
+    collapseAllVoteInputs();
+  };
+  const showRespondForm = () => {
+    form.hidden = false;
+    form.style.display = 'flex';
+  };
+  const hideRespondForm = () => {
+    form.hidden = true;
+    form.style.display = 'none';
+  };
+  collapseRespondFormUi = () => {
+    hideRespondForm();
+  };
+
+  const updateSubmit = () => {
+    submit.disabled = sending || (selectedAction === 'photo' && (!file || !consent.checked));
+  };
+
+  const showError = (text) => {
+    error.hidden = !text;
+    error.textContent = text || '';
+  };
+
+  const selectAction = (action) => {
+    selectedAction = action;
+    Object.keys(buttons).forEach((key) => {
+      const active = key === action;
+      buttons[key].setAttribute('aria-pressed', active ? 'true' : 'false');
+      buttons[key].classList.toggle('is-selected', active);
+    });
+    setVoteInputsCollapsed();
+    showRespondForm();
+    photoFields.hidden = action !== 'photo';
+    done.hidden = true;
+    showError('');
+    updateSubmit();
+    note.focus();
+  };
+
+  Object.keys(RESPOND_ACTIONS).forEach((action) => {
+    const meta = RESPOND_ACTIONS[action];
+    const btn = el('button', 'respond-btn');
+    btn.type = 'button';
+    btn.dataset.action = action;
+    btn.setAttribute('aria-pressed', 'false');
+    btn.insertAdjacentHTML('afterbegin', meta.svg);
+    btn.append(document.createTextNode(meta.label));
+    btn.addEventListener('click', () => selectAction(action));
+    buttons[action] = btn;
+    actionsRow.append(btn);
+  });
+
+  fileInput.addEventListener('change', () => {
+    file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+    if (preview.src) URL.revokeObjectURL(preview.src);
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.hidden = false;
+    } else {
+      preview.removeAttribute('src');
+      preview.hidden = true;
+    }
+    updateSubmit();
+  });
+  consent.addEventListener('change', updateSubmit);
+
+  submit.addEventListener('click', async () => {
+    if (!selectedAction || sending) return;
+    if (selectedAction === 'photo' && !file) {
+      showError('先选一张现场照');
+      return;
+    }
+    if (selectedAction === 'photo' && !consent.checked) {
+      showError('先勾选「这张照片会发给设置这个角落的人」');
+      return;
+    }
+    sending = true;
+    const original = submit.textContent;
+    submit.textContent = '发送中…';
+    updateSubmit();
+    showError('');
+    try {
+      let photoDataUrl = '';
+      if (selectedAction === 'photo' && file) {
+        const thumb = await prepareShareThumb(file);
+        photoDataUrl = thumb && thumb.dataUrl ? thumb.dataUrl : '';
+      }
+      const res = await respondShare(view.token, {
+        action: selectedAction,
+        note: note.value.trim().slice(0, 40),
+        name: name.value.trim().slice(0, 12),
+        deviceId: deviceId(),
+        consent: selectedAction === 'photo' ? true : false,
+        photoDataUrl,
+      });
+      const label = (RESPOND_ACTIONS[selectedAction] || {}).label || '回应';
+      done.hidden = false;
+      done.textContent = `${label} · 已告诉 TA`;
+      hideRespondForm();
+      if (res && res.respondCount != null) {
+        done.dataset.count = String(res.respondCount);
+      }
+    } catch (err) {
+      showError((err && err.message) || '发送失败，稍后再试');
+    } finally {
+      sending = false;
+      submit.textContent = original;
+      updateSubmit();
+    }
+  });
+}
+
 function renderReady(view) {
   showState('ready');
   const title = document.getElementById('share-title');
@@ -379,6 +630,7 @@ function renderReady(view) {
   renderConstraints(view.constraints);
   renderItems(view.items);
   renderVotes(view);
+  renderResponds(view);
 }
 
 /* ------------------------------------------------------------- 启动 */

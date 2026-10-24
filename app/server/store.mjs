@@ -94,9 +94,24 @@ export async function deleteSession(id) {
   } catch {
     /* ignore */
   }
-  if (session?.image?.imageId) {
-    const img = imagePath(session.image.imageId, session.image.ext || 'jpg');
-    if (img) await fsp.unlink(img).catch(() => {});
+  // 隐私承诺「删除即从服务器移除」：主图、改造后照片、分享记录、分享缩略图、家人回传照片一起删
+  const doomed = [];
+  if (session?.image?.imageId) doomed.push(session.image);
+  if (session?.afterImage?.imageId) doomed.push(session.afterImage);
+  if (session?.share?.token) {
+    const share = await getShare(session.share.token);
+    if (share?.photo?.imageId) doomed.push(share.photo);
+    for (const r of shareResponds(share)) {
+      if (r?.photo?.imageId) doomed.push(r.photo);
+    }
+    await deleteShare(session.share.token).catch(() => {});
+  }
+  const seen = new Set();
+  for (const img of doomed) {
+    if (!img?.imageId || seen.has(img.imageId)) continue;
+    seen.add(img.imageId);
+    const p = imagePath(img.imageId, img.ext || 'jpg');
+    if (p) await fsp.unlink(p).catch(() => {});
   }
   return true;
 }
@@ -210,10 +225,85 @@ export async function createShare(session, { hasPhoto = true, photo = null } = {
     // 分享页专用缩略图（客户端生成，长边 900）：拿不到原图
     photo: photo && photo.imageId ? { imageId: photo.imageId, ext: photo.ext || 'jpg', bytes: photo.bytes || 0 } : null,
     votes: [],
+    // V4：家人的「行动回应」（我周末来量 / 我拍了现场照 / 我不同意 / 就按这个来）
+    responds: [],
+    viewCount: 0,
   };
   const file = shareFile(share.token);
   await fsp.writeFile(file, JSON.stringify(share, null, 2), 'utf8');
   return share;
+}
+
+/* ---------------- V4：家人回应 ---------------- */
+
+export const RESPOND_ACTIONS = Object.freeze({
+  measure: '我周末来量',
+  photo: '我拍了现场照',
+  disagree: '这个位置我不同意',
+  agree: '就按这个来',
+});
+
+export function newRespondId() {
+  return 'rs_' + crypto.randomBytes(4).toString('hex');
+}
+
+/**
+ * 记录一条家人回应。
+ * - 同一 deviceId + action（非 photo）覆盖，避免重复点
+ * - photo 最多保留 5 张
+ */
+export async function addRespond(token, { action, note = '', name = '', deviceId = '', photo = null }) {
+  const share = await getShare(token);
+  if (!share) return null;
+  if (!RESPOND_ACTIONS[action]) return null;
+  const list = Array.isArray(share.responds) ? share.responds : [];
+  const entry = {
+    id: newRespondId(),
+    action,
+    note: String(note || '').slice(0, 40),
+    name: String(name || '').slice(0, 12),
+    deviceId: String(deviceId || '').slice(0, 40),
+    at: new Date().toISOString(),
+    photo: photo && photo.imageId ? { imageId: photo.imageId, ext: photo.ext || 'jpg' } : null,
+    consent: Boolean(photo),
+  };
+  let next = list;
+  if (action === 'photo') {
+    const photos = list.filter((r) => r && r.action === 'photo');
+    next = list.filter((r) => !(r && r.action === 'photo' && r.id === (photos[0] && photos[0].id) && photos.length >= 5));
+    next = next.concat(entry).slice(-50);
+  } else {
+    const keep = list.filter((r) => !(r && r.action === action && entry.deviceId && r.deviceId === entry.deviceId));
+    next = keep.concat(entry).slice(-50);
+  }
+  share.responds = next;
+  await fsp.writeFile(shareFile(token), JSON.stringify(share, null, 2), 'utf8');
+  return share;
+}
+
+export function shareResponds(share) {
+  return Array.isArray(share?.responds) ? share.responds : [];
+}
+
+/** 分享页被打开一次（用于「已访问 N 次」，不记录身份） */
+export async function bumpShareView(token) {
+  const share = await getShare(token);
+  if (!share) return null;
+  share.viewCount = (Number(share.viewCount) || 0) + 1;
+  await fsp.writeFile(shareFile(token), JSON.stringify(share, null, 2), 'utf8');
+  return share;
+}
+
+/** 复制一张已有图片（家人回传的照片 → 会话的改造后照片），返回新 {imageId, ext} */
+export async function copyImage(imageId, ext = 'jpg') {
+  if (!IMAGE_ID_RE.test(String(imageId || ''))) return null;
+  const src = imagePath(imageId, ext);
+  if (!src) return null;
+  const buf = await fsp.readFile(src);
+  const nextId = newImageId();
+  const safeExt = /^(jpg|png|webp)$/.test(ext) ? ext : 'jpg';
+  await fsp.writeFile(path.join(UPLOAD_DIR, `${nextId}.${safeExt}`), buf);
+  return { imageId: nextId, ext: safeExt, bytes: buf.length };
 }
 
 export async function getShare(token) {

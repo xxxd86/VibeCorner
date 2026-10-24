@@ -3449,3 +3449,417 @@
 @media (min-width: 900px) {
   .quality-details[hidden] { display: block !important; }
 }
+
+/* ===============================================================
+   V4 · 主人端「家人意见 / 家人回应」双段卡 + 回应行
+   =============================================================== */
+.votes-section {
+  padding: 10px 0 4px;
+}
+.votes-section + .votes-section {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.votes-section-title,
+.votes-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 18px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  color: var(--ink-3);
+}
+.votes-section-head > .mono,
+.votes-section-title > .mono {
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-4);
+}
+.card-votes[data-only="responds"] .votes-section { padding-top: 4px; }
+
+.respond-list { display: flex; flex-direction: column; }
+.respond-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 18px;
+  border-top: 1px dashed var(--line);
+}
+.respond-row:first-child { border-top: 0; }
+.respond-avatar {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--paper-3);
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+.respond-row[data-action="photo"] .respond-avatar { background: var(--accent-soft); color: var(--accent-ink); }
+.respond-row[data-action="measure"] .respond-avatar { background: var(--warn-soft); color: var(--warn); }
+.respond-row[data-action="disagree"] .respond-avatar { background: var(--bad-soft); color: var(--bad); }
+.respond-row[data-action="agree"] .respond-avatar { background: var(--ok-soft); color: var(--ok); }
+.respond-main { flex: 1; min-width: 0; }
+.respond-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.respond-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.respond-label {
+  display: inline-flex;
+  align-items: center;
+  height: 19px;
+  padding: 0 7px;
+  border-radius: 6px;
+  background: var(--paper-3);
+  color: var(--ink-3);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+.respond-time {
+  margin-left: auto;
+  flex: none;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ink-4);
+  white-space: nowrap;
+}
+.respond-note {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.respond-photo {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin-top: 8px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--paper-3);
+  cursor: zoom-in;
+}
+button.respond-photo { appearance: none; }
+.respond-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+.respond-actions .btn {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-weight: 500;
+  justify-content: flex-start;
+}
+.respond-actions .btn:hover { background: var(--paper-3); color: var(--ink); }
+
+/* 家人回传照片的大图（如果 ui-logic 采用独立 modal） */
+.photo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 14px calc(16px + env(safe-area-inset-bottom, 0px));
+  background: rgba(12, 10, 9, .94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.photo-modal[hidden] { display: none !important; }
+.photo-modal > img,
+.photo-modal img.photo-modal-img {
+  max-width: 100%;
+  max-height: calc(100dvh - 110px);
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .5);
+}
+.photo-modal-close,
+.photo-modal .modal-close {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(245, 239, 232, .16);
+  border-radius: 12px;
+  background: rgba(245, 239, 232, .07);
+  color: var(--canvas-ink);
+  font-family: var(--font);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.photo-modal-close:hover,
+.photo-modal .modal-close:hover { background: rgba(245, 239, 232, .14); }
+
+/* ===============================================================
+   V4 · 测量卡已提交反馈
+   =============================================================== */
+.measure-item.is-submitted,
+.measure-item.is-done,
+.measure-item[data-submitted="true"] {
+  background: var(--ok-soft);
+  border-color: rgba(79, 122, 99, .32);
+}
+.measure-item.is-submitted .m-input,
+.measure-item.is-done .m-input,
+.measure-item[data-submitted="true"] .m-input {
+  background: rgba(255, 255, 255, .55);
+}
+.measure-item.is-submitted .m-head::after,
+.measure-item.is-done .m-head::after,
+.measure-item[data-submitted="true"] .m-head::after {
+  content: "已记下";
+  margin-left: auto;
+  flex: none;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--ok);
+}
+.m-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--ok-soft);
+  color: var(--ok);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.m-confirm::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+/* V4 · 交付卡三数字：≤899 两列，第三个独占一行 */
+@media (max-width: 899px) {
+  .stat-triple,
+  .handoff-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-triple > .stat:last-child,
+  .handoff-stats > .handoff-stat:last-child {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* V4 · 对齐 ui-logic 实际 DOM（主人端） */
+.card-votes .respond-section {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.respond-section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 18px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  color: var(--ink-3);
+}
+.respond-list { display: flex; flex-direction: column; }
+.card-votes .respond-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 18px;
+  border-top: 1px dashed var(--line);
+}
+.card-votes .respond-row:first-child { border-top: 0; }
+.respond-main { flex: 1; min-width: 0; position: relative; padding-right: 46px; }
+.respond-who {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.respond-who b { font-weight: 600; color: var(--ink); }
+.respond-action {
+  display: inline-flex;
+  align-items: center;
+  height: 19px;
+  padding: 0 7px;
+  border-radius: 6px;
+  background: var(--paper-3);
+  color: var(--ink-3);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+.respond-when {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ink-4);
+  white-space: nowrap;
+}
+.respond-main > blockquote,
+.respond-main > .respond-note {
+  margin: 4px 0 0;
+  padding: 6px 10px;
+  border-left: 2px solid var(--line-2);
+  border-radius: 0 var(--r-xs) var(--r-xs) 0;
+  background: var(--paper-3);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.card-votes .respond-photo {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin-top: 8px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--paper-3);
+  cursor: zoom-in;
+}
+.card-votes .respond-use,
+.respond-use {
+  height: 44px;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+.respond-use:hover { background: var(--paper-3); color: var(--ink); }
+
+/* 家人回传照片查看器（ui-logic .respond-photo-viewer） */
+.respond-photo-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 14px calc(16px + env(safe-area-inset-bottom, 0px));
+  background: rgba(12, 10, 9, .94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.respond-photo-viewer[hidden] { display: none !important; }
+.respond-photo-viewer > img { max-width: 100%; max-height: calc(100dvh - 110px); object-fit: contain; border-radius: 10px; }
+.respond-photo-viewer .modal-close,
+.respond-photo-close {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(245, 239, 232, .16);
+  border-radius: 12px;
+  background: rgba(245, 239, 232, .07);
+  color: var(--canvas-ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 分享面板「已访问 N 次」 */
+.share-views {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.share-views::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: .55;
+}
+
+/* V4 · 「设为改造后照片」可见 ghost 小按钮（44px 热区，视觉紧凑） */
+.card-votes .respond-use,
+.respond-use {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  min-height: 40px;
+  margin-top: 6px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-2);
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+.respond-use:hover { background: var(--paper-3); border-color: var(--line-2); color: var(--ink); }
+.respond-use::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+}
+.respond-use { position: relative; }
+@media (max-width: 899px) {
+  #feed .respond-use { height: 44px; min-height: 44px; }
+}

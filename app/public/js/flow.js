@@ -60,6 +60,8 @@ const VOTES_POLL_MIN_MS = 15000;
 const votesPoll = {
   sessionId: null,
   votes: [],
+  responds: [],
+  respondCount: 0,
   counts: {},
   lastCount: 0,
   unread: 0,
@@ -174,6 +176,8 @@ function resetVotesPoll(sessionId) {
   }
   votesPoll.sessionId = sessionId || null;
   votesPoll.votes = [];
+  votesPoll.responds = [];
+  votesPoll.respondCount = 0;
   votesPoll.counts = {};
   votesPoll.lastCount = 0;
   votesPoll.unread = 0;
@@ -192,10 +196,93 @@ function removeVotesUI() {
   });
 }
 
+/* ------------------------------------------------ V4 家人回应：看图 / 设为改造后 */
+
+let respondPhotoState = null;
+
+function closeRespondPhoto() {
+  if (!respondPhotoState) return;
+  const { overlay, onKey } = respondPhotoState;
+  respondPhotoState = null;
+  document.removeEventListener('keydown', onKey);
+  if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+}
+
+function openRespondPhoto(url, respond) {
+  if (!url) return;
+  closeRespondPhoto();
+  const overlay = document.createElement('div');
+  overlay.className = 'respond-photo-viewer';
+  Object.assign(overlay.style, {
+    position: 'fixed',
+    inset: '0',
+    zIndex: '120',
+    display: 'grid',
+    placeItems: 'center',
+    background: 'rgba(20,17,16,.82)',
+    padding: '18px',
+  });
+  const img = document.createElement('img');
+  img.className = 'respond-photo-large';
+  img.src = url;
+  img.alt = (respond && respond.note) || '家人拍的现场照';
+  Object.assign(img.style, {
+    maxWidth: '92vw',
+    maxHeight: '84vh',
+    borderRadius: '14px',
+    boxShadow: '0 24px 60px rgba(0,0,0,.4)',
+  });
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'btn btn-ghost respond-photo-close';
+  close.textContent = '关闭';
+  close.style.minHeight = '44px';
+  close.style.position = 'absolute';
+  close.style.top = 'calc(14px + env(safe-area-inset-top, 0px))';
+  close.style.right = '14px';
+  close.addEventListener('click', () => closeRespondPhoto());
+  overlay.append(img, close);
+  overlay.addEventListener('click', (ev) => {
+    if (ev.target === overlay) closeRespondPhoto();
+  });
+  const onKey = (ev) => {
+    if (ev.key === 'Escape') closeRespondPhoto();
+  };
+  document.addEventListener('keydown', onKey);
+  document.body.append(overlay);
+  respondPhotoState = { overlay, onKey };
+  close.focus();
+}
+
+async function useRespondPhotoAsAfter(respond) {
+  const session = state.session;
+  if (!session || !respond || !respond.id) return;
+  try {
+    const updated = await api.useSharePhotoAsAfter(session.id, respond.id);
+    if (!updated) {
+      notify('这张照片暂时用不了，稍后再试');
+      return;
+    }
+    setState({ session: updated });
+    renderCompareCard(state.session);
+    notify('已用家人拍的照片做对比');
+  } catch (err) {
+    if (isApiError(err)) notify(err.message);
+    else throw err;
+  }
+}
+
 function renderVotesUI() {
   removeVotesUI();
-  if (!votesPoll.votes.length) return;
-  const card = votesCard(votesPoll.votes, { labels: cardLabels(), unread: votesPoll.unread });
+  if (!votesPoll.votes.length && !votesPoll.responds.length) return;
+  const card = votesCard(votesPoll.votes, {
+    labels: cardLabels(),
+    unread: votesPoll.unread,
+    responds: votesPoll.responds,
+    respondCount: votesPoll.respondCount,
+    onUseRespondPhoto: (respond) => safeAsync(useRespondPhotoAsAfter(respond)),
+    onOpenRespondPhoto: (url, respond) => openRespondPhoto(url, respond),
+  });
   if (!card) return;
   const wrapper = document.createElement('div');
   wrapper.className = 'feed-item ai';
@@ -276,17 +363,21 @@ function votesToastText(counts) {
 
 function applyVotesData(sessionId, data, reason) {
   const votes = Array.isArray(data.votes) ? data.votes : [];
+  const responds = Array.isArray(data.responds) ? data.responds.filter((item) => item && item.action) : [];
   const counts = data.counts && typeof data.counts === 'object' ? data.counts : {};
   const voteCount = Number.isFinite(Number(data.voteCount)) ? Number(data.voteCount) : votes.length;
   const stored = readStoredVotesCount(sessionId);
   const previous = votesPoll.lastCount;
 
   votesPoll.votes = votes;
+  votesPoll.responds = responds;
+  votesPoll.respondCount = Number.isFinite(Number(data.respondCount)) ? Number(data.respondCount) : responds.length;
   votesPoll.counts = counts;
   votesPoll.lastCount = voteCount;
-  if (votes.length) {
+  if (votes.length || responds.length) {
     const latest = votes
       .map((vote) => vote && vote.at)
+      .concat(responds.map((item) => item && item.at))
       .filter(Boolean)
       .sort()
       .slice(-1)[0];
@@ -314,12 +405,14 @@ function applyVotesData(sessionId, data, reason) {
     }
   }
 
-  if (!votes.length) {
+  if (!votes.length && !responds.length) {
     removeVotesUI();
+    updateHandoffStatus(state.session && state.session.share);
     return { voteCount, counts };
   }
   renderVotesUI();
-  return { voteCount, counts };
+  updateHandoffStatus(state.session && state.session.share);
+  return { voteCount, counts, respondCount: votesPoll.respondCount };
 }
 
 /** 按事件拉家人意见：默认 15s 节流；force=true 跳过节流（内部/首次） */
@@ -1213,8 +1306,14 @@ async function measureFlow(answers) {
           onSubmit: (nextAnswers) => {
             Object.assign(collected, nextAnswers);
             const answered = Object.keys(collected).length;
-            if (answered >= questions.length) safeAsync(runMeasure(collected));
-            else notify(`记下了，再填下面 ${questions.length - answered} 个就提交`);
+            if (answered >= questions.length) {
+              safeAsync(runMeasure(collected));
+            } else {
+              // 显式反馈：第一张卡头写清楚「已记下 1/2」
+              const kicker = cardEl.querySelector('.card-kicker');
+              if (kicker) kicker.textContent = `已记下 ${answered}/${questions.length}，填完下面这个就提交`;
+              notify(`记下了，再填下面 ${questions.length - answered} 个就提交`);
+            }
           },
           onSkipAll: () => promptPlan(),
         });
@@ -1751,10 +1850,16 @@ function requestAfterFile() {
 }
 
 function updateHandoffStatus(share) {
-  const hasShare = Boolean(share && share.token);
+  const session = state.session;
+  const activeShare = share || (session && session.share) || null;
+  const hasShare = Boolean(activeShare && activeShare.token);
+  const count =
+    votesPoll.sessionId && session && votesPoll.sessionId === session.id
+      ? Number(votesPoll.respondCount) || 0
+      : Number(activeShare && activeShare.respondCount) || 0;
   document.querySelectorAll('#feed .card-handoff .handoff-share-status').forEach((node) => {
     node.hidden = !hasShare;
-    node.textContent = hasShare ? '已分享 · 等待家人意见' : '';
+    node.textContent = hasShare ? (count > 0 ? `家人已回应 ${count} 条` : '已分享 · 等待家人意见') : '';
   });
   document.querySelectorAll('#feed .card-handoff .handoff-actions .btn-primary').forEach((btn) => {
     btn.textContent = hasShare ? '再次分享给大家' : '分享给同住的人';

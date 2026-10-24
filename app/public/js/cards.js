@@ -905,7 +905,8 @@ function formatRelative(iso) {
 
 export function votesCard(votes, ctx = {}) {
   const list = (Array.isArray(votes) ? votes : []).filter((vote) => vote && vote.vote);
-  if (!list.length) return null; // 空态不渲染
+  const responds = (Array.isArray(ctx.responds) ? ctx.responds : []).filter((item) => item && item.action);
+  if (!list.length && !responds.length) return null; // 整卡两边都空不渲染
   const labels = ctx.labels && typeof ctx.labels === 'object' ? ctx.labels : {};
   const voteText = { yes: '支持', unsure: '犹豫', no: '反对' };
   const support = list.filter((vote) => vote.vote === 'yes').length;
@@ -915,12 +916,15 @@ export function votesCard(votes, ctx = {}) {
   const unread = Math.max(0, Number(ctx.unread) || 0);
   const latestAt = list
     .map((vote) => vote.at)
+    .concat(responds.map((item) => item.at))
     .filter(Boolean)
     .sort()
     .slice(-1)[0];
 
   const card = makeCard('votes', 'card-votes');
-  const headEl = head(card, el('span', 'chip chip-votes', '家人意见'));
+  const headLabel = list.length ? '家人意见' : '家人回应';
+  if (!list.length) card.dataset.only = 'responds';
+  const headEl = head(card, el('span', 'chip chip-votes', headLabel));
   if (unread > 0) {
     const badge = el('span', 'chip vote-unread-chip', unread > 9 ? '9+' : '+' + unread);
     badge.setAttribute('aria-label', `${unread} 条新意见`);
@@ -930,15 +934,19 @@ export function votesCard(votes, ctx = {}) {
   card.dataset.unread = String(unread);
 
   const summary = el('div', 'vote-summary');
-  summary.append(el('b', 'mono', String(people)), document.createTextNode(' 人看过 · 支持 '));
-  summary.append(el('b', 'mono', String(support)));
-  if (unsure) {
-    summary.append(document.createTextNode(' · 犹豫 '));
-    summary.append(el('b', 'mono', String(unsure)));
-  }
-  if (oppose) {
-    summary.append(document.createTextNode(' · 反对 '));
-    summary.append(el('b', 'mono', String(oppose)));
+  if (list.length) {
+    summary.append(el('b', 'mono', String(people)), document.createTextNode(' 人看过 · 支持 '));
+    summary.append(el('b', 'mono', String(support)));
+    if (unsure) {
+      summary.append(document.createTextNode(' · 犹豫 '));
+      summary.append(el('b', 'mono', String(unsure)));
+    }
+    if (oppose) {
+      summary.append(document.createTextNode(' · 反对 '));
+      summary.append(el('b', 'mono', String(oppose)));
+    }
+  } else {
+    summary.append(el('b', 'mono', String(responds.length)), document.createTextNode(' 条行动回应'));
   }
   if (latestAt) {
     const updated = el('span', 'vote-updated', '最近更新 · ' + formatRelative(latestAt));
@@ -949,30 +957,95 @@ export function votesCard(votes, ctx = {}) {
   }
   card.append(summary);
 
-  const rowList = el('div', 'vote-list');
-  list.forEach((vote, index) => {
-    const row = el('div', 'vote-row');
-    const name = vote.name || '家人 ' + (index + 1);
-    row.append(el('span', 'vote-avatar', name.slice(0, 1) || '家'));
-    const main = el('div', 'vote-main');
-    const who = el('div', 'vote-who');
-    const targetLabel = labels[vote.targetId] || '这个方案';
-    who.append(el('b', 'vote-name', name), document.createTextNode(` · ${voteText[vote.vote] || '看过'}「${targetLabel}」`));
-    main.append(who);
-    if (vote.note) main.append(el('blockquote', null, vote.note));
-    if (vote.at) {
-      const when = el('div', 'vote-when', formatRelative(vote.at));
-      when.style.fontSize = '11px';
-      when.style.lineHeight = '1.5';
-      when.style.color = 'var(--ink-4)';
-      main.append(when);
-    }
-    row.append(main);
-    row.append(el('span', 'vote-badge', voteText[vote.vote] || '看过'));
-    row.lastChild.dataset.vote = vote.vote;
-    rowList.append(row);
-  });
-  card.append(rowList);
+  if (list.length) {
+    const rowList = el('div', 'vote-list');
+    list.forEach((vote, index) => {
+      const row = el('div', 'vote-row');
+      const name = vote.name || '家人 ' + (index + 1);
+      row.append(el('span', 'vote-avatar', name.slice(0, 1) || '家'));
+      const main = el('div', 'vote-main');
+      const who = el('div', 'vote-who');
+      const targetLabel = labels[vote.targetId] || '这个方案';
+      who.append(el('b', 'vote-name', name), document.createTextNode(` · ${voteText[vote.vote] || '看过'}「${targetLabel}」`));
+      main.append(who);
+      if (vote.note) main.append(el('blockquote', null, vote.note));
+      if (vote.at) {
+        const when = el('div', 'vote-when', formatRelative(vote.at));
+        when.style.fontSize = '11px';
+        when.style.lineHeight = '1.5';
+        when.style.color = 'var(--ink-4)';
+        main.append(when);
+      }
+      row.append(main);
+      row.append(el('span', 'vote-badge', voteText[vote.vote] || '看过'));
+      row.lastChild.dataset.vote = vote.vote;
+      rowList.append(row);
+    });
+    card.append(rowList);
+  }
+
+  if (responds.length) {
+    const section = el('div', 'respond-section');
+    section.append(el('div', 'respond-section-title', '家人回应'));
+    const respondList = el('div', 'respond-list');
+    respondList.style.display = 'flex';
+    respondList.style.flexDirection = 'column';
+    respondList.style.gap = '6px';
+    responds.forEach((respond, index) => {
+      const name = respond.name || '家人 ' + (index + 1);
+      const row = el('div', 'respond-row');
+      row.style.padding = '4px 0';
+      row.append(el('span', 'vote-avatar', name.slice(0, 1) || '家'));
+      const main = el('div', 'respond-main');
+      main.style.display = 'flex';
+      main.style.flexDirection = 'column';
+      main.style.gap = '4px';
+      main.style.alignItems = 'flex-start';
+      const who = el('div', 'respond-who');
+      who.append(el('b', 'vote-name', name));
+      who.append(document.createTextNode(' · '));
+      who.append(el('span', 'respond-action', respond.label || respond.action || '回应'));
+      main.append(who);
+      if (respond.note) main.append(el('blockquote', null, respond.note));
+      if (respond.photoUrl) {
+        const photo = document.createElement('img');
+        photo.className = 'respond-photo';
+        photo.src = respond.photoUrl;
+        photo.alt = '家人拍的现场照';
+        photo.loading = 'lazy';
+        photo.style.width = '72px';
+        photo.style.height = '72px';
+        photo.style.objectFit = 'cover';
+        photo.style.borderRadius = '8px';
+        photo.style.cursor = 'zoom-in';
+        photo.addEventListener('click', () => {
+          if (typeof ctx.onOpenRespondPhoto === 'function') ctx.onOpenRespondPhoto(respond.photoUrl, respond);
+        });
+        const media = el('div', 'respond-media');
+        media.style.display = 'flex';
+        media.style.alignItems = 'center';
+        media.style.gap = '8px';
+        media.append(photo);
+        const use = el('button', 'btn btn-ghost respond-use', '设为改造后照片');
+        use.type = 'button';
+        use.addEventListener('click', () => {
+          if (typeof ctx.onUseRespondPhoto === 'function') ctx.onUseRespondPhoto(respond);
+        });
+        media.append(use);
+        main.append(media);
+      }
+      if (respond.at) {
+        const when = el('span', 'respond-when', formatRelative(respond.at));
+        when.style.fontSize = '11px';
+        when.style.color = 'var(--ink-4)';
+        main.append(when);
+      }
+      row.append(main);
+      respondList.append(row);
+    });
+    section.append(respondList);
+    card.append(section);
+  }
   return card;
 }
 
