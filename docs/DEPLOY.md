@@ -84,3 +84,16 @@ node app/server/index.mjs
   `git status --short` 确认它没出现在列表里。
 - 仓库里的 key 一旦泄露要立刻在 DeepSeek 控制台轮换。
 - 公网部署后任何人都能打开你的站点并消耗你的 API 额度，建议加额度上限或访问口令。
+
+---
+
+## 本仓库已实测的状态（2026-10-24）
+
+- push 到 `main` 后：
+  - `CI` ✅ success（语法 / DOM 契约 / 冒烟 / gzip 全绿）
+  - `Docker 镜像` ✅ success（镜像已推到 GHCR）
+  - `部署到 Render` ✅ success（当前未配 Deploy Hook，只走"跳过"分支）
+- GHCR 包默认可能是 **private**：`api.github.com/users/<user>/packages` 返回 401 属正常。
+  要给别人 `docker pull`，需要：仓库 → **Packages** → 该包 → Settings → Change visibility → **Public**。
+- 仓库是 **public**，所以 CI 里不带 Key 也能跑；只有"真模型回归"那一步需要
+  `Settings → Secrets and variables → Actions → DEEPSEEK_API_KEY`。
