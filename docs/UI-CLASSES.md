@@ -771,3 +771,35 @@ ui-logic 在 ≤899px 生成 `.card-direction` + `.dir-item.is-mobile`：
 | `.notify-dot` | 开启态前置 6px accent 圆点（在 `.notify-toggle` 内） |
 | ≤899px | 按钮 `display:flex; width:100%`（全宽更稳），文案不换行、超出省略 |
 | ≥900px | `inline-flex`，宽度随内容 |
+
+## 29. V5 · 回访闭环样式（components.css 末尾）
+
+契约见 `docs/CONTRACT-V5.md`。数据来自 `session.followups`（day 2/7）。
+
+### 29.1 回访卡已记录态
+| 选择器 / class | 用途 |
+|---|---|
+| `.card-followup[data-done="true"]` | 底色 `--paper-2`、边框 `--line`、无 hover 位移/阴影；`.card-head` 去渐变 |
+| `.followup-answer` / `.followup-done-line` / `[data-done] .followup-title` | 「第 2 天 · 周末做」14px/600 `--ink` |
+| `.followup-when` / `.followup-time` / `[data-done] .followup-sub` | 相对时间 12px `--ink-3` |
+| `.followup-answer-row` | 答案 + 时间一行，时间 `margin-left:auto` |
+| `.followup-edit` | 「可以改」：元素 44px（hit），`::before` 画 32px 胶囊视觉；ghost |
+
+### 29.2 handoff「接下来 7 天」时间线
+| 选择器 / class | 用途 |
+|---|---|
+| `.followup-timeline` | 横向 flex + `flex-wrap`（390 可换行）；`list-style:none` |
+| `.followup-step`（`.is-pending` / `data-state=pending`） | 单步；未答灰色 `--ink-4`；自带 `.followup-dot` 时不重复画伪元素 |
+| `.followup-dot` / `.followup-step::before` | 6px 圆点；已答 accent，未答 `--line-2` |
+| `.followup-arrow` | 步骤间「›」，ink-4 |
+| `.followup-step-note` | 展开的 note 11px ink-3 |
+
+### 29.3 「要不要换个方向？」卡
+| 选择器 / class | 用途 |
+|---|---|
+| `.card-followup-next` | 与回访卡间距 8px；纸卡底/边/圆角 |
+| `.followup-next-title` / `.followup-next-sub` | 标题 14px/650 + 说明 12px ink-3 |
+| `.followup-next-actions` / `.card-followup-next .followup-actions` | 竖排按钮组，主按钮 + 次按钮各全宽 44px |
+
+### 29.4 回访选项 chips
+≤899px `.followup-actions` 改为 2 列 grid，按钮各 44px、允许两行文案；≥900px 仍横向 wrap。

@@ -847,24 +847,12 @@ export function handoffCard(session, ctx = {}) {
   addStat(`${constraintCount} + ${checklistCount}`, '尺寸条件 + 现场动作');
   body.append(stats);
 
-  const observe = Array.isArray(plan.observe)
-    ? plan.observe.filter((day) => day && (day.title || (Array.isArray(day.checks) && day.checks.length)))
-    : [];
-  if (observe.length) {
+  if (data.planDeliveredAt || observe.length) {
     const details = document.createElement('details');
     details.className = 'handoff-timeline';
     const summary = document.createElement('summary');
     summary.textContent = '接下来 7 天怎么判断';
-    const list = el('ol', 'handoff-days');
-    observe.forEach((day, index) => {
-      const dayNumber = day.day == null ? index + 1 : day.day;
-      const item = el('li', 'handoff-day');
-      item.append(el('span', 'handoff-day-num mono', '第 ' + dayNumber + ' 天'));
-      const text = Array.isArray(day.checks) && day.checks.length ? day.checks[0] : day.title || '';
-      item.append(el('span', null, text));
-      list.append(item);
-    });
-    details.append(summary, list);
+    details.append(summary, followupTimeline(data));
     body.append(details);
   }
 
@@ -1144,27 +1132,194 @@ export function compareCard(session, ctx = {}) {
 
 /* ================================================================ V2.1 回访轻卡 */
 
+const FOLLOWUP_LABELS = {
+  2: { today: '今天做', weekend: '周末做', skipped: '暂时不做' },
+  7: { used: '用上了', not_yet: '还没用上', wrong: '方案不对' },
+};
+
+function followupValueLabel(day, value) {
+  return (FOLLOWUP_LABELS[day] && FOLLOWUP_LABELS[day][value]) || value || '';
+}
+
+/** V5 handoff 时间线：第 2/7 天已记录或待回访，可展开 note */
+export function followupTimeline(session) {
+  const data = session || {};
+  const answers = {};
+  (Array.isArray(data.followups) ? data.followups : []).forEach((item) => {
+    if (item && (item.day === 2 || item.day === 7)) answers[item.day] = item;
+  });
+  const list = el('ol', 'followup-timeline');
+  [2, 7].forEach((day) => {
+    const answer = answers[day];
+    const item = el('li', 'followup-step' + (answer ? '' : ' is-pending'));
+    item.dataset.day = String(day);
+    item.append(el('span', 'followup-dot'));
+    item.append(
+      el('span', 'followup-step-text', '第 ' + day + ' 天 · ' + (answer ? followupValueLabel(day, answer.value) : '待回访'))
+    );
+    if (day === 2) item.append(el('i', 'followup-arrow', '›'));
+    if (answer && answer.note) {
+      const note = document.createElement('details');
+      note.className = 'handoff-followup-note';
+      const summary = document.createElement('summary');
+      summary.textContent = '备注';
+      note.append(summary, el('p', null, answer.note));
+      item.append(note);
+    }
+    list.append(item);
+  });
+  return list;
+}
+
 export function followupCard(data, ctx = {}) {
   const payload = data || {};
+  const day = payload.day === 7 ? 7 : 2;
   const card = makeCard('followup', 'card-followup');
-  head(card, el('span', 'chip chip-followup', `第 ${payload.day || 2} 天`), el('span', 'card-kicker', '回访'));
+  card.dataset.day = String(day);
+  head(card, el('span', 'chip chip-followup', `第 ${day} 天`), el('span', 'card-kicker', '回访'));
 
   const body = el('div', 'card-body');
-  body.append(el('p', 'followup-title', payload.title || '用上了吗？'));
-  if (payload.sub) body.append(el('p', 'followup-sub', payload.sub));
-  card.append(body);
+  const titleEl = el('p', 'followup-title', payload.title || '用上了吗？');
+  body.append(titleEl);
+  let subEl = null;
+  if (payload.sub) {
+    subEl = el('p', 'followup-sub', payload.sub);
+    body.append(subEl);
+  }
 
+  const recorded = el('div', 'followup-recorded');
+  recorded.hidden = true;
+  const recordedRow = el('div', 'followup-answer-row');
+  const recordedText = el('span', 'followup-answer');
+  const recordedWhen = el('span', 'followup-when');
+  recordedRow.append(recordedText, recordedWhen);
+  const editBtn = el('button', 'followup-edit', '可以改');
+  editBtn.type = 'button';
+  editBtn.style.minHeight = '44px';
+  recorded.append(recordedRow);
+  const recordedNote = el('p', 'followup-recorded-note');
+  recordedNote.hidden = true;
+  recorded.append(recordedNote, editBtn);
+  body.append(recorded);
+
+  const actionsWrap = el('div', 'followup-actions-wrap');
+  const noteInput = document.createElement('input');
+  noteInput.type = 'text';
+  noteInput.className = 'followup-note';
+  noteInput.maxLength = 40;
+  noteInput.placeholder = '补一句（选填，40 字内）';
+  noteInput.setAttribute('aria-label', '回访备注');
+  noteInput.style.minHeight = '44px';
   const actions = el('div', 'followup-actions');
   (Array.isArray(payload.actions) ? payload.actions : []).forEach((action) => {
     const btn = el('button', 'btn btn-chip', action.label || '好');
     btn.type = 'button';
     btn.dataset.value = action.value || action.label || '';
+    btn.style.minHeight = '44px';
     btn.addEventListener('click', () => {
       Array.from(actions.children).forEach((child) => child.setAttribute('aria-pressed', child === btn ? 'true' : 'false'));
-      if (typeof ctx.onAnswer === 'function') ctx.onAnswer(payload.day || 2, action.value || action.label || '');
+      if (typeof ctx.onAnswer === 'function') {
+        ctx.onAnswer(day, action.value || action.label || '', noteInput.value.trim().slice(0, 40));
+      }
     });
     actions.append(btn);
   });
+  actionsWrap.append(noteInput, actions);
+  body.append(actionsWrap);
+  card.append(body);
+
+  let currentAnswer = payload.answer || null;
+  const apply = (answer) => {
+    currentAnswer = answer || null;
+    titleEl.hidden = Boolean(currentAnswer);
+    if (subEl) subEl.hidden = Boolean(currentAnswer);
+    if (!currentAnswer) {
+      recorded.hidden = true;
+      actionsWrap.style.display = '';
+      card.dataset.done = 'false';
+      return;
+    }
+    if (currentAnswer.note) noteInput.value = currentAnswer.note;
+    recorded.hidden = false;
+    card.dataset.done = 'true';
+    recordedText.textContent = `第 ${day} 天 · ${followupValueLabel(day, currentAnswer.value)}`;
+    recordedWhen.textContent = currentAnswer.at ? formatRelative(currentAnswer.at) : '';
+    recordedNote.hidden = !currentAnswer.note;
+    recordedNote.textContent = currentAnswer.note || '';
+    actionsWrap.style.display = 'none';
+  };
+  editBtn.addEventListener('click', () => {
+    recorded.hidden = true;
+    card.dataset.done = 'false';
+    titleEl.hidden = false;
+    if (subEl) subEl.hidden = false;
+    actionsWrap.style.display = '';
+    noteInput.focus();
+  });
+  apply(currentAnswer);
+  card.setFollowupState = apply;
+  card.getFollowupAnswer = () => currentAnswer;
+  return card;
+}
+
+/** V5：day7 反馈 not_yet / wrong 后的「要不要换个方向？」 */
+export function followupNextCard(data, ctx = {}) {
+  const payload = data || {};
+  const value = payload.value === 'wrong' ? 'wrong' : 'not_yet';
+  const card = makeCard('followup', 'card-followup card-followup-next');
+  card.dataset.value = value;
+  head(card, el('span', 'chip chip-followup', '方案反馈'), el('span', 'card-kicker', '回访'));
+  const body = el('div', 'card-body');
+  body.append(el('div', 'followup-next-title', '要不要换个方向？'));
+  body.append(
+    el(
+      'p',
+      'followup-next-sub',
+      value === 'wrong'
+        ? '这次不会重复上次的位置，但也不保证一定更好；可以换一个方向重新看看。'
+        : '还没用上也正常，可以再等几天，或者换一个方向试试。'
+    )
+  );
+  card.append(body);
+
+  const canSwitch = ctx.canSwitchDirection !== false;
+  const actions = el('div', 'followup-next-actions');
+  const primary = el(
+    'button',
+    'btn btn-primary',
+    value === 'wrong' ? (canSwitch ? '换一个方向重算' : '改一改方案') : '再等几天'
+  );
+  primary.type = 'button';
+  primary.style.minHeight = '44px';
+  primary.addEventListener('click', () => {
+    if (value === 'wrong') {
+      if (canSwitch) {
+        if (typeof ctx.onRecalculate === 'function') ctx.onRecalculate('wrong');
+      } else if (typeof ctx.onNoAlternative === 'function') {
+        ctx.onNoAlternative();
+      }
+    } else if (typeof ctx.onLater === 'function') {
+      ctx.onLater();
+    }
+  });
+  actions.append(primary);
+  const secondary = el(
+    'button',
+    'btn btn-ghost',
+    value === 'wrong' ? '先不动' : canSwitch ? '换个方向重算' : '改一改方案'
+  );
+  secondary.type = 'button';
+  secondary.style.minHeight = '44px';
+  secondary.addEventListener('click', () => {
+    if (value === 'wrong') {
+      if (typeof ctx.onLater === 'function') ctx.onLater();
+    } else if (canSwitch) {
+      if (typeof ctx.onRecalculate === 'function') ctx.onRecalculate('not_yet');
+    } else if (typeof ctx.onNoAlternative === 'function') {
+      ctx.onNoAlternative();
+    }
+  });
+  actions.append(secondary);
   card.append(actions);
   return card;
 }

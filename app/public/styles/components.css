@@ -4015,3 +4015,200 @@ button.respond-photo { appearance: none; }
     padding-inline: 14px;
   }
 }
+
+/* ===============================================================
+   V5 · 交付后回访闭环（已记录态 / 时间线 / 换方向卡 / 选项 chips）
+   =============================================================== */
+
+/* 1. 回访卡已记录态 */
+.card-followup[data-done="true"] {
+  background: var(--paper-2);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.card-followup[data-done="true"]:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--line);
+}
+.card-followup[data-done="true"] .card-head {
+  background: none;
+  padding-bottom: 2px;
+}
+.followup-answer,
+.followup-done-line,
+.card-followup[data-done="true"] .followup-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+.followup-when,
+.followup-time,
+.card-followup[data-done="true"] .followup-sub {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.card-followup .followup-answer-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  min-width: 0;
+}
+.card-followup .followup-answer-row > .followup-when,
+.card-followup .followup-answer-row > .followup-time { margin-left: auto; }
+
+/* 「可以改」：视觉 32px 胶囊，热区 44px（元素自身 44 不触发 tiny 检测） */
+.followup-edit,
+.card-followup[data-done="true"] .followup-edit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.followup-edit::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  bottom: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  pointer-events: none;
+}
+.followup-edit:hover { color: var(--ink); }
+.followup-edit:hover::before { border-color: var(--line-2); background: var(--paper-2); }
+
+/* 2. handoff「接下来 7 天」时间线：横向，390 允许换行 */
+.followup-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.followup-step,
+.followup-timeline > li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.followup-step.is-pending,
+.followup-step[data-state="pending"],
+.followup-step[data-done="false"],
+.followup-timeline > li.is-pending {
+  color: var(--ink-4);
+}
+.followup-dot,
+.followup-step::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.followup-step.is-pending::before,
+.followup-step[data-state="pending"]::before,
+.followup-step[data-done="false"]::before {
+  background: var(--line-2);
+}
+.followup-arrow {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  color: var(--ink-4);
+  font-size: 12px;
+  line-height: 1;
+}
+.followup-timeline .followup-step-note {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* 3. 「要不要换个方向？」 */
+.card-followup-next {
+  margin-top: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-m);
+  background: #FCFAF6;
+}
+.card-followup-next .followup-next-title {
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.card-followup-next .followup-next-sub {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.followup-next-actions,
+.card-followup-next .followup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 0;
+}
+.followup-next-actions .btn,
+.card-followup-next .followup-actions .btn,
+.card-followup-next > .btn {
+  width: 100%;
+  min-height: 44px;
+  height: 44px;
+  justify-content: center;
+  font-size: 13px;
+}
+
+/* 4. 回访选项 chips：手机 2 列，各 ≥44 */
+@media (max-width: 899px) {
+  .followup-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 0 14px 14px;
+  }
+  .followup-actions .btn {
+    width: 100%;
+    min-height: 44px;
+    height: 44px;
+    padding: 0 10px;
+    font-size: 12.5px;
+    white-space: normal;
+    text-align: center;
+  }
+  .card-followup-next { padding: 12px 14px; }
+}
+
+/* 若 ui-logic 自带 .followup-dot / .dot，则不重复画伪元素圆点 */
+.followup-step:has(.followup-dot)::before,
+.followup-step:has(.dot)::before,
+.followup-timeline > li:has(.followup-dot)::before,
+.followup-timeline > li:has(.dot)::before { display: none; }

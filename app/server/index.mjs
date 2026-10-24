@@ -193,6 +193,10 @@ function applyPayload(session, stage, payload = {}) {
       storeMeasurement(session, key, val);
     }
   }
+  // V5：回访"方案不对"→ 换方向重算时记下反馈（方案重新生成时不重复上次位置）
+  if (stage === 'plan' && payload?.followupFeedback) {
+    session.lastFeedback = { value: String(payload.followupFeedback).slice(0, 24), at: new Date().toISOString() };
+  }
   if (stage === 'ask') {
     session.picks.push({
       nx: Number(payload?.nx ?? 0.5),
@@ -684,6 +688,22 @@ async function handleDeleteSession(req, res, id) {
   sendJson(res, 200, { ok: true });
 }
 
+/** V5：交付后的回访回答（第 2 天 / 第 7 天），落库并可覆盖 */
+async function handleFollowup(req, res, id) {
+  const session = await store.getSession(id);
+  if (!session) return fail(res, 404, '会话不存在', 'not_found');
+  if (!session.planDeliveredAt) return fail(res, 400, '这个角落还没交付方案，暂时没有回访', 'not_delivered');
+  const body = await readJson(req);
+  const day = Number(body?.day);
+  if (!store.FOLLOWUP_VALUES[day]) return fail(res, 400, '回访天数不对', 'bad_day');
+  const value = String(body?.value || '');
+  if (!store.FOLLOWUP_VALUES[day].includes(value)) return fail(res, 400, '这个回答不认识', 'bad_value');
+  const entry = store.applyFollowup(session, { day, value, note: body?.note });
+  if (!entry) return fail(res, 400, '这个回答不认识', 'bad_value');
+  await store.saveSession(session);
+  sendJson(res, 200, { ok: true, followup: entry, session });
+}
+
 async function handleUploadImage(req, res, id) {
   const session = await store.getSession(id);
   if (!session) return fail(res, 404, '会话不存在', 'not_found');
@@ -949,6 +969,10 @@ const server = http.createServer(async (req, res) => {
 
     m = /^\/api\/sessions\/(s_[a-f0-9]{12})\/answer$/.exec(p);
     if (m && method === 'POST') return await handleAnswer(req, res, m[1]);
+
+    // V5：交付后回访（第 2 天 / 第 7 天）
+    m = /^\/api\/sessions\/(s_[a-f0-9]{12})\/followup$/.exec(p);
+    if (m && method === 'POST') return await handleFollowup(req, res, m[1]);
 
     // ---- V3：家庭分享 / 投票 / 改造后照片 ----
     m = /^\/api\/sessions\/(s_[a-f0-9]{12})\/share$/.exec(p);

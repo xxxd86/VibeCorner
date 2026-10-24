@@ -18,6 +18,8 @@ import {
   goalChoices,
   waitStepsCard,
   followupCard,
+  followupNextCard,
+  followupTimeline,
   handoffCard,
   votesCard,
   compareCard,
@@ -50,6 +52,7 @@ let retakeRounds = 0;
 let directionId = null;
 let demoMode = false;
 let planCtaShown = false;
+let followupFeedback = null;
 let currentWaitSteps = null;
 
 const MEASURE_LEAD_COPY = '这两个数字只有你能给。量完这一步，方案就是你自己的了。';
@@ -914,69 +917,217 @@ function daysSince(iso) {
   return (Date.now() - time) / 86400000;
 }
 
-/** 回访轻卡：计划交付 ≥2 天出第 2 天卡，≥7 天出第 7 天卡；?followup=1 强制显示 */
+/** 回访换方向：从 l0.directions 里确定性地挑一个「不同」的方向 */
+function pickAlternativeDirection(session) {
+  const data = session || {};
+  const directions = data.l0 && Array.isArray(data.l0.directions) ? data.l0.directions.filter(Boolean) : [];
+  if (directions.length < 2) return null;
+  const currentId = data.chosenDirectionId == null ? '' : String(data.chosenDirectionId);
+  const others = directions.filter((direction) => String(direction.id) !== currentId);
+  if (!others.length) return null;
+  const current = directions.find((direction) => String(direction.id) === currentId) || null;
+  const fresh = others.find((direction) => direction.kit === 'new');
+  if (fresh) return fresh;
+  if (current && current.regionId) {
+    const differentRegion = others.find((direction) => direction.regionId && direction.regionId !== current.regionId);
+    if (differentRegion) return differentRegion;
+  }
+  return others[0];
+}
+
+function followupNextDoneKey(sessionId) {
+  return `corner.followupNextDone.${sessionId}`;
+}
+
+function readFollowupNextDone(sessionId) {
+  try {
+    return window.localStorage.getItem(followupNextDoneKey(sessionId)) || '';
+  } catch {
+    return '';
+  }
+}
+
+function storeFollowupNextDone(sessionId, value) {
+  try {
+    window.localStorage.setItem(followupNextDoneKey(sessionId), String(value || 'handled'));
+  } catch {
+    /* 隐私模式忽略 */
+  }
+}
+
+/** 回访轻卡：按 planDeliveredAt 天数出卡；答案落库、可修改、day7 反馈可换方向 */
 export function appendFollowups(session, opts = {}) {
   if (!session || !session.plan) return;
+  const data = session;
   const force =
     opts.force === true ||
     (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('followup') === '1');
-  const days = daysSince(session.planDeliveredAt);
+  const days = daysSince(data.planDeliveredAt);
+  const answers = {};
+  (Array.isArray(data.followups) ? data.followups : []).forEach((item) => {
+    if (item && (item.day === 2 || item.day === 7)) answers[item.day] = item;
+  });
+  const answered = (day) => Boolean(answers[day]);
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const shownKey = (day) => `corner.followupShown.${data.id}.${day}`;
+  const shownToday = (day) => {
+    try {
+      return window.localStorage.getItem(shownKey(day)) === todayKey;
+    } catch {
+      return false;
+    }
+  };
+  const markShown = (day) => {
+    try {
+      window.localStorage.setItem(shownKey(day), todayKey);
+    } catch {
+      /* 隐私模式忽略 */
+    }
+  };
+
+  const day2Payload = {
+    day: 2,
+    title: '清单第一项，今天做还是周末做？',
+    sub: '先做一件小事就够了，不用一次改完。',
+    actions: [
+      { label: '今天做', value: 'today' },
+      { label: '周末做', value: 'weekend' },
+      { label: '暂时不做', value: 'skipped' },
+    ],
+  };
+  const day7Payload = {
+    day: 7,
+    title: '用上了吗？',
+    sub: '不用也没关系，换个位置可能更合适。',
+    actions: [
+      { label: '用上了', value: 'used' },
+      { label: '还没', value: 'not_yet' },
+      { label: '方案不对', value: 'wrong' },
+    ],
+  };
+
   const cards = [];
   if (force) {
-    cards.push({
-      day: 2,
-      title: '清单第一项，今天做还是周末做？',
-      sub: '先做一件小事就够了，不用一次改完。',
-      actions: [
-        { label: '今天做', value: 'today' },
-        { label: '周末做', value: 'weekend' },
-      ],
-    });
-    cards.push({
-      day: 7,
-      title: '用上了吗？',
-      sub: '不用也没关系，换个位置可能更合适。',
-      actions: [
-        { label: '用上了', value: 'used' },
-        { label: '还没', value: 'not_yet' },
-        { label: '方案不对', value: 'wrong' },
-      ],
-    });
-  } else if (days != null && days >= 7) {
-    cards.push({
-      day: 7,
-      title: '用上了吗？',
-      sub: '不用也没关系，换个位置可能更合适。',
-      actions: [
-        { label: '用上了', value: 'used' },
-        { label: '还没', value: 'not_yet' },
-        { label: '方案不对', value: 'wrong' },
-      ],
-    });
-  } else if (days != null && days >= 2) {
-    cards.push({
-      day: 2,
-      title: '清单第一项，今天做还是周末做？',
-      sub: '先做一件小事就够了，不用一次改完。',
-      actions: [
-        { label: '今天做', value: 'today' },
-        { label: '周末做', value: 'weekend' },
-      ],
-    });
+    cards.push({ payload: day2Payload, answer: answers[2] || null });
+    cards.push({ payload: day7Payload, answer: answers[7] || null });
+  } else {
+    if (days != null && days >= 2 && !answered(2) && !shownToday(2)) cards.push({ payload: day2Payload, answer: null });
+    if (days != null && days >= 7 && !answered(7) && !shownToday(7) && (answered(2) || cards.length === 0)) {
+      cards.push({ payload: day7Payload, answer: null });
+    }
   }
   if (!cards.length) return;
-  cards.forEach((payload) => {
+
+  const updateTimeline = (nextSession) => {
+    const details = document.querySelector('#feed .card-handoff .handoff-timeline');
+    if (!details) return;
+    const old = details.querySelector('.followup-timeline');
+    const next = followupTimeline(nextSession);
+    if (old) old.replaceWith(next);
+    else details.append(next);
+  };
+
+  const markNextHandled = (sessionId, status) => {
+    if (sessionId) storeFollowupNextDone(sessionId, status);
+  };
+
+  const updateNextCardDone = (text) => {
+    const nextCard = document.querySelector('#feed .card-followup-next');
+    if (!nextCard) return;
+    nextCard.classList.add('is-done');
+    nextCard.dataset.handled = 'true';
+    const title = nextCard.querySelector('.followup-next-title');
+    if (title) title.textContent = text;
+    const sub = nextCard.querySelector('.followup-next-sub');
+    if (sub) sub.remove();
+    const actions = nextCard.querySelector('.followup-next-actions');
+    if (actions) actions.remove();
+  };
+
+  const handleNextSwitch = async (feedback) => {
+    const sessionNow = state.session;
+    if (!sessionNow) return;
+    const alternative = pickAlternativeDirection(sessionNow);
+    if (!alternative) {
+      notify('只有一个方向，可以在标注里调整位置');
+      return;
+    }
+    try {
+      await recalculatePlan({ directionId: alternative.id, followupFeedback: feedback || 'wrong' });
+      markNextHandled(sessionNow.id, 'recalculated');
+      updateNextCardDone('已换个方向重算 · 看看新方案');
+    } catch (err) {
+      if (isApiError(err)) notify(err.message);
+      else throw err;
+    }
+  };
+
+  const handleNextLater = () => {
+    const sessionNow = state.session;
+    if (sessionNow) markNextHandled(sessionNow.id, 'later');
+    updateNextCardDone('已记下 · 先不动');
+    notify('好，那先不动。之后想换方向随时回来');
+  };
+
+  const addNextCard = (value, sessionNow) => {
+    const currentSession = sessionNow || state.session;
+    if (!currentSession) return;
+    if (readFollowupNextDone(currentSession.id)) return; // 已处理过，刷新后不再弹未处理态
+    if (document.querySelector('#feed .card-followup-next')) return;
+    const alternative = pickAlternativeDirection(currentSession);
+    const canSwitch = Boolean(alternative);
     addCardOnly(
-      followupCard(payload, {
-        onAnswer: (day, value) => {
-          const followupAnswers = Object.assign({}, (state.session && state.session.followupAnswers) || {}, {
-            ['day' + day]: value,
-          });
-          if (state.session) setState({ session: Object.assign({}, state.session, { followupAnswers }) });
-          notify('记下了，之后也可以改');
-        },
-      })
+      followupNextCard(
+        { value },
+        {
+          canSwitchDirection: canSwitch,
+          onRecalculate: (feedback) => safeAsync(handleNextSwitch(feedback || value)),
+          onLater: handleNextLater,
+          onNoAlternative: () => notify('只有一个方向，可以在标注里调整位置'),
+        }
+      )
     );
+  };
+
+  const answerFollowup = async (payload, cardEl, value, note) => {
+    const sessionNow = state.session;
+    if (!sessionNow) return;
+    try {
+      const updated = await api.postFollowup(sessionNow.id, { day: payload.day, value, note });
+      if (!updated) return;
+      setState({ session: updated });
+      syncSessionSummary(updated);
+      const answer = (Array.isArray(updated.followups) ? updated.followups : []).find((item) => item && item.day === payload.day) || {
+        day: payload.day,
+        value,
+        note,
+        at: new Date().toISOString(),
+      };
+      if (cardEl && typeof cardEl.setFollowupState === 'function') cardEl.setFollowupState(answer);
+      updateTimeline(updated);
+      notify('记下了，之后也可以改');
+      if (payload.day === 7 && (value === 'not_yet' || value === 'wrong')) {
+        addNextCard(value, updated);
+      }
+      // 第 2 天答完后，若已到第 7 天且未答，再出第 7 天卡
+      if (payload.day === 2 && !force) appendFollowups(updated);
+    } catch (err) {
+      if (isApiError(err)) notify(err.message);
+      else throw err;
+    }
+  };
+
+  cards.forEach(({ payload, answer }) => {
+    const payloadWithAnswer = Object.assign({}, payload, { answer });
+    const cardEl = followupCard(payloadWithAnswer, {
+      onAnswer: (day, value, note) => safeAsync(answerFollowup(payload, cardEl, value, note)),
+    });
+    addCardOnly(cardEl);
+    markShown(payload.day);
+    if (payload.day === 7 && answer && (answer.value === 'not_yet' || answer.value === 'wrong')) {
+      addNextCard(answer.value, data);
+    }
   });
   scrollToEnd();
 }
@@ -1640,7 +1791,9 @@ async function planFlow() {
     const payload = await requestStage(ai, session.id, 'plan', {
       directionId: chosenDirectionId(),
       profile: profilePayload(),
+      ...(followupFeedback ? { followupFeedback } : {}),
     });
+    followupFeedback = null;
     const plan = payload || {};
     const latest = state.session || session;
     const data = latest.plan || plan;
@@ -1703,6 +1856,7 @@ export async function recalculatePlan(patch = {}) {
       return;
     }
     const changes = patch && typeof patch === 'object' ? patch : {};
+    if (changes.followupFeedback) followupFeedback = changes.followupFeedback;
     if (changes.measurements && typeof changes.measurements === 'object') {
       for (const [key, value] of Object.entries(changes.measurements)) {
         const num = Number(value);

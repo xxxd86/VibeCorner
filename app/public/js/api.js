@@ -132,6 +132,16 @@ export async function uploadImage(sessionId, { dataUrl, width, height, metrics }
   return data && data.session ? data.session : data;
 }
 
+/** V5 回访落库：同 day 覆盖，返回更新后的 session */
+export async function postFollowup(sessionId, { day, value, note = '' } = {}) {
+  const data = await request(`/api/sessions/${encodeURIComponent(sessionId)}/followup`, {
+    method: 'POST',
+    body: { day, value, note },
+    timeout: 15000,
+  });
+  return normalizeSession(data && data.session ? data.session : data);
+}
+
 export function imageUrl(session) {
   const image = session && session.image;
   if (!image) return '';

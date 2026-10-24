@@ -49,7 +49,30 @@ export function emptySession(id = newSessionId()) {
     picks: [],
     chosenDirectionId: null,
     revisions: 0,
+    // V5：交付后回访（第 2 天 / 第 7 天）
+    followups: [],
   };
+}
+
+export const FOLLOWUP_VALUES = Object.freeze({
+  2: ['today', 'weekend', 'skipped'],
+  7: ['used', 'not_yet', 'wrong'],
+});
+
+/** 记录一次回访回答（同 day 覆盖，按 day 升序） */
+export function applyFollowup(session, { day, value, note = '' }) {
+  if (!session) return null;
+  const d = Number(day);
+  const allowed = FOLLOWUP_VALUES[d];
+  if (!allowed || !allowed.includes(String(value))) return null;
+  const list = Array.isArray(session.followups) ? session.followups.slice() : [];
+  const idx = list.findIndex((item) => Number(item.day) === d);
+  const entry = { day: d, value: String(value), note: String(note || '').slice(0, 40), at: new Date().toISOString() };
+  if (idx >= 0) list[idx] = entry;
+  else list.push(entry);
+  list.sort((a, b) => Number(a.day) - Number(b.day));
+  session.followups = list;
+  return entry;
 }
 
 function sessionFile(id) {
