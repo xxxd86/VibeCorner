@@ -189,14 +189,14 @@ function steps390() {
     WAIT("document.querySelector('.card-handoff .notify-toggle')", 60000),
     SLEEP(800),
     EVAL('initialNotify', toggleSnapshotExpr()),
-    EVAL('scrollToggle', `(() => { const n = document.querySelector('.card-handoff .notify-toggle'); n?.scrollIntoView({ block: 'center' }); return 'ok'; })()`),
-    SLEEP(300),
-    SHOT('26-notify-toggle-390'),
     EVAL('toggleOn', `(async () => {
       document.querySelector('.card-handoff .notify-toggle')?.click();
       await new Promise((r) => setTimeout(r, 600));
       return ${toggleSnapshotExpr()};
     })()`),
+    EVAL('scrollToggle', `(() => { const n = document.querySelector('.card-handoff .notify-toggle'); n?.scrollIntoView({ block: 'center' }); return 'ok'; })()`),
+    SLEEP(300),
+    SHOT('26-notify-toggle-390'),
     EVAL('hiddenAddPhoto', `(async () => {
       const token = '${token}';
       window.__vis = 'hidden';
@@ -249,6 +249,17 @@ function steps390() {
         cardRect: rect ? { top: Math.round(rect.top), bottom: Math.round(rect.bottom), vh: window.innerHeight } : null,
         notifCount: window.__notifs.length
       });
+    })()`),
+    EVAL('voteOnlyNotify', `(async () => {
+      const token = '${token}';
+      window.__now += 31000;
+      const view = await (await fetch('/api/share/' + token)).json();
+      const target = (view.targets || [])[0];
+      await fetch('/api/share/' + token + '/vote', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ targetId: target.id, targetType: target.type, vote: 'yes', voteId: 'qa-v42-vote', name: '室友', note: '我同意' }) });
+      await window.__corner.flow.refreshVotes({ force: true });
+      await new Promise((r) => setTimeout(r, 800));
+      const last = window.__notifs[window.__notifs.length - 1] || null;
+      return JSON.stringify({ notifCount: window.__notifs.length, last: last ? { title: last.title, body: last.body, tag: last.tag } : null, chip: (document.querySelector('.card-votes .respond-unread-chip')?.textContent || '').trim(), voteUnread: (document.querySelector('.card-votes .vote-unread-chip')?.textContent || '').trim() });
     })()`),
     EVAL('toggleOff', `(async () => {
       document.querySelector('.card-handoff .notify-toggle')?.click();
@@ -379,6 +390,13 @@ async function main() {
       check(click.respondsRead === '3', '点通知后 respondsRead=3（当时 count）', JSON.stringify(click.respondsRead));
       check(click.cardRect && click.cardRect.top < click.cardRect.vh && click.cardRect.bottom > 0, '点通知后 .card-votes 进入视口', JSON.stringify(click.cardRect));
     } else check(false, '读取点击通知结果', 'missing');
+    const voteOnly = get(p1.out, 'voteOnlyNotify');
+    if (voteOnly) {
+      check(voteOnly.notifCount === 3, '有投票无回应 → 新增第 3 条通知', JSON.stringify(voteOnly.notifCount));
+      check(voteOnly.last?.title === '猫角落 · 家人给了意见', '无回应只有投票 → 标题「猫角落 · 家人给了意见」', JSON.stringify(voteOnly.last?.title));
+      check(/^家人给了意见 · 支持 1/.test(voteOnly.last?.body || ''), '投票通知 body 与投票 toast 一致', JSON.stringify(voteOnly.last?.body));
+      check(voteOnly.last?.tag === `corner-${sessionId}`, '投票通知 tag 正确', JSON.stringify(voteOnly.last?.tag));
+    } else check(false, '读取投票通知', 'missing');
     const off = get(p1.out, 'toggleOff');
     if (off) {
       check(off.storage === '0', '关闭后 localStorage corner.notify=0', JSON.stringify(off.storage));
@@ -386,7 +404,7 @@ async function main() {
       check(off.state === 'off', '关闭后 getNotifyState=off', JSON.stringify(off.state));
     } else check(false, '读取关闭状态', 'missing');
     const afterOff = get(p1.out, 'afterOffNewEvent');
-    check(afterOff?.notifCount === 2, '关闭开关后即使后台/permission granted 也不再通知', JSON.stringify(afterOff?.notifCount));
+    check(afterOff?.notifCount === 3, '关闭开关后即使后台/permission granted 也不再通知', JSON.stringify(afterOff?.notifCount));
     check(/^新 1$/.test(afterOff?.chip || ''), '关闭开关后角标仍正常（新 1）', JSON.stringify(afterOff?.chip));
     const denied = get(p1.out, 'deniedState');
     if (denied) {
@@ -395,7 +413,7 @@ async function main() {
       check(denied.permCallsAfter === denied.permCallsBefore, 'denied 时点击不再请求权限', JSON.stringify(denied));
     } else check(false, '读取 denied 状态', 'missing');
     const deniedEv = get(p1.out, 'deniedNewEvent');
-    check(deniedEv?.notifCount === 2 && deniedEv?.banner === '', 'denied 时新回应不通知、无 banner', JSON.stringify(deniedEv));
+    check(deniedEv?.notifCount === 3 && deniedEv?.banner === '', 'denied 时新回应不通知、无 banner', JSON.stringify(deniedEv));
     check(/^新/.test(deniedEv?.chip || ''), 'denied 时角标仍正常', JSON.stringify(deniedEv?.chip));
     const none = get(p1.out, 'noNotification');
     if (none) {
