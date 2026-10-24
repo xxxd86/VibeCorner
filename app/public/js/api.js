@@ -229,9 +229,10 @@ export async function deleteAfter(sessionId) {
   return request(`/api/sessions/${encodeURIComponent(sessionId)}/after`, { method: 'DELETE' });
 }
 
-/** 分享页只读数据（ShareView） */
-export async function fetchShareView(token) {
-  return request(`/api/share/${encodeURIComponent(token)}`, { timeout: 12000 });
+/** 分享页只读数据（ShareView）；带 deviceId 时服务端会标出 mine */
+export async function fetchShareView(token, { deviceId = '' } = {}) {
+  const query = deviceId ? `?deviceId=${encodeURIComponent(deviceId)}` : '';
+  return request(`/api/share/${encodeURIComponent(token)}${query}`, { timeout: 12000 });
 }
 
 export function sharePhotoUrl(token) {

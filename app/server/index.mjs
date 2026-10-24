@@ -298,8 +298,8 @@ function voteCounts(targets) {
   return counts;
 }
 
-/** V4：家人回应 → 对外视图（名字按设备匿名化、附照片地址） */
-function buildRespondViews(share) {
+/** V4：家人回应 → 对外视图（名字按设备匿名化、附照片地址；viewer 传入时标出"我发的"） */
+function buildRespondViews(share, viewerDeviceId = '') {
   const list = store.shareResponds(share);
   const nameByDevice = new Map();
   let anon = 0;
@@ -316,11 +316,13 @@ function buildRespondViews(share) {
     name: r.name || nameByDevice.get(String(r.deviceId || r.id)),
     at: r.at,
     photoUrl: r.photo?.imageId ? `/api/share/${share.token}/photo?kind=respond&id=${r.id}` : null,
+    // 只回传 true/false，绝不把 deviceId 发给前端
+    mine: Boolean(viewerDeviceId) && String(r.deviceId || '') === String(viewerDeviceId),
   }));
 }
 
 /** 分享页数据：只给结论、位置判断、三态条件、方案名；不给输入记录/picks/metrics/画像 */
-function buildShareView(share, session) {
+function buildShareView(share, session, viewerDeviceId = '') {
   const plan = session.plan || {};
   const l0 = session.l0 || {};
   const votes = store.shareVotes(share);
@@ -362,7 +364,7 @@ function buildShareView(share, session) {
     targets: shareTargets(plan, l0, votes),
     voteCount: votes.length,
     // V4：家人回应（行动）与访问次数（只计数、不记身份）
-    responds: buildRespondViews(share),
+    responds: buildRespondViews(share, viewerDeviceId),
     respondCount: store.shareResponds(share).length,
     viewCount: Number(share.viewCount) || 0,
     disclaimer: plan.disclaimer || '以交付时的尺寸条件为准，落地前请现场确认。',
@@ -426,9 +428,10 @@ async function handlePublicShare(req, res, token) {
   if (store.isShareExpired(share)) return fail(res, 410, '分享链接已过期', 'expired');
   const session = await store.getSession(share.sessionId);
   if (!session) return fail(res, 404, '分享不存在或已撤销', 'not_found');
-  // 记一次访问（只计数、不记身份）
+  // 记一次访问（只计数、不记身份）；带上 deviceId 时把自己的回目标成 mine，刷新后可恢复状态
   share = (await store.bumpShareView(token)) || share;
-  sendJson(res, 200, buildShareView(share, session));
+  const viewer = String(new URL(req.url || '/', 'http://localhost').searchParams.get('deviceId') || '').slice(0, 40);
+  sendJson(res, 200, buildShareView(share, session, viewer));
 }
 
 /** V4：家人「行动回应」——我周末来量 / 我拍了现场照 / 我不同意 / 就按这个来 */
@@ -466,7 +469,7 @@ async function handleShareRespond(req, res, token) {
   sendJson(res, 200, {
     ok: true,
     respondCount: store.shareResponds(updated).length,
-    responds: buildRespondViews(updated),
+    responds: buildRespondViews(updated, body?.deviceId || ''),
   });
 }
 
@@ -572,6 +575,10 @@ async function handleAfterFromRespond(req, res, id) {
   if (!share) return fail(res, 404, '分享已撤销', 'not_found');
   const r = store.shareResponds(share).find((x) => x.id === String(body?.respondId || ''));
   if (!r?.photo?.imageId) return fail(res, 400, '这条回应里没有照片', 'no_photo');
+  // 幂等：已经用过这张就不再复制一份
+  if (session.afterImage?.fromRespondId === r.id) {
+    return sendJson(res, 200, { ok: true, reused: true, session });
+  }
   const copied = await store.copyImage(r.photo.imageId, r.photo.ext || 'jpg');
   if (!copied) return fail(res, 400, '照片读不出来，让家人再发一张', 'photo_missing');
   if (session.afterImage?.imageId && session.afterImage.imageId !== session.image?.imageId) {

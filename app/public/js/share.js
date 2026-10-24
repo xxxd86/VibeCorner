@@ -547,6 +547,24 @@ function renderResponds(view) {
     actionsRow.append(btn);
   });
 
+  // 刷新恢复：服务端按 deviceId 标出 mine，用最后一条 mine 恢复已选态 + 预填
+  const mineResponds = Array.isArray(view.responds)
+    ? view.responds.filter((item) => item && item.mine && RESPOND_ACTIONS[item.action])
+    : [];
+  const mine = mineResponds.slice(-1)[0];
+  if (mine) {
+    selectedAction = mine.action;
+    Object.keys(buttons).forEach((key) => {
+      const active = key === selectedAction;
+      buttons[key].setAttribute('aria-pressed', active ? 'true' : 'false');
+      buttons[key].classList.toggle('is-selected', active);
+    });
+    if (mine.note) note.value = String(mine.note).slice(0, 40);
+    if (mine.name) name.value = String(mine.name).slice(0, 12);
+    done.hidden = false;
+    done.textContent = `${RESPOND_ACTIONS[selectedAction].label} · 已告诉 TA`;
+  }
+
   fileInput.addEventListener('change', () => {
     file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
     if (preview.src) URL.revokeObjectURL(preview.src);
@@ -644,7 +662,7 @@ async function boot() {
   }
   let view;
   try {
-    view = await fetchShareView(token);
+    view = await fetchShareView(token, { deviceId: deviceId() });
   } catch (err) {
     const status = Number(err && err.status);
     if (status === 410) {
