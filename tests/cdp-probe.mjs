@@ -49,6 +49,7 @@ const SCRIPT = args.script ? (isAbsolute(String(args.script)) ? String(args.scri
 // 交互步骤脚本：数组 [{type:'waitFor'|'sleep'|'eval'|'click'|'shot'|'shotIf'|'waitForOptional', ...}]
 const STEPS = args.steps ? (isAbsolute(String(args.steps)) ? String(args.steps) : resolve(ROOT, String(args.steps))) : null;
 const SHOTS_DIR = args['shots-dir'] ? (isAbsolute(String(args['shots-dir'])) ? String(args['shots-dir']) : resolve(ROOT, String(args['shots-dir']))) : join(SCRATCH, 'qa-cdp-shots');
+const INIT_SCRIPT = args['init-script'] ? (isAbsolute(String(args['init-script'])) ? String(args['init-script']) : resolve(ROOT, String(args['init-script']))) : null;
 const RUN_ID = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').slice(0, 19);
 const OUT = args.out || join(SCRATCH, `qa-cdp-${W}x${H}-${RUN_ID}.json`);
 
@@ -222,6 +223,10 @@ async function main() {
   await cdp.call('Emulation.setDeviceMetricsOverride', {
     width: W, height: H, deviceScaleFactor: 1, mobile: MOBILE, screenWidth: W, screenHeight: H,
   });
+  if (INIT_SCRIPT) {
+    const src = readFileSync(INIT_SCRIPT, 'utf8');
+    await cdp.call('Page.addScriptToEvaluateOnNewDocument', { source: src });
+  }
   await cdp.call('Page.navigate', { url: URL_TARGET });
 
   // 等待 loadEvent + 页面 ready（有 #app 时等 data-ready=1，最多 WAIT_MS）

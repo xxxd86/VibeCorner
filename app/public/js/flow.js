@@ -175,6 +175,127 @@ function storeRespondsCount(sessionId, count) {
   }
 }
 
+/* ------------------------------------------------ V4.2 系统通知 */
+
+const NOTIFY_KEY = 'corner.notify';
+const notifiedEventIds = new Set();
+let lastSystemNotifyAt = 0;
+
+/** 是否允许发系统通知（权限/开关/后台/支持度） */
+export function canNotifySystem() {
+  try {
+    if (typeof document !== 'undefined' && document.visibilityState !== 'hidden') return false;
+    const NotificationCtor = window.Notification;
+    if (typeof NotificationCtor === 'undefined') return false;
+    if (NotificationCtor.permission !== 'granted') return false;
+    return window.localStorage.getItem(NOTIFY_KEY) !== '0';
+  } catch {
+    return false;
+  }
+}
+
+/** 交付卡开关三态：unsupported / off / enabled */
+export function getNotifyState() {
+  try {
+    const NotificationCtor = window.Notification;
+    if (typeof NotificationCtor === 'undefined') return 'unsupported';
+    if (NotificationCtor.permission === 'denied') return 'unsupported';
+    if (NotificationCtor.permission === 'granted') {
+      return window.localStorage.getItem(NOTIFY_KEY) === '0' ? 'off' : 'enabled';
+    }
+    return 'off';
+  } catch {
+    return 'unsupported';
+  }
+}
+
+export function updateNotifyToggles() {
+  const state = getNotifyState();
+  document.querySelectorAll('#feed .notify-toggle').forEach((btn) => {
+    btn.dataset.state = state;
+    btn.disabled = state === 'unsupported';
+    btn.classList.toggle('is-on', state === 'enabled');
+    btn.textContent =
+      state === 'unsupported'
+        ? '浏览器不支持提醒'
+        : state === 'enabled'
+        ? '已开启提醒 · 点此关闭'
+        : '家人回应时提醒我';
+  });
+}
+
+/** 用户点击开关：只在此时 requestPermission；绝不自动弹权限 */
+export async function toggleSystemNotify() {
+  const state = getNotifyState();
+  if (state === 'unsupported') return null;
+  try {
+    if (state === 'enabled') {
+      window.localStorage.setItem(NOTIFY_KEY, '0');
+      updateNotifyToggles();
+      notify('已关闭系统提醒');
+      return 'off';
+    }
+    const permission = await window.Notification.requestPermission();
+    if (permission === 'granted') {
+      window.localStorage.setItem(NOTIFY_KEY, '1');
+      updateNotifyToggles();
+      notify('已开启系统提醒');
+      return 'enabled';
+    }
+    updateNotifyToggles();
+    notify('没有拿到通知权限，未读角标和提示仍会保留');
+    return 'off';
+  } catch {
+    updateNotifyToggles();
+    return null;
+  }
+}
+
+/**
+ * 发系统通知：支持度/权限/开关/后台 + 事件去重 + 30s 节流。
+ * @returns {boolean} 是否真正创建了 Notification
+ */
+export function sendSystemNotification({ sessionId, title, body, eventId } = {}) {
+  if (!canNotifySystem()) return false;
+  const key = String(eventId || '');
+  if (!key || notifiedEventIds.has(key)) return false;
+  const now = Date.now();
+  if (now - lastSystemNotifyAt < 30000) return false;
+  try {
+    const NotificationCtor = window.Notification;
+    const notification = new NotificationCtor(title || '猫角落', {
+      body: body || '',
+      tag: 'corner-' + sessionId,
+      icon: '/icons/icon-192.png',
+    });
+    notifiedEventIds.add(key);
+    while (notifiedEventIds.size > 100) {
+      const oldest = notifiedEventIds.values().next().value;
+      notifiedEventIds.delete(oldest);
+    }
+    lastSystemNotifyAt = now;
+    try {
+      notification.onclick = () => {
+        try {
+          window.focus();
+        } catch {
+          /* ignore */
+        }
+        const card = document.querySelector('#feed .card-votes');
+        if (card && typeof card.scrollIntoView === 'function') {
+          card.scrollIntoView({ block: 'center', behavior: 'auto' });
+        }
+        markVotesRead();
+      };
+    } catch {
+      /* 部分环境不允许挂 onclick */
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function relativeTime(iso) {
   const time = Date.parse(iso || '');
   if (!Number.isFinite(time)) return '';
@@ -446,6 +567,8 @@ function applyVotesData(sessionId, data, reason) {
   // 只有「本次会话里的第一次拉取」才算首次进入；之后再出现新增要提示
   votesPoll.fetches = (votesPoll.fetches || 0) + 1;
   const isFirstFetch = votesPoll.fetches === 1;
+  let diffVotes = 0;
+  let diffResponds = 0;
 
   if (votesPoll.readRequested) {
     // 打开分享面板时先清掉、再拉一次：这次不提示
@@ -460,7 +583,7 @@ function applyVotesData(sessionId, data, reason) {
     if (isFirstFetch && storedVotes == null) {
       votesPoll.unread = voteCount;
     } else {
-      const diffVotes = voteCount - Math.max(storedVotes == null ? 0 : storedVotes, previousVotes);
+      diffVotes = voteCount - Math.max(storedVotes == null ? 0 : storedVotes, previousVotes);
       if (diffVotes > 0) {
         votesPoll.unread = Math.min(99, votesPoll.unread + diffVotes);
         toastVotes = true;
@@ -469,7 +592,7 @@ function applyVotesData(sessionId, data, reason) {
     if (isFirstFetch && storedResponds == null) {
       votesPoll.respondUnread = respondCount;
     } else {
-      const diffResponds = respondCount - Math.max(storedResponds == null ? 0 : storedResponds, previousResponds);
+      diffResponds = respondCount - Math.max(storedResponds == null ? 0 : storedResponds, previousResponds);
       if (diffResponds > 0) {
         votesPoll.respondUnread = Math.min(99, votesPoll.respondUnread + diffResponds);
         toastResponds = true;
@@ -481,6 +604,20 @@ function applyVotesData(sessionId, data, reason) {
       }
     }
     if (toastVotes) notify(votesToastText(counts));
+
+    // V4.2：后台时发系统通知（权限/开关/后台/去重/30s 节流都在 sendSystemNotification 内）
+    if (toastVotes || toastResponds) {
+      const lastVote = votes.length ? votes[votes.length - 1] : null;
+      const eventId = toastResponds
+        ? 'respond:' + newResponds.map((item) => (item && (item.id || item.at)) || '').filter(Boolean).join(',')
+        : `vote:${voteCount}:${(lastVote && lastVote.at) || ''}:${(lastVote && lastVote.name) || ''}`;
+      sendSystemNotification({
+        sessionId,
+        title: toastResponds ? '猫角落 · 家人给了回应' : '猫角落 · 家人给了意见',
+        body: toastResponds ? respondToastText(newResponds, diffResponds) : votesToastText(counts),
+        eventId,
+      });
+    }
   }
 
   if (!votes.length && !responds.length) {
@@ -1964,6 +2101,8 @@ function handoffContext(planData) {
     onShare: () => safeAsync(shareSession()),
     onAfter: () => requestAfterFile(),
     onCopyChecklist: () => copyChecklistText(planData),
+    notifyState: getNotifyState(),
+    onToggleNotify: () => safeAsync(toggleSystemNotify()),
   };
 }
 

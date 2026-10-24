@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAF6F0">
+<meta name="robots" content="noindex">
+<title>手机端自检 · 猫角落</title>
+<style>
+  :root{
+    --paper:#FAF6F0; --paper-2:#F3EDE4; --ink:#1C1917; --ink-2:#5A544C; --ink-3:#8C857B;
+    --line:#E6DDD0; --accent:#D2603A; --accent-soft:#F6E3DA; --accent-ink:#A8431F;
+    --ok:#2F7D5B; --warn:#B4761D; --bad:#B23B32;
+    --r:14px; --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:var(--font);-webkit-text-size-adjust:100%}
+  body{padding:calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));max-width:720px;margin:0 auto}
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px}
+  .brand{font-family:Georgia,"Times New Roman",serif;font-size:19px;letter-spacing:-.01em}
+  .back{font-size:13px;color:var(--accent);text-decoration:none;padding:10px 0}
+  h1{font-size:20px;line-height:1.3;margin:14px 0 6px;letter-spacing:-.01em}
+  .lead{font-size:13.5px;line-height:1.65;color:var(--ink-2);margin:0 0 18px}
+  section{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 10px;margin-bottom:12px}
+  section h2{font-size:13px;margin:0 0 8px;color:var(--ink-3);font-weight:600;letter-spacing:.04em}
+  .row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-top:1px dashed var(--line);font-size:13px}
+  .row:first-of-type{border-top:0}
+  .row .k{flex:0 0 40%;color:var(--ink-3)}
+  .row .v{flex:1;word-break:break-word;font-family:var(--mono);font-size:12.5px}
+  .chip{display:inline-block;min-width:18px;text-align:center}
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+  .btn{display:block;width:100%;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--paper-2);
+    color:var(--ink);font-size:14px;font-family:var(--font);margin-top:10px;cursor:pointer}
+  .btn.primary{background:var(--accent);border-color:transparent;color:#fff;font-weight:600}
+  .btn.ghost{background:transparent}
+  .btn:disabled{opacity:.5}
+  .hint{font-size:12px;color:var(--ink-3);line-height:1.6;margin:8px 0 2px}
+  #kbd-note{font-size:12.5px;color:var(--ink-2);margin:6px 0 0;min-height:18px}
+  input[type=text]{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font-size:16px;background:#fff;color:var(--ink)}
+  textarea{width:100%;min-height:180px;border:1px solid var(--line);border-radius:12px;padding:10px;font-family:var(--mono);font-size:11.5px;line-height:1.6;background:#fff;color:var(--ink);resize:vertical}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .grid2 .btn{margin-top:0}
+  .thumb{width:100%;max-height:220px;object-fit:contain;border-radius:10px;border:1px solid var(--line);margin-top:10px;display:none;background:var(--paper-2)}
+  footer{font-size:12px;color:var(--ink-3);line-height:1.7;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">corner.</div>
+  <a class="back" href="/">← 回到应用</a>
+</header>
+
+<h1>手机端自检</h1>
+<p class="lead">这个页面在你手机上跑一遍，把下面生成的报告发给我，就能定位「键盘遮挡 / 选图失败 / 通知收不到 / 安全区错位」这类只有真机才暴露的问题。<b>不会上传任何东西</b>，所有检测都在本机完成。</p>
+
+<section id="sec-env">
+  <h2>1 · 环境</h2>
+  <div id="env"></div>
+</section>
+
+<section id="sec-viewport">
+  <h2>2 · 视口与安全区</h2>
+  <div id="viewport"></div>
+  <p class="hint">数值会随滚动/键盘变化；第 3 节有专门测试。</p>
+</section>
+
+<section id="sec-kbd">
+  <h2>3 · 键盘遮挡测试</h2>
+  <p class="hint">点下面的输入框，等键盘弹出后再点「完成」收起。页面会自动记录「键盘占了多少高度」「输入框有没有被挡住」。</p>
+  <input type="text" id="kbd-input" placeholder="点这里唤起键盘…" autocomplete="off">
+  <p id="kbd-note">还没开始</p>
+  <button class="btn ghost" id="btn-kbd-reset" type="button">重测</button>
+</section>
+
+<section id="sec-photo">
+  <h2>4 · 选图与解码</h2>
+  <p class="hint">点按钮选一张手机里的照片，检查「文件选择器可用 / 图片能解码 / 方向正确 / 压缩后大小」。</p>
+  <input type="file" id="photo-input" accept="image/*" style="display:none">
+  <button class="btn" id="btn-photo" type="button">选一张照片测试</button>
+  <div id="photo"></div>
+  <img class="thumb" id="photo-thumb" alt="">
+</section>
+
+<section id="sec-notify">
+  <h2>5 · 通知与 PWA</h2>
+  <div id="notify"></div>
+  <p class="hint">iOS 只在「添加到主屏幕」后（16.4+）才支持推送，Safari 标签页里通常拿不到通知——这是系统限制，不是产品问题；报告里会如实记录。</p>
+</section>
+
+<section id="sec-touch">
+  <h2>6 · 触摸与动效</h2>
+  <div id="touch"></div>
+</section>
+
+<section id="sec-report">
+  <h2>7 · 报告</h2>
+  <p class="hint">把这段发给开发者即可（包含 UA、尺寸、能力检测结果，不含照片内容）。</p>
+  <textarea id="report" readonly></textarea>
+  <div class="grid2">
+    <button class="btn primary" id="btn-copy" type="button">复制报告</button>
+    <button class="btn" id="btn-download" type="button">存成 txt</button>
+  </div>
+</section>
+
+<footer>猫角落 corner. · 自检页只在本机运行</footer>
+
+<script>
+(function(){
+  'use strict';
+  var report = {};
+  var kbd = { started: false, maxDelta: 0, baseline: 0, focused: false };
+
+  function $(id){ return document.getElementById(id); }
+  function row(host, k, v, status){
+    var d = document.createElement('div'); d.className = 'row';
+    var kk = document.createElement('div'); kk.className = 'k'; kk.textContent = k;
+    var vv = document.createElement('div'); vv.className = 'v';
+    if (status) { var c = document.createElement('span'); c.className = 'chip ' + status; c.textContent = status === 'ok' ? '✓' : status === 'warn' ? '!' : '×'; vv.appendChild(c); vv.appendChild(document.createTextNode(' ')); }
+    vv.appendChild(document.createTextNode(v == null ? '—' : String(v)));
+    d.appendChild(kk); d.appendChild(vv); host.appendChild(d);
+  }
+  function cc(cond, ok, warn){ return cond ? 'ok' : (warn ? 'warn' : 'bad'); }
+  function safe(fn, fallback){ try { return fn(); } catch(e){ return fallback; } }
+
+  /* ---------- 1 环境 ---------- */
+  function env(){
+    var host = $('env'); host.innerHTML = '';
+    var ua = navigator.userAgent;
+    var ios = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var standalone = safe(function(){ return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }, false);
+    var plat = navigator.userAgentData && navigator.userAgentData.platform || navigator.platform || '—';
+    row(host, '系统 / 浏览器', ua);
+    row(host, 'iOS', ios ? '是' : '否', ios ? 'ok' : null);
+    row(host, '平台', plat);
+    row(host, '主屏打开', standalone ? '是（PWA 模式）' : '否（浏览器标签页）', standalone ? 'ok' : 'warn');
+    row(host, '设备像素比', window.devicePixelRatio);
+    row(host, '屏幕', screen.width + '×' + screen.height);
+    row(host, '逻辑核数', navigator.hardwareConcurrency || '—');
+    report.io = { ios: ios, standalone: standalone, ua: ua, platform: plat, dpr: window.devicePixelRatio, screen: screen.width + 'x' + screen.height, cores: navigator.hardwareConcurrency || null };
+  }
+
+  /* ---------- 2 视口与安全区 ---------- */
+  function readSafeArea(){
+    var probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);';
+    document.body.appendChild(probe);
+    var cs = getComputedStyle(probe);
+    var v = { top: parseFloat(cs.paddingTop)||0, right: parseFloat(cs.paddingRight)||0, bottom: parseFloat(cs.paddingBottom)||0, left: parseFloat(cs.paddingLeft)||0 };
+    probe.remove();
+    return v;
+  }
+  function viewport(){
+    var host = $('viewport'); host.innerHTML = '';
+    var vv = window.visualViewport;
+    var sa = readSafeArea();
+    var dvhProbe = document.createElement('div');
+    dvhProbe.style.cssText = 'position:fixed;left:0;top:0;height:100dvh;width:1px;opacity:0;pointer-events:none';
+    document.body.appendChild(dvhProbe);
+    var dvh = dvhProbe.getBoundingClientRect().height;
+    dvhProbe.remove();
+    row(host, 'innerHeight / Width', window.innerHeight + ' / ' + window.innerWidth);
+    row(host, '100dvh', Math.round(dvh), Math.abs(dvh - window.innerHeight) <= 2 ? 'ok' : null);
+    row(host, 'visualViewport', vv ? Math.round(vv.height) + '（offsetTop ' + Math.round(vv.offsetTop) + '）' : '不支持');
+    row(host, '安全区 top/right/bottom/left', [sa.top, sa.right, sa.bottom, sa.left].join(' / '), (sa.top + sa.bottom) > 0 ? 'ok' : 'warn');
+    row(host, '横屏', window.matchMedia('(orientation: landscape)').matches ? '是' : '否');
+    report.vp = { ih: window.innerHeight, iw: window.innerWidth, dvh: Math.round(dvh), vv: vv ? Math.round(vv.height) : null, safe: sa };
+  }
+
+  /* ---------- 3 键盘 ---------- */
+  function kbdInit(){
+    var input = $('kbd-input'), note = $('kbd-note');
+    function baseline(){
+      kbd.baseline = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+      kbd.maxDelta = 0; kbd.started = true; kbd.focused = true;
+      note.textContent = '等待键盘…';
+    }
+    input.addEventListener('focus', function(){ if (!kbd.started) baseline(); });
+    input.addEventListener('blur', function(){
+      kbd.focused = false;
+      if (!kbd.started) return;
+      var hidden = Math.round(kbd.maxDelta);
+      var covered = false;
+      try {
+        var r = input.getBoundingClientRect();
+        var vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        covered = r.bottom > vh + 2;
+      } catch(e) {}
+      note.textContent = hidden > 40
+        ? '键盘占掉约 ' + hidden + 'px；输入框' + (covered ? '被遮挡（需要适配）' : '没有被遮挡')
+        : '没检测到键盘弹出（用硬件键盘或键盘未触发 resize）';
+      report.kbd = { hiddenPx: hidden, covered: covered };
+      writeReport();
+    });
+    function onResize(){
+      if (!kbd.started) return;
+      var h = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+      var delta = Math.max(0, kbd.baseline - h);
+      if (delta > kbd.maxDelta) kbd.maxDelta = delta;
+    }
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize);
+    $('btn-kbd-reset').addEventListener('click', function(){
+      kbd.started = false; kbd.maxDelta = 0; note.textContent = '还没开始'; input.blur(); input.value = '';
+    });
+  }
+
+  /* ---------- 4 选图 ---------- */
+  function photoInit(){
+    var input = $('photo-input'), host = $('photo'), thumb = $('photo-thumb');
+    $('btn-photo').addEventListener('click', function(){ input.click(); });
+    input.addEventListener('change', function(){
+      var f = input.files && input.files[0];
+      host.innerHTML = '';
+      if (!f) { row(host, '结果', '没有选到文件', 'bad'); return; }
+      row(host, '文件名', f.name);
+      row(host, '类型', f.type || '未知', /^image\//.test(f.type || '') ? 'ok' : 'warn');
+      row(host, '原始大小', (f.size / 1024).toFixed(0) + ' KB');
+      var url = URL.createObjectURL(f);
+      var img = new Image();
+      img.onload = function(){
+        row(host, '图片尺寸', img.naturalWidth + '×' + img.naturalHeight, img.naturalWidth > 0 ? 'ok' : 'bad');
+        var longSide = Math.max(img.naturalWidth, img.naturalHeight);
+        var scale = Math.min(1, 1280 / longSide);
+        var cw = Math.round(img.naturalWidth * scale), ch = Math.round(img.naturalHeight * scale);
+        var canvas = document.createElement('canvas'); canvas.width = cw; canvas.height = ch;
+        var ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, cw, ch);
+        var out = safe(function(){ return canvas.toDataURL('image/jpeg', 0.82); }, '');
+        var outKb = out ? Math.round((out.length * 0.75) / 1024) : 0;
+        row(host, '压缩到 1280 / q0.82', outKb + ' KB', outKb > 0 && outKb < 900 ? 'ok' : 'warn');
+        thumb.src = url; thumb.style.display = 'block';
+        report.photo = { type: f.type, sizeKb: Math.round(f.size / 1024), w: img.naturalWidth, h: img.naturalHeight, compressedKb: outKb };
+        URL.revokeObjectURL(url);
+        writeReport();
+      };
+      img.onerror = function(){ row(host, '解码', '这张图浏览器解码失败', 'bad'); URL.revokeObjectURL(url); };
+      img.src = url;
+    });
+  }
+
+  /* ---------- 5 通知与 PWA ---------- */
+  function notifyInit(){
+    var host = $('notify'); host.innerHTML = '';
+    var hasN = typeof window.Notification !== 'undefined';
+    row(host, 'Notification', hasN ? '支持' : '不支持', hasN ? 'ok' : 'bad');
+    if (hasN) {
+      var perm = safe(function(){ return Notification.permission; }, 'unknown');
+      row(host, '通知权限', perm, perm === 'granted' ? 'ok' : perm === 'denied' ? 'bad' : 'warn');
+    }
+    row(host, 'Service Worker', 'serviceWorker' in navigator ? '支持' : '不支持', 'serviceWorker' in navigator ? 'ok' : 'warn');
+    row(host, 'Push API', 'PushManager' in window ? '支持' : '不支持');
+    row(host, 'PWA 显示模式', safe(function(){ return window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser'; }, '—'));
+    row(host, '已安装到主屏', safe(function(){ return navigator.standalone === true ? '是' : '否'; }, '否'));
+    report.notify = { hasNotification: hasN, permission: hasN ? safe(function(){ return Notification.permission; }, 'unknown') : null, sw: 'serviceWorker' in navigator, push: 'PushManager' in window };
+    writeReport();
+  }
+
+  /* ---------- 6 触摸与动效 ---------- */
+  function touchInit(){
+    var host = $('touch'); host.innerHTML = '';
+    var coarse = safe(function(){ return window.matchMedia('(pointer: coarse)').matches; }, false);
+    row(host, '触摸指针', coarse ? 'coarse（手指）' : 'fine（鼠标）', coarse ? 'ok' : 'warn');
+    row(host, 'hover', safe(function(){ return window.matchMedia('(hover: hover)').matches ? '支持' : '不支持'; }, '—'));
+    row(host, '减少动效', safe(function(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? '用户要求减少' : '跟随系统'; }, '—'));
+    row(host, 'backdrop-filter', safe(function(){ return CSS.supports('backdrop-filter', 'blur(4px)') ? '支持' : '不支持'; }, '—'));
+    row(host, 'aspect-ratio', safe(function(){ return CSS.supports('aspect-ratio', '1/1') ? '支持' : '不支持'; }, '—'));
+    row(host, 'dvh 单位', safe(function(){ return CSS.supports('height', '100dvh') ? '支持' : '不支持'; }, '—'));
+    row(host, '安全区变量', safe(function(){ return CSS.supports('padding-top', 'env(safe-area-inset-top)') ? '支持' : '不支持'; }, '—'));
+    report.touch = { coarse: coarse, reduceMotion: safe(function(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }, null) };
+  }
+
+  /* ---------- 7 报告 ---------- */
+  function writeReport(){
+    report.at = new Date().toISOString();
+    report.url = location.href;
+    $('report').value = buildText();
+  }
+  function buildText(){
+    var lines = ['猫角落 · 手机端自检报告'];
+    lines.push('时间: ' + (report.at || new Date().toISOString()));
+    lines.push('页面: ' + location.href);
+    function push(prefix, obj){
+      if (!obj) return;
+      Object.keys(obj).forEach(function(k){
+        var v = obj[k];
+        if (v && typeof v === 'object') push(prefix + k + '.', v);
+        else lines.push(prefix + k + ' = ' + v);
+      });
+    }
+    push('io.', report.io); push('vp.', report.vp); push('kbd.', report.kbd);
+    push('photo.', report.photo); push('notify.', report.notify); push('touch.', report.touch);
+    return lines.join('\n');
+  }
+  $('btn-copy').addEventListener('click', function(){
+    var t = $('report');
+    t.select(); t.setSelectionRange(0, t.value.length);
+    var ok = safe(function(){ return document.execCommand('copy'); }, false);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t.value).then(function(){ toast('已复制，发给我就行'); }, function(){ toast(ok ? '已复制' : '长按复制'); });
+    } else {
+      toast(ok ? '已复制' : '长按复制上面的文字');
+    }
+  });
+  $('btn-download').addEventListener('click', function(){
+    var blob = new Blob([$('report').value], { type: 'text/plain;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'corner-mobile-check.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+  });
+  function toast(msg){
+    var d = document.createElement('div');
+    d.textContent = msg;
+    d.style.cssText = 'position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(28,25,23,.88);color:#FAF6F0;padding:10px 16px;border-radius:999px;font-size:13px;z-index:99';
+    document.body.appendChild(d);
+    setTimeout(function(){ d.remove(); }, 2200);
+  }
+
+  /* ---------- 启动 ---------- */
+  function boot(){
+    env(); viewport(); kbdInit(); photoInit(); notifyInit(); touchInit(); writeReport();
+    window.addEventListener('resize', function(){ viewport(); writeReport(); });
+    window.addEventListener('orientationchange', function(){ setTimeout(function(){ viewport(); writeReport(); }, 300); });
+    document.addEventListener('visibilitychange', function(){ viewport(); writeReport(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body>
+</html>

@@ -761,3 +761,13 @@ ui-logic 在 ≤899px 生成 `.card-direction` + `.dir-item.is-mobile`：
 | `.handoff-share-status` | 正文 `--ink-2`、前置 accent 圆点；`white-space:nowrap` + 省略号防 390 溢出 |
 | `.handoff-share-status b / strong / .handoff-new / .handoff-unread` | 「N 条新」600 字重 + accent-ink；**JS 需把 N 条新包成 `b`/span 元素**，纯 textContent 无法局部加粗 |
 | `.toast-respond`（或 `.toast.toast-respond`） | 深色胶囊 + 左侧 3px accent 竖条；复用通用 toast 时不用加 |
+
+### 28.7 V4.2 系统通知开关 `.notify-toggle`
+| 状态 / 选择器 | 规则 |
+|---|---|
+| `.notify-toggle` | 默认 ghost：min-height 44px、`border:1px solid var(--line)`、圆角 999、透明底、13px `--ink-2`；与上方状态行 `margin-top:10px` |
+| `.notify-toggle.is-on` | 开启：`background:var(--accent-soft)`、`border-color:transparent`、`color:var(--accent-ink)` |
+| `.notify-toggle[disabled]` | 不支持/已拒绝：`opacity:.55`、`cursor:not-allowed`，不再 hover 变色 |
+| `.notify-dot` | 开启态前置 6px accent 圆点（在 `.notify-toggle` 内） |
+| ≤899px | 按钮 `display:flex; width:100%`（全宽更稳），文案不换行、超出省略 |
+| ≥900px | `inline-flex`，宽度随内容 |

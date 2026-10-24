@@ -3948,3 +3948,70 @@ button.respond-photo { appearance: none; }
 .handoff-share-status { color: var(--ink-2); }
 .handoff-share-status::before { background: var(--accent); }
 .toast-respond::before { height: auto; }
+
+/* ===============================================================
+   V4.2 · 系统通知开关 .notify-toggle（三态）
+   =============================================================== */
+.notify-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 0 16px;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    opacity var(--t-fast) var(--ease);
+}
+.notify-toggle:hover { border-color: var(--line-2); color: var(--ink); }
+.notify-toggle.is-on {
+  background: var(--accent-soft);
+  border-color: transparent;
+  color: var(--accent-ink);
+}
+.notify-toggle.is-on:hover { background: rgba(210, 96, 58, .16); color: var(--accent-ink); }
+.notify-toggle[disabled],
+.notify-toggle:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.notify-toggle[disabled]:hover,
+.notify-toggle:disabled:hover {
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+.notify-toggle .notify-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: .9;
+}
+.notify-toggle.is-on .notify-dot { background: var(--accent-ink); opacity: 1; }
+
+@media (max-width: 899px) {
+  .notify-toggle {
+    display: flex;
+    width: 100%;
+    padding-inline: 14px;
+  }
+}

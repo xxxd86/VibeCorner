@@ -872,6 +872,26 @@ export function handoffCard(session, ctx = {}) {
   const shareStatus = el('p', 'handoff-share-status', share ? '已分享 · 等待家人意见' : '');
   shareStatus.hidden = !share;
   body.append(shareStatus);
+
+  // V4.2：系统通知开关（绝不在加载时自动申请权限）
+  if (typeof ctx.onToggleNotify === 'function') {
+    const notifyState = ctx.notifyState || 'off';
+    const toggle = el(
+      'button',
+      'btn btn-ghost notify-toggle' + (notifyState === 'enabled' ? ' is-on' : ''),
+      notifyState === 'unsupported'
+        ? '浏览器不支持提醒'
+        : notifyState === 'enabled'
+        ? '已开启提醒 · 点此关闭'
+        : '家人回应时提醒我'
+    );
+    toggle.type = 'button';
+    toggle.dataset.state = notifyState;
+    toggle.style.minHeight = '44px';
+    if (notifyState === 'unsupported') toggle.disabled = true;
+    toggle.addEventListener('click', () => ctx.onToggleNotify());
+    body.append(toggle);
+  }
   card.append(body);
 
   const actions = el('div', 'handoff-actions');
