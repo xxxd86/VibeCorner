@@ -97,3 +97,27 @@ node app/server/index.mjs
   要给别人 `docker pull`，需要：仓库 → **Packages** → 该包 → Settings → Change visibility → **Public**。
 - 仓库是 **public**，所以 CI 里不带 Key 也能跑；只有"真模型回归"那一步需要
   `Settings → Secrets and variables → Actions → DEEPSEEK_API_KEY`。
+
+---
+
+## 临时公网链接（本机隧道，无需任何账号）
+
+想立刻从外网打开（例如发给朋友看），用 Cloudflare 的 quick tunnel：
+
+```powershell
+# 本机 github.com 下载受限时，走 api.github.com 的 asset 接口
+$rel = Invoke-RestMethod 'https://api.github.com/repos/cloudflare/cloudflared/releases/latest' -Headers @{ 'User-Agent' = 'dsh' }
+$a = $rel.assets | Where-Object { $_.name -eq 'cloudflared-windows-amd64.exe' } | Select-Object -First 1
+Invoke-WebRequest $a.url -Headers @{ 'User-Agent' = 'dsh'; 'Accept' = 'application/octet-stream' } -OutFile cloudflared.exe
+
+.\cloudflared.exe tunnel --url http://127.0.0.1:8848 --no-autoupdate
+```
+
+终端会打印一行 `https://xxx-yyy-zzz.trycloudflare.com`，那就是公网地址。
+
+**注意**：这是临时隧道——关掉进程即失效、地址每次不同；流量经过 Cloudflare 边缘；
+任何拿到链接的人都能使用你的站点并消耗 API 额度。
+正式对外请用 Render / VPS（路线 A / C）。
+
+实测（2026-10-24）：该方式下 `/api/health`、`/`、`/manifest.webmanifest`、`/api/evidence`
+全部 200，且 `/api/analyze` 的 SSE 流式分析可以正常穿透（真实返回 L0 方向）。
