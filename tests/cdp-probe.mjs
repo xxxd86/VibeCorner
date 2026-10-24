@@ -159,7 +159,7 @@ const DIAG_EXPR = `(() => {
 
 async function main() {
   if (!existsSync(EDGE)) { console.error(`[FAIL] 找不到 Edge: ${EDGE}`); process.exit(1); }
-  const profile = join(SCRATCH, `qa-cdp-profile-${PORT}-${Date.now()}`);
+  const profile = args.profile ? resolve(ROOT, String(args.profile)) : join(SCRATCH, `qa-cdp-profile-${PORT}-${Date.now()}`);
   const edge = spawn(EDGE, [
     '--headless=new', '--disable-gpu', '--hide-scrollbars',
     '--no-first-run', '--no-default-browser-check', '--disable-extensions',

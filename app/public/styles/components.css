@@ -3863,3 +3863,88 @@ button.respond-photo { appearance: none; }
 @media (max-width: 899px) {
   #feed .respond-use { height: 44px; min-height: 44px; }
 }
+
+/* ===============================================================
+   V4.1 · 家人回应未读角标 / 交付卡「N 条新」/ 未读 toast
+   =============================================================== */
+.respond-unread-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 21px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  flex: none;
+}
+
+/* 标题 + 角标同一行；最近更新时间仍靠右 */
+.respond-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-width: 0;
+}
+.respond-section-title > .mono,
+.respond-section-title > .respond-section-time {
+  margin-left: auto;
+  flex: none;
+}
+.respond-section-title > .respond-unread-chip { margin-left: 0; }
+
+/* 交付卡状态行：「N 条新」加重；整行不换行，窄屏省略 */
+.handoff-share-status {
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.handoff-share-status b,
+.handoff-share-status strong,
+.handoff-share-status .handoff-new,
+.handoff-share-status .handoff-unread,
+.handoff-share-status .respond-unread {
+  font-weight: 600;
+  color: var(--accent-ink);
+}
+
+/* 未读 toast：同款深色胶囊 + 左侧 3px accent 竖条 */
+.toast-respond {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 100%;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 12.5px;
+  line-height: 1.45;
+  letter-spacing: .01em;
+  box-shadow: var(--sh-2);
+}
+.toast.toast-respond { padding-left: 16px; }
+.toast-respond::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--accent-hi);
+}
+
+/* V4.1 修正：状态行正文 ink-2，圆点 accent；N 条新 由子元素 emphasis */
+.handoff-share-status { color: var(--ink-2); }
+.handoff-share-status::before { background: var(--accent); }
+.toast-respond::before { height: auto; }

@@ -65,6 +65,9 @@ const votesPoll = {
   counts: {},
   lastCount: 0,
   unread: 0,
+  lastRespondCount: 0,
+  respondUnread: 0,
+  respondIds: [],
   lastFetchAt: 0,
   inFlight: null,
   timer: null,
@@ -149,6 +152,29 @@ function storeVotesCount(sessionId, count) {
   }
 }
 
+function respondsStorageKey(sessionId) {
+  return 'corner.respondsRead.' + sessionId;
+}
+
+function readStoredRespondsCount(sessionId) {
+  try {
+    const raw = window.localStorage.getItem(respondsStorageKey(sessionId));
+    if (raw == null) return null;
+    const value = Number(raw);
+    return Number.isFinite(value) ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function storeRespondsCount(sessionId, count) {
+  try {
+    window.localStorage.setItem(respondsStorageKey(sessionId), String(Math.max(0, Number(count) || 0)));
+  } catch {
+    /* 隐私模式忽略 */
+  }
+}
+
 function relativeTime(iso) {
   const time = Date.parse(iso || '');
   if (!Number.isFinite(time)) return '';
@@ -181,6 +207,9 @@ function resetVotesPoll(sessionId) {
   votesPoll.counts = {};
   votesPoll.lastCount = 0;
   votesPoll.unread = 0;
+  votesPoll.lastRespondCount = 0;
+  votesPoll.respondUnread = 0;
+  votesPoll.respondIds = [];
   votesPoll.lastFetchAt = 0;
   votesPoll.inFlight = null;
   votesPoll.readRequested = false;
@@ -266,6 +295,7 @@ async function useRespondPhotoAsAfter(respond) {
     setState({ session: updated });
     renderCompareCard(state.session);
     notify('已用家人拍的照片做对比');
+    markVotesRead();
   } catch (err) {
     if (isApiError(err)) notify(err.message);
     else throw err;
@@ -278,6 +308,7 @@ function renderVotesUI() {
   const card = votesCard(votesPoll.votes, {
     labels: cardLabels(),
     unread: votesPoll.unread,
+    respondUnread: votesPoll.respondUnread,
     responds: votesPoll.responds,
     respondCount: votesPoll.respondCount,
     onUseRespondPhoto: (respond) => safeAsync(useRespondPhotoAsAfter(respond)),
@@ -331,25 +362,31 @@ function bindVotesViewportFallback() {
   document.addEventListener('scroll', onScroll, { passive: true, capture: true });
 }
 
-/** 卡片有 60% 以上落在视口内 → 视为已读 */
+/** 卡片有 60% 以上落在视口内，且用户自己滚动过 → 视为已读（程序化滚动不清零） */
 function maybeMarkReadByViewport(card) {
-  if (!card || !card.isConnected || votesPoll.unread <= 0) return;
+  if (!card || !card.isConnected || !votesPoll.scrollSinceRender) return;
+  if (votesPoll.unread <= 0 && votesPoll.respondUnread <= 0) return;
   const rect = card.getBoundingClientRect();
   const vh = window.innerHeight || document.documentElement.clientHeight || 800;
   const visible = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
   if (rect.height > 0 && visible / rect.height >= 0.6) markVotesRead();
 }
 
-/** 已读：滚到卡片 / 打开分享面板时调用，清零未读并记住 voteCount */
+/** 已读：滚到卡片 / 打开分享面板 / 点设为改造后照片时调用，清零两路未读并记住基线 */
 export function markVotesRead() {
   const session = state.session;
   if (!session) return;
   if (votesPoll.sessionId !== session.id) resetVotesPoll(session.id);
-  const hadUnread = votesPoll.unread > 0;
+  const hadUnread = votesPoll.unread > 0 || votesPoll.respondUnread > 0;
   votesPoll.unread = 0;
+  votesPoll.respondUnread = 0;
   if (votesPoll.lastFetchAt === 0) votesPoll.readRequested = true;
-  else storeVotesCount(session.id, votesPoll.lastCount);
+  else {
+    storeVotesCount(session.id, votesPoll.lastCount);
+    storeRespondsCount(session.id, votesPoll.lastRespondCount);
+  }
   if (hadUnread) renderVotesUI();
+  updateHandoffStatus(session.share);
 }
 
 function votesToastText(counts) {
@@ -361,19 +398,41 @@ function votesToastText(counts) {
   return text;
 }
 
+function respondToastText(newResponds, diff) {
+  const count = Math.max(0, Number(diff) || 0);
+  const list = Array.isArray(newResponds) ? newResponds : [];
+  if (count >= 2) return `家人给了 ${count} 条回应`;
+  const item = list[0] || null;
+  if (item && item.photoUrl) return '家人拍了现场照 · 1 张';
+  const label = (item && (item.label || item.action)) || '回应';
+  return `家人回应了你 · ${label}`;
+}
+
 function applyVotesData(sessionId, data, reason) {
   const votes = Array.isArray(data.votes) ? data.votes : [];
   const responds = Array.isArray(data.responds) ? data.responds.filter((item) => item && item.action) : [];
   const counts = data.counts && typeof data.counts === 'object' ? data.counts : {};
   const voteCount = Number.isFinite(Number(data.voteCount)) ? Number(data.voteCount) : votes.length;
-  const stored = readStoredVotesCount(sessionId);
-  const previous = votesPoll.lastCount;
+  const respondCount = Number.isFinite(Number(data.respondCount)) ? Number(data.respondCount) : responds.length;
+  const storedVotes = readStoredVotesCount(sessionId);
+  const storedResponds = readStoredRespondsCount(sessionId);
+  const previousVotes = votesPoll.lastCount;
+  const previousResponds = votesPoll.lastRespondCount;
+  const previousRespondIds = Array.isArray(votesPoll.respondIds) ? votesPoll.respondIds : [];
+
+  // 本轮新增的回应（按 id 比对；无 id 的老数据用尾部差量兜底）
+  let newResponds = responds.filter((item) => item && item.id && !previousRespondIds.includes(String(item.id)));
+  if (!newResponds.length && respondCount > previousResponds) {
+    newResponds = responds.slice(Math.max(0, responds.length - (respondCount - previousResponds)));
+  }
 
   votesPoll.votes = votes;
   votesPoll.responds = responds;
-  votesPoll.respondCount = Number.isFinite(Number(data.respondCount)) ? Number(data.respondCount) : responds.length;
+  votesPoll.respondCount = respondCount;
+  votesPoll.respondIds = responds.map((item) => (item && item.id ? String(item.id) : '')).filter(Boolean);
   votesPoll.counts = counts;
   votesPoll.lastCount = voteCount;
+  votesPoll.lastRespondCount = respondCount;
   if (votes.length || responds.length) {
     const latest = votes
       .map((vote) => vote && vote.at)
@@ -384,25 +443,44 @@ function applyVotesData(sessionId, data, reason) {
     votesPoll.lastUpdatedAt = latest || '';
   }
 
-  // 只有「本次会话里的第一次拉取」才算首次进入；之后再出现新票要提示
+  // 只有「本次会话里的第一次拉取」才算首次进入；之后再出现新增要提示
   votesPoll.fetches = (votesPoll.fetches || 0) + 1;
   const isFirstFetch = votesPoll.fetches === 1;
 
   if (votesPoll.readRequested) {
     // 打开分享面板时先清掉、再拉一次：这次不提示
     votesPoll.unread = 0;
+    votesPoll.respondUnread = 0;
     votesPoll.readRequested = false;
     storeVotesCount(sessionId, voteCount);
-  } else if (isFirstFetch && stored == null) {
-    // 首次进入（且没读过）：不弹 toast，只显示角标
-    votesPoll.unread = voteCount;
+    storeRespondsCount(sessionId, respondCount);
   } else {
-    const baseline = Math.max(stored == null ? 0 : stored, previous);
-    const diff = voteCount - baseline;
-    if (diff > 0) {
-      votesPoll.unread = Math.min(99, votesPoll.unread + diff);
-      notify(votesToastText(counts));
+    let toastVotes = false;
+    let toastResponds = false;
+    if (isFirstFetch && storedVotes == null) {
+      votesPoll.unread = voteCount;
+    } else {
+      const diffVotes = voteCount - Math.max(storedVotes == null ? 0 : storedVotes, previousVotes);
+      if (diffVotes > 0) {
+        votesPoll.unread = Math.min(99, votesPoll.unread + diffVotes);
+        toastVotes = true;
+      }
     }
+    if (isFirstFetch && storedResponds == null) {
+      votesPoll.respondUnread = respondCount;
+    } else {
+      const diffResponds = respondCount - Math.max(storedResponds == null ? 0 : storedResponds, previousResponds);
+      if (diffResponds > 0) {
+        votesPoll.respondUnread = Math.min(99, votesPoll.respondUnread + diffResponds);
+        toastResponds = true;
+        newResponds = newResponds.length ? newResponds : responds.slice(-diffResponds);
+        const text = respondToastText(newResponds, diffResponds);
+        // 投票与回应同轮到达：先投票、约 450ms 后回应，避免互相覆盖
+        if (toastVotes) setTimeout(() => notify(text), 450);
+        else notify(text);
+      }
+    }
+    if (toastVotes) notify(votesToastText(counts));
   }
 
   if (!votes.length && !responds.length) {
@@ -412,7 +490,7 @@ function applyVotesData(sessionId, data, reason) {
   }
   renderVotesUI();
   updateHandoffStatus(state.session && state.session.share);
-  return { voteCount, counts, respondCount: votesPoll.respondCount };
+  return { voteCount, counts, respondCount };
 }
 
 /** 按事件拉家人意见：默认 15s 节流；force=true 跳过节流（内部/首次） */
@@ -1857,9 +1935,23 @@ function updateHandoffStatus(share) {
     votesPoll.sessionId && session && votesPoll.sessionId === session.id
       ? Number(votesPoll.respondCount) || 0
       : Number(activeShare && activeShare.respondCount) || 0;
+  const unread =
+    votesPoll.sessionId && session && votesPoll.sessionId === session.id ? Number(votesPoll.respondUnread) || 0 : 0;
   document.querySelectorAll('#feed .card-handoff .handoff-share-status').forEach((node) => {
     node.hidden = !hasShare;
-    node.textContent = hasShare ? (count > 0 ? `家人已回应 ${count} 条` : '已分享 · 等待家人意见') : '';
+    node.textContent = '';
+    if (!hasShare) return;
+    if (count > 0) {
+      node.append(document.createTextNode(`家人已回应 ${count} 条`));
+      if (unread > 0) {
+        const strong = document.createElement('b');
+        strong.className = 'handoff-new';
+        strong.textContent = ` · ${unread} 条新`;
+        node.append(strong);
+      }
+    } else {
+      node.textContent = '已分享 · 等待家人意见';
+    }
   });
   document.querySelectorAll('#feed .card-handoff .handoff-actions .btn-primary').forEach((btn) => {
     btn.textContent = hasShare ? '再次分享给大家' : '分享给同住的人';

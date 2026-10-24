@@ -985,8 +985,21 @@ export function votesCard(votes, ctx = {}) {
   }
 
   if (responds.length) {
+    const respondUnread = Math.max(0, Number(ctx.respondUnread) || 0);
     const section = el('div', 'respond-section');
-    section.append(el('div', 'respond-section-title', '家人回应'));
+    const sectionTitle = el('div', 'respond-section-title');
+    const titleText = el('span', 'respond-section-title-text', '家人回应');
+    titleText.style.minWidth = '0';
+    titleText.style.overflow = 'hidden';
+    titleText.style.textOverflow = 'ellipsis';
+    titleText.style.whiteSpace = 'nowrap';
+    sectionTitle.append(titleText);
+    if (respondUnread > 0) {
+      const chip = el('span', 'respond-unread-chip', '新 ' + (respondUnread >= 10 ? '9+' : String(respondUnread)));
+      chip.setAttribute('aria-label', `${respondUnread} 条新回应`);
+      sectionTitle.append(chip);
+    }
+    section.append(sectionTitle);
     const respondList = el('div', 'respond-list');
     respondList.style.display = 'flex';
     respondList.style.flexDirection = 'column';

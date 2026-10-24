@@ -752,3 +752,12 @@ ui-logic 在 ≤899px 生成 `.card-direction` + `.dir-item.is-mobile`：
 
 ### 28.5 分享面板访问数
 `.share-views`：分享面板里的「已访问 N 次」小字（11px ink-3 + accent 圆点），由 ui-logic 异步填 ShareView.viewCount。
+
+### 28.6 V4.1 未读角标 / 状态行 / toast
+| 选择器 / class | 用途 |
+|---|---|
+| `.respond-unread-chip` | 「家人回应」标题右侧未读胶囊：高 21px、圆角 999、accent-soft 底 + accent-ink 字、12px/600；`aria-label` 由 JS 给 |
+| `.respond-section-title` | flex + gap 8 + align-items center；若有 `.mono`/`.respond-section-time` 则 `margin-left:auto` 靠右 |
+| `.handoff-share-status` | 正文 `--ink-2`、前置 accent 圆点；`white-space:nowrap` + 省略号防 390 溢出 |
+| `.handoff-share-status b / strong / .handoff-new / .handoff-unread` | 「N 条新」600 字重 + accent-ink；**JS 需把 N 条新包成 `b`/span 元素**，纯 textContent 无法局部加粗 |
+| `.toast-respond`（或 `.toast.toast-respond`） | 深色胶囊 + 左侧 3px accent 竖条；复用通用 toast 时不用加 |

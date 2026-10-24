@@ -66,7 +66,8 @@ AI 是 DeepSeek 多模态（`deepseek-flash`，支持图片输入）。
 
 | 视频 | 尺寸 | 时长 | 内容 |
 |---|---|---|---|
-| [corner-demo-phone.mp4](docs/demo/corner-demo-phone.mp4) | 390×844 竖屏 | ~109s | **主推**：手机端完整旅程（含全屏标注查看器） |
+| [corner-social-demo-phone.mp4](docs/demo/corner-social-demo-phone.mp4) | 390×844 竖屏 | ~40s | **社交闭环**：分享 → 家人回应+拍现场照 → 回执 → 照片变对比图 |
+| [corner-demo-phone.mp4](docs/demo/corner-demo-phone.mp4) | 390×844 竖屏 | ~109s | 完整旅程（含全屏标注查看器） |
 | [corner-demo-desktop.mp4](docs/demo/corner-demo-desktop.mp4) | 1440×900 | ~92s | 桌面三栏版 |
 
 真实 DeepSeek + 真实家庭照片 + 真实分享投票，不是剪辑合成。逐段说明见 [docs/demo/README.md](docs/demo/README.md)；
