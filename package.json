@@ -1,0 +1,14 @@
+{
+  "name": "cat-corner",
+  "private": true,
+  "version": "0.1.0",
+  "description": "猫角落 Corner · 拍下家里一个角落，先判断值不值得改，量完关键尺寸拿到可执行方案",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node app/server/index.mjs",
+    "test:dom": "node tests/dom-check.mjs",
+    "test:api": "node tests/api-e2e.mjs",
+    "test:ai": "node scripts/test-ai.mjs"
+  }
+}

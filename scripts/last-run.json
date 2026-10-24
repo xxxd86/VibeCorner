@@ -1,0 +1,6038 @@
+{
+  "at": "2026-10-23T18:53:28.806Z",
+  "model": "deepseek-flash",
+  "quick": false,
+  "rows": [
+    {
+      "image": "img1",
+      "stage": "quality",
+      "pass": true,
+      "ms": 3997,
+      "tokens": 2431,
+      "jsonOk": true,
+      "note": "status=pass score=78 issues=occluded",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "l0",
+      "pass": true,
+      "ms": 5776,
+      "tokens": 4050,
+      "jsonOk": true,
+      "note": "verdict=continue regions=3 dirs=3 env=wood/direct rec=d1 bbox=0.40/0.62/0.16/0.20 | 0.55/0.62/0.10/0.20 | 0.30/0.60/0.10/0.18",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "ask",
+      "pass": true,
+      "ms": 1749,
+      "tokens": 2678,
+      "jsonOk": true,
+      "note": "verdict=conditional pieces=3 missing=该点位到窗帘的净宽,墙角可用进深,窗边日照时长",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "measure-r1",
+      "pass": true,
+      "ms": 1952,
+      "tokens": 2530,
+      "jsonOk": true,
+      "note": "round=1 keys=cornerWidthA,corridorWidth remaining=corridorWidth,cornerWidthA,freeDepth,cornerWidthB",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "measure-r2",
+      "pass": true,
+      "ms": 2007,
+      "tokens": 2552,
+      "jsonOk": true,
+      "note": "round=2 keys=cornerWidthB,freeDepth remaining=freeDepth,cornerWidthB",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "measure-r3",
+      "pass": true,
+      "ms": 1198,
+      "tokens": 2415,
+      "jsonOk": true,
+      "note": "CONVERGED questions=[] 进度 4/4",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "measure-done",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "CONVERGED in ≤4 轮，已量：cornerWidthA,corridorWidth,cornerWidthB,freeDepth",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "plan",
+      "pass": true,
+      "ms": 6408,
+      "tokens": 7248,
+      "jsonOk": true,
+      "note": "verdict=conditional items=3 okItems=3 blocked=2 budget=178.9/300(within)",
+      "fails": []
+    },
+    {
+      "image": "img1",
+      "stage": "plan-missing",
+      "pass": true,
+      "ms": 5793,
+      "tokens": 7007,
+      "jsonOk": true,
+      "note": "DEGRADED verdict=insufficient unknownConstraints=corridorWidth,cornerWidthA,freeDepth",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "quality",
+      "pass": true,
+      "ms": 3640,
+      "tokens": 2376,
+      "jsonOk": true,
+      "note": "status=pass score=82 issues=occluded,other",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "l0",
+      "pass": true,
+      "ms": 5374,
+      "tokens": 4086,
+      "jsonOk": true,
+      "note": "verdict=continue regions=3 dirs=3 env=wood/indirect rec=d1 bbox=0.31/0.30/0.24/0.24 | 0.48/0.44/0.24/0.22 | 0.55/0.10/0.20/0.20",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "ask",
+      "pass": true,
+      "ms": 1526,
+      "tokens": 2722,
+      "jsonOk": true,
+      "note": "verdict=conditional pieces=3 missing=通道净宽,墙角两边净长,猫窝开口朝向",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "measure-r1",
+      "pass": true,
+      "ms": 2006,
+      "tokens": 2577,
+      "jsonOk": true,
+      "note": "round=1 keys=cornerWidthA,cornerWidthB remaining=corridorWidth,cornerWidthA,freeDepth,cornerWidthB",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "measure-r2",
+      "pass": true,
+      "ms": 1809,
+      "tokens": 2508,
+      "jsonOk": true,
+      "note": "round=2 keys=corridorWidth,freeDepth remaining=corridorWidth,freeDepth",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "measure-r3",
+      "pass": true,
+      "ms": 960,
+      "tokens": 2452,
+      "jsonOk": true,
+      "note": "CONVERGED questions=[] 进度 4/4",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "measure-done",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "CONVERGED in ≤4 轮，已量：cornerWidthA,cornerWidthB,corridorWidth,freeDepth",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "plan",
+      "pass": true,
+      "ms": 6202,
+      "tokens": 7235,
+      "jsonOk": true,
+      "note": "verdict=conditional items=3 okItems=2 blocked=2 budget=178.9/300(within)",
+      "fails": []
+    },
+    {
+      "image": "img2",
+      "stage": "plan-missing",
+      "pass": true,
+      "ms": 5679,
+      "tokens": 7053,
+      "jsonOk": true,
+      "note": "DEGRADED verdict=insufficient unknownConstraints=corridorWidth,cornerWidthA,freeDepth",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "quality",
+      "pass": true,
+      "ms": 3803,
+      "tokens": 2363,
+      "jsonOk": true,
+      "note": "status=pass score=82 issues=occluded",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "l0",
+      "pass": true,
+      "ms": 5816,
+      "tokens": 4124,
+      "jsonOk": true,
+      "note": "verdict=continue regions=3 dirs=3 env=wood/indirect rec=d1 bbox=0.30/0.55/0.18/0.25 | 0.10/0.62/0.16/0.22 | 0.42/0.55/0.14/0.28",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "ask",
+      "pass": true,
+      "ms": 1423,
+      "tokens": 2725,
+      "jsonOk": true,
+      "note": "verdict=conditional pieces=4 missing=通道净宽,门开合范围,墙角进深",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "measure-r1",
+      "pass": true,
+      "ms": 1590,
+      "tokens": 2512,
+      "jsonOk": true,
+      "note": "round=1 keys=cornerWidthA,corridorWidth remaining=corridorWidth,cornerWidthA,freeDepth,doorSwing",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "measure-r2",
+      "pass": true,
+      "ms": 1986,
+      "tokens": 2590,
+      "jsonOk": true,
+      "note": "round=2 keys=freeDepth,doorSwing remaining=freeDepth,doorSwing",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "measure-r3",
+      "pass": true,
+      "ms": 893,
+      "tokens": 2445,
+      "jsonOk": true,
+      "note": "CONVERGED questions=[] 进度 4/4",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "measure-done",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "CONVERGED in ≤4 轮，已量：cornerWidthA,corridorWidth,freeDepth,doorSwing",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "plan",
+      "pass": true,
+      "ms": 6557,
+      "tokens": 7328,
+      "jsonOk": true,
+      "note": "verdict=conditional items=2 okItems=1 blocked=3 budget=49.9/300(within)",
+      "fails": []
+    },
+    {
+      "image": "img3",
+      "stage": "plan-missing",
+      "pass": true,
+      "ms": 5369,
+      "tokens": 6906,
+      "jsonOk": true,
+      "note": "DEGRADED verdict=insufficient unknownConstraints=corridorWidth,cornerWidthA,freeDepth",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "关键尺寸缺失 → verdict 降级",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "关键尺寸缺失 → blocked 写入",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "预算超限 → budget.over + verdict 非 ok",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "库外 SKU → 丢弃 + blocked",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "保留物未处理 → verdict 降级 + 清单注入",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "通道 <60cm → PASSAGE_WIDTH 只 warn",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "通道 <60cm → 商品仍 fit=ok、verdict 非 not_supported",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "猫爬架固定/承重未知 → blocked",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "measureDone=true → 空 questions",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "measure 选题 key 合法",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "target 未齐时只补 target 内 key",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "target 全 attempted → questions=[]（可置 measureDone）",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "freeDepth 不足 → verdict=not_supported + headline 否定",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "关键约束全过 + fit=ok + 模型保守 → conditional",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "纯复用缺尺寸 → insufficient + 先量旧物",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "catFit 六项齐全且 basis 在证据目录",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "catFit verdict 由状态确定性算出",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "LITTER_BOX_COUNT 软建议且永不 fail",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "observe 1/3/7 + 3 天不算失败兜底",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "ifThen 兜底 ≥2 且格式合法",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "usedMeasurements 只含 source=user",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "砂盆方案 litter 项挂 LITTER_BOX_SIZE",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "区间估计按保守端 + note 标保守",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "L0 recognition/boundary 兜底非空",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "L0 至少一个 reuse 方向兜底",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "measure totalTargets=3 / attempted=1 / remaining=2",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "checklist[0] 计划句兜底",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "observe 第 1 天二选一 + 第 7 天次数判定",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "firstSign 不可观察时被替换",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "不涉及砂盆/高位/抓板 → na",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "na 挂 NA-RULE 依据",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "na 不把 catFit 算成 good（pass 只有 3 项）",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "NA-RULE 在证据目录",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "尺寸约束挂 REST_SIZE_STRETCH 且 honest",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "尺寸约束没挂 HIDING_ENCLOSURE",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "计划句 ≤40 字且不截断",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "复用缺尺寸 → 3 个关键约束 unknown",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "conditional 肯定 headline 无条件 → 中性化",
+      "fails": []
+    },
+    {
+      "image": "rules",
+      "stage": "unit",
+      "pass": true,
+      "ms": 0,
+      "tokens": 0,
+      "jsonOk": true,
+      "note": "constraint 四态含 warn",
+      "fails": []
+    }
+  ],
+  "totals": {
+    "calls": 27,
+    "tokens": 92913,
+    "ms": 83513
+  },
+  "payloads": [
+    {
+      "image": "img1",
+      "stage": "quality",
+      "normalized": {
+        "status": "pass",
+        "score": 78,
+        "scene": {
+          "indoor": true,
+          "cornerVisible": true,
+          "floorVisible": true,
+          "obstruction": "some",
+          "note": "室内客厅，沙发右侧的墙角与地面交界线清楚，但画面右侧被人挡住一块。"
+        },
+        "issues": [
+          {
+            "code": "occluded",
+            "label": "遮挡",
+            "impact": "low",
+            "hint": "往左或往后退一步，避开人物，把从沙发到墙角的整段墙与地面交界都拍进去。",
+            "severity": "warn"
+          }
+        ],
+        "photoTip": "横向再退半步，让沙发、墙角、地面三者的交界在同一张里完整出现。"
+      },
+      "applied": {
+        "status": "pass",
+        "score": 78,
+        "scene": {
+          "indoor": true,
+          "cornerVisible": true,
+          "floorVisible": true,
+          "obstruction": "some",
+          "note": "室内客厅，沙发右侧的墙角与地面交界线清楚，但画面右侧被人挡住一块。"
+        },
+        "issues": [
+          {
+            "code": "occluded",
+            "label": "遮挡",
+            "impact": "low",
+            "hint": "往左或往后退一步，避开人物，把从沙发到墙角的整段墙与地面交界都拍进去。",
+            "severity": "warn"
+          }
+        ],
+        "photoTip": "横向再退半步，让沙发、墙角、地面三者的交界在同一张里完整出现。"
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "l0",
+      "normalized": {
+        "scene": {
+          "summary": "客厅沙发右侧墙角，已有半包猫窝和猫抓板，旁边有龟背竹与落地窗",
+          "roomGuess": "客厅",
+          "light": "bright",
+          "floor": "wood"
+        },
+        "recognition": "沙发右侧墙角，半包猫窝旁有猫抓板和龟背竹",
+        "boundary": "照片看不出墙角进深与通道净宽，这一步只能给方向，能不能放下要量过才算",
+        "verdict": "continue",
+        "verdictReason": "墙角有遮挡感且猫已在用，方向值得继续，但尺寸未量",
+        "regions": [
+          {
+            "id": "r1",
+            "label": "现有猫窝所在墙角",
+            "bbox": [
+              0.4,
+              0.62,
+              0.16,
+              0.2
+            ],
+            "verdict": "conditional",
+            "why": "两面墙夹角，半包窝有顶，猫已躺进去，遮蔽感够",
+            "risk": "紧邻落地窗，日照和窗边动线可能打扰"
+          },
+          {
+            "id": "r2",
+            "label": "猫窝右侧靠窗地面",
+            "bbox": [
+              0.55,
+              0.62,
+              0.1,
+              0.2
+            ],
+            "verdict": "unknown",
+            "why": "靠窗有亮光，可作备选落点",
+            "risk": "紧贴窗帘与窗，日照与开窗动线未知"
+          },
+          {
+            "id": "r3",
+            "label": "沙发与墙角之间地面",
+            "bbox": [
+              0.3,
+              0.6,
+              0.1,
+              0.18
+            ],
+            "verdict": "conditional",
+            "why": "沙发侧边有遮挡，靠近龟背竹",
+            "risk": "通道可能变窄，龟背竹要保留"
+          }
+        ],
+        "directions": [
+          {
+            "id": "d1",
+            "title": "沿用墙角现有猫窝位置",
+            "pitch": "把现有半包窝留在墙角，只微调朝向让开口朝沙发侧，先量墙角两边和通道",
+            "regionId": "r1",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有半包猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定猫窝最大宽度"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "靠窗日照强时窝内偏热",
+            "confidence": "medium"
+          },
+          {
+            "id": "d2",
+            "title": "墙角加半包顶盖",
+            "pitch": "在现有窝位加一个可拆的半包顶或布罩，增强遮蔽，先量上方净空",
+            "regionId": "r1",
+            "kit": "new",
+            "itemsPreview": [
+              {
+                "title": "可拆半包顶罩",
+                "type": "new"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "ceilingFree",
+                "label": "上方净空",
+                "why": "决定顶罩高度上限"
+              },
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定最大深度"
+              }
+            ],
+            "risk": "预算内选择有限，尺寸不合会压到猫",
+            "confidence": "low"
+          },
+          {
+            "id": "d3",
+            "title": "沙发侧边地面备选",
+            "pitch": "若墙角通道太窄，把窝移到沙发侧边靠龟背竹处，先量可用进深",
+            "regionId": "r3",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有半包猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "freeDepth",
+                "label": "可用进深",
+                "why": "决定猫窝进深上限"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "离龟背竹近，浇水动线可能惊到猫",
+            "confidence": "low"
+          }
+        ],
+        "missing": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "why": "决定猫窝最大宽度"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "why": "决定最大深度"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "why": "低于 60cm 猫会绕行"
+          }
+        ],
+        "nextAction": "先量墙角两边长度和沙发到墙的通道净宽，再决定是否挪窝",
+        "heatmapNote": "热区集中在沙发右侧墙角，猫已在那里休息",
+        "env": {
+          "floorType": "wood",
+          "nearAppliance": [],
+          "nearFood": false,
+          "draft": false,
+          "sunlight": "direct",
+          "wallExterior": false,
+          "note": "落地窗有直射光，画面右侧被人物挡住一块"
+        },
+        "recommend": {
+          "directionId": "d1",
+          "why": "不花钱，猫已在用，只调朝向和位置，成本最低",
+          "alternativesNote": "加顶罩和挪到沙发侧边都要先量尺寸，先折叠"
+        },
+        "disclaimer": "这是方向预览，不是摆放结论；关键尺寸补齐前不能判断能不能放下。"
+      },
+      "applied": {
+        "scene": {
+          "summary": "客厅沙发右侧墙角，已有半包猫窝和猫抓板，旁边有龟背竹与落地窗",
+          "roomGuess": "客厅",
+          "light": "bright",
+          "floor": "wood"
+        },
+        "recognition": "沙发右侧墙角，半包猫窝旁有猫抓板和龟背竹",
+        "boundary": "照片看不出墙角进深与通道净宽，这一步只能给方向，能不能放下要量过才算",
+        "verdict": "continue",
+        "verdictReason": "墙角有遮挡感且猫已在用，方向值得继续，但尺寸未量",
+        "regions": [
+          {
+            "id": "r1",
+            "label": "现有猫窝所在墙角",
+            "bbox": [
+              0.4,
+              0.62,
+              0.16,
+              0.2
+            ],
+            "verdict": "conditional",
+            "why": "两面墙夹角，半包窝有顶，猫已躺进去，遮蔽感够",
+            "risk": "紧邻落地窗，日照和窗边动线可能打扰"
+          },
+          {
+            "id": "r2",
+            "label": "猫窝右侧靠窗地面",
+            "bbox": [
+              0.55,
+              0.62,
+              0.1,
+              0.2
+            ],
+            "verdict": "unknown",
+            "why": "靠窗有亮光，可作备选落点",
+            "risk": "紧贴窗帘与窗，日照与开窗动线未知"
+          },
+          {
+            "id": "r3",
+            "label": "沙发与墙角之间地面",
+            "bbox": [
+              0.3,
+              0.6,
+              0.1,
+              0.18
+            ],
+            "verdict": "conditional",
+            "why": "沙发侧边有遮挡，靠近龟背竹",
+            "risk": "通道可能变窄，龟背竹要保留"
+          }
+        ],
+        "directions": [
+          {
+            "id": "d1",
+            "title": "沿用墙角现有猫窝位置",
+            "pitch": "把现有半包窝留在墙角，只微调朝向让开口朝沙发侧，先量墙角两边和通道",
+            "regionId": "r1",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有半包猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定猫窝最大宽度"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "靠窗日照强时窝内偏热",
+            "confidence": "medium"
+          },
+          {
+            "id": "d2",
+            "title": "墙角加半包顶盖",
+            "pitch": "在现有窝位加一个可拆的半包顶或布罩，增强遮蔽，先量上方净空",
+            "regionId": "r1",
+            "kit": "new",
+            "itemsPreview": [
+              {
+                "title": "可拆半包顶罩",
+                "type": "new"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "ceilingFree",
+                "label": "上方净空",
+                "why": "决定顶罩高度上限"
+              },
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定最大深度"
+              }
+            ],
+            "risk": "预算内选择有限，尺寸不合会压到猫",
+            "confidence": "low"
+          },
+          {
+            "id": "d3",
+            "title": "沙发侧边地面备选",
+            "pitch": "若墙角通道太窄，把窝移到沙发侧边靠龟背竹处，先量可用进深",
+            "regionId": "r3",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有半包猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "freeDepth",
+                "label": "可用进深",
+                "why": "决定猫窝进深上限"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "离龟背竹近，浇水动线可能惊到猫",
+            "confidence": "low"
+          }
+        ],
+        "missing": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "why": "决定猫窝最大宽度"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "why": "决定最大深度"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "why": "低于 60cm 猫会绕行"
+          }
+        ],
+        "nextAction": "先量墙角两边长度和沙发到墙的通道净宽，再决定是否挪窝",
+        "heatmapNote": "热区集中在沙发右侧墙角，猫已在那里休息",
+        "env": {
+          "floorType": "wood",
+          "nearAppliance": [],
+          "nearFood": false,
+          "draft": false,
+          "sunlight": "direct",
+          "wallExterior": false,
+          "note": "落地窗有直射光，画面右侧被人物挡住一块"
+        },
+        "recommend": {
+          "directionId": "d1",
+          "why": "不花钱，猫已在用，只调朝向和位置，成本最低",
+          "alternativesNote": "加顶罩和挪到沙发侧边都要先量尺寸，先折叠"
+        },
+        "disclaimer": "这是方向预览，不是摆放结论；关键尺寸补齐前不能判断能不能放下。"
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "ask",
+      "normalized": {
+        "reply": "这个点位在窗边亮区，方向可继续看，但要先量净宽和日照",
+        "verdict": "conditional",
+        "pieces": [
+          "点位落在落地窗与窗帘前的地面，紧邻现有半包窝右侧，猫已习惯这一带",
+          "靠窗一侧日照强，窝内可能偏热，开口朝向要避开直射",
+          "右侧被人物挡住一块，看不清该处地面与墙角的完整交界"
+        ],
+        "missing": [
+          "该点位到窗帘的净宽",
+          "墙角可用进深",
+          "窗边日照时长"
+        ]
+      },
+      "applied": {
+        "reply": "这个点位在窗边亮区，方向可继续看，但要先量净宽和日照",
+        "verdict": "conditional",
+        "pieces": [
+          "点位落在落地窗与窗帘前的地面，紧邻现有半包窝右侧，猫已习惯这一带",
+          "靠窗一侧日照强，窝内可能偏热，开口朝向要避开直射",
+          "右侧被人物挡住一块，看不清该处地面与墙角的完整交界"
+        ],
+        "missing": [
+          "该点位到窗帘的净宽",
+          "墙角可用进深",
+          "窗边日照时长"
+        ]
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "measure-r1",
+      "normalized": {
+        "round": 1,
+        "questions": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "endpoints": "沙发右侧扶手外沿到右侧墙（靠窗那面墙）的墙角",
+            "unit": "cm",
+            "why": "这个数决定猫窝最大宽度，小于 45cm 半包窝基本塞不进墙角",
+            "hint": "贴地量，从沙发扶手最外沿量到墙角，量最窄处",
+            "example": "约 78",
+            "optional": false
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "endpoints": "猫窝前沿到沙发正面（或茶几边）之间最窄的一段",
+            "unit": "cm",
+            "why": "低于 60cm 猫会绕着走，窝口再朝沙发也没用",
+            "hint": "垂直量最窄处，不要斜着量",
+            "example": "约 62",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "cornerWidthB"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 0,
+        "askNote": "这轮先量墙角 A 边和通道净宽，两个数就够"
+      },
+      "applied": {
+        "round": 1,
+        "questions": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "endpoints": "沙发右侧扶手外沿到右侧墙（靠窗那面墙）的墙角",
+            "unit": "cm",
+            "why": "这个数决定猫窝最大宽度，小于 45cm 半包窝基本塞不进墙角",
+            "hint": "贴地量，从沙发扶手最外沿量到墙角，量最窄处",
+            "example": "约 78",
+            "optional": false
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "endpoints": "猫窝前沿到沙发正面（或茶几边）之间最窄的一段",
+            "unit": "cm",
+            "why": "低于 60cm 猫会绕着走，窝口再朝沙发也没用",
+            "hint": "垂直量最窄处，不要斜着量",
+            "example": "约 62",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "corridorWidth",
+          "cornerWidthA",
+          "freeDepth",
+          "cornerWidthB"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 0,
+        "askNote": "这轮先量这两个就够。"
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "measure-r2",
+      "normalized": {
+        "round": 2,
+        "questions": [
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "endpoints": "墙角沿右侧墙面向窗的方向，到窗帘或龟背竹花盆为止",
+            "unit": "cm",
+            "why": "决定窝能放多深，深度不足时半包窝会顶到窗帘，猫转身空间变窄",
+            "hint": "贴墙量，取能用的最窄一段",
+            "example": "约 70",
+            "optional": false
+          },
+          {
+            "key": "freeDepth",
+            "label": "墙角可用进深",
+            "endpoints": "从墙角垂直向外，到沙发前沿或走道边线",
+            "unit": "cm",
+            "why": "进深低于 50cm 时窝体容易压到通道，猫进出会犹豫",
+            "hint": "垂直墙面量，取最窄处",
+            "example": "约 55",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "obstructionH",
+          "ceilingFree",
+          "outletDist",
+          "doorSwing",
+          "windowDist"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 2,
+        "askNote": "这轮只要这两个数就够了，量完就能定窝的尺寸上限"
+      },
+      "applied": {
+        "round": 2,
+        "questions": [
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "endpoints": "墙角沿右侧墙面向窗的方向，到窗帘或龟背竹花盆为止",
+            "unit": "cm",
+            "why": "决定窝能放多深，深度不足时半包窝会顶到窗帘，猫转身空间变窄",
+            "hint": "贴墙量，取能用的最窄一段",
+            "example": "约 70",
+            "optional": false
+          },
+          {
+            "key": "freeDepth",
+            "label": "墙角可用进深",
+            "endpoints": "从墙角垂直向外，到沙发前沿或走道边线",
+            "unit": "cm",
+            "why": "进深低于 50cm 时窝体容易压到通道，猫进出会犹豫",
+            "hint": "垂直墙面量，取最窄处",
+            "example": "约 55",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "freeDepth",
+          "cornerWidthB"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 2,
+        "askNote": "这轮先量这两个就够。"
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "measure-r3",
+      "normalized": {
+        "round": 3,
+        "questions": [
+          {
+            "key": "obstructionH",
+            "label": "遮挡物高度",
+            "endpoints": "该区域内最高的家具/物品 → 地面",
+            "unit": "cm",
+            "why": "影响高低位方案",
+            "hint": "量区域内最高那件东西",
+            "example": "约 80",
+            "optional": false
+          },
+          {
+            "key": "ceilingFree",
+            "label": "上方净空",
+            "endpoints": "地面 → 正上方最近物体",
+            "unit": "cm",
+            "why": "猫爬架高度上限",
+            "hint": "站在落点位上往上看",
+            "example": "约 80",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "outletDist",
+          "doorSwing",
+          "windowDist"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 4,
+        "askNote": "关键尺寸已齐，可以出方案了"
+      },
+      "applied": {
+        "round": 3,
+        "questions": [],
+        "remainingKeys": [],
+        "totalTargets": 4,
+        "attemptedTargets": 4,
+        "askNote": "关键尺寸已齐，可以出方案了。"
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "plan",
+      "normalized": {
+        "verdict": "conditional",
+        "headline": "墙角尺寸够放半包窝，先确认日照与保留龟背竹",
+        "budget": {
+          "cap": 300,
+          "est": 129,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "现有半包猫窝",
+            "bbox": [
+              0.4,
+              0.62,
+              0.16,
+              0.2
+            ],
+            "note": "贴墙角，开口朝沙发侧"
+          },
+          {
+            "id": "2",
+            "label": "龟背竹保留位",
+            "bbox": [
+              0.24,
+              0.36,
+              0.1,
+              0.22
+            ],
+            "note": "沙发左侧，别挪进通道"
+          },
+          {
+            "id": "3",
+            "label": "靠窗备选落点",
+            "bbox": [
+              0.55,
+              0.62,
+              0.1,
+              0.2
+            ],
+            "note": "直射光强，先测温度"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有半包猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 0,
+            "why": "墙角 A 边 80cm、进深 52cm，半包有顶，猫已躺进去",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "复用",
+              "半包"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "同尺寸替换，可拆洗，预算内",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "可拆洗",
+              "半包",
+              "记忆棉"
+            ]
+          },
+          {
+            "id": "i3",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴墙角，不占通道，猫睡醒伸爪就够到",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "贴合墙角",
+              "省空间"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": 80,
+            "status": "pass",
+            "note": "放 45cm 宽窝有余量"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 70,
+            "status": "pass",
+            "note": "进深方向够"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 52,
+            "status": "pass",
+            "note": "窝深 40cm 可放"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": 62,
+            "status": "pass",
+            "note": "刚过 60cm，别再加宽"
+          },
+          {
+            "key": "windowDist",
+            "label": "到窗距离",
+            "op": ">=",
+            "valueCm": 50,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "直射光区，需现场测"
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "周六上午在墙角，先量窝位到落地窗的水平距离",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把龟背竹留在沙发左侧原位，不挪进通道",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "把现有窝开口转向沙发侧，别正对窗",
+            "critical": false
+          },
+          {
+            "id": "c4",
+            "text": "摸一下午后窝内垫面温度，偏热就换靠窗备选位",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "旧垫子先别洗，放进窝里留气味",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "高 140cm，墙面固定方式与承重未知，且超预算"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "宽 60cm 会挤占 62cm 通道，只剩 2cm 余量"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "三面围挡，启发式参考，非"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "62cm 刚过线，启发式"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "直射光偏热，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "客厅人流区，启发式参考，"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 4,
+            "note": "沙发旁常路过，启发式参考"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角半包窝当白天睡觉的藏身处",
+          "whyNot": [
+            "午后直射光会让窝内偏热，猫趴十分钟就换地方",
+            "开口若正对窗，猫缩进去背后没遮挡"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "旧垫子放进去，别洗",
+              "今天做还是周末做？先选一个时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝内有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动进去",
+            "then": "把窝移到靠窗备选位并转开口朝沙发"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。"
+      },
+      "applied": {
+        "verdict": "conditional",
+        "headline": "墙角尺寸够放半包窝，先确认日照与保留龟背竹",
+        "budget": {
+          "cap": 300,
+          "est": 178.9,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "现有半包猫窝",
+            "bbox": [
+              0.4,
+              0.62,
+              0.16,
+              0.2
+            ],
+            "note": "贴墙角，开口朝沙发侧"
+          },
+          {
+            "id": "2",
+            "label": "龟背竹保留位",
+            "bbox": [
+              0.55,
+              0.62,
+              0.1,
+              0.2
+            ],
+            "note": "沙发左侧，别挪进通道"
+          },
+          {
+            "id": "3",
+            "label": "靠窗备选落点",
+            "bbox": [
+              0.55,
+              0.62,
+              0.1,
+              0.2
+            ],
+            "note": "直射光强，先测温度"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有半包猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 0,
+            "why": "墙角 A 边 80cm、进深 52cm，半包有顶，猫已躺进去",
+            "fit": "ok",
+            "fitNote": "宽 40cm、深 45cm，通道剩 62cm",
+            "confidence": "medium",
+            "tags": [
+              "复用",
+              "半包"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "同尺寸替换，可拆洗，预算内",
+            "fit": "ok",
+            "fitNote": "宽 40cm、深 45cm，通道剩 62cm",
+            "confidence": "medium",
+            "tags": [
+              "可拆洗",
+              "半包",
+              "记忆棉"
+            ]
+          },
+          {
+            "id": "i3",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴墙角，不占通道，猫睡醒伸爪就够到",
+            "fit": "ok",
+            "fitNote": "宽 40cm、深 40cm，通道剩 62cm",
+            "confidence": "medium",
+            "tags": [
+              "贴合墙角",
+              "省空间",
+              "瓦楞纸"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": 62,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "PASSAGE_WIDTH",
+            "strength": "weak",
+            "basisText": "缝太窄猫得侧身挤过去，它宁愿绕远路，久了这个位置就废了。",
+            "honest": true
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 80,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": 52,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "周六上午在墙角，先量窝位到落地窗的水平距离",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把龟背竹留在沙发左侧原位，不挪进通道",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "把现有窝开口转向沙发侧，别正对窗",
+            "critical": false
+          },
+          {
+            "id": "c4",
+            "text": "摸一下午后窝内垫面温度，偏热就换靠窗备选位",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "旧垫子先别洗，放进窝里留气味",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "高 140cm，墙面固定方式与承重未知，且超预算"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "宽 60cm 会挤占 62cm 通道，只剩 2cm 余量"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "三面围挡，启发式参考，非"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "62cm 刚过线，启发式"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "直射光偏热，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "客厅人流区，启发式参考，"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 4,
+            "note": "沙发旁常路过，启发式参考"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角半包窝当白天睡觉的藏身处",
+          "whyNot": [
+            "午后直射光会让窝内偏热，猫趴十分钟就换地方",
+            "开口若正对窗，猫缩进去背后没遮挡"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "旧垫子放进去，别洗",
+              "今天做还是周末做？先选一个时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝内有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动进去",
+            "then": "把窝移到靠窗备选位并转开口朝沙发"
+          },
+          {
+            "if": "7 天内抓板没有新的抓痕",
+            "then": "把抓板挪到沙发旁或门口"
+          },
+          {
+            "if": "第 7 天窝垫上还没有压痕或毛",
+            "then": "把旧垫子换成猫睡过的"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。",
+        "catFit": {
+          "verdict": "caution",
+          "items": [
+            {
+              "key": "hide",
+              "label": "能藏的地方",
+              "status": "pass",
+              "why": "半包结构三面遮挡，猫能缩进去闭眼睡，适应期也会更短",
+              "basisId": "HIDING_BOX_EFFECT",
+              "strength": "strong",
+              "basisText": "有个箱子可钻，猫两三天就缓过来；没处躲，要挨一个多星期。",
+              "honest": false
+            },
+            {
+              "key": "resources",
+              "label": "资源是否分开",
+              "status": "pass",
+              "why": "这个角落只做一个功能，照片里没看到水和食盆挤在一起",
+              "basisId": "MULTICAT_SEPARATION",
+              "strength": "consensus",
+              "basisText": "资源全挤在一处，强势的猫往中间一蹲，另一只连水都不敢喝。",
+              "honest": false
+            },
+            {
+              "key": "litter",
+              "label": "砂盆条件",
+              "status": "na",
+              "why": "这次方案不涉及砂盆，换砂盆方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "scratch",
+              "label": "抓挠位置",
+              "status": "warn",
+              "why": "只有水平瓦楞板，缺竖直面，猫没法把身体整个拉长",
+              "basisId": "SCRATCH_POST_FORM",
+              "strength": "consensus",
+              "basisText": "竖直的麻绳面能让猫把身子整个拉长，顺带在脚垫上留下自己的气味。",
+              "honest": false
+            },
+            {
+              "key": "vertical",
+              "label": "高处与栖架",
+              "status": "na",
+              "why": "这次方案不涉及高位，先不做爬架判断",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "climate",
+              "label": "温度/日照/风",
+              "status": "pass",
+              "why": "有直射日照，这块地板更暖，猫会当暖炕；夏天注意西晒",
+              "basisId": "SUNLIGHT_POSITION",
+              "strength": "weak",
+              "basisText": "晒得到太阳的那块地板温度更高，猫会把它当成天然的暖炕。",
+              "honest": false
+            }
+          ]
+        },
+        "usedMeasurements": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "valueCm": 62
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "valueCm": 80
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "valueCm": 70
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "valueCm": 52
+          }
+        ],
+        "litterCount": {
+          "basisId": "LITTER_BOX_COUNT",
+          "strength": "consensus",
+          "basisText": "只有一处厕所时，胆小的猫会排队等到憋不住，最后转去沙发角落。",
+          "honest": true,
+          "status": "warn",
+          "suggested": 2,
+          "text": "单猫建议 2 个砂盆分两处；多猫按猫数+1（2 个）只是经验值，不是不合格判定。"
+        }
+      }
+    },
+    {
+      "image": "img1",
+      "stage": "plan-missing",
+      "normalized": {
+        "verdict": "insufficient",
+        "headline": "还差「通道净宽、墙角 A 边长」没量，先别定",
+        "budget": {
+          "cap": 300,
+          "est": 129,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "现有半包窝",
+            "bbox": [
+              0.4,
+              0.62,
+              0.16,
+              0.2
+            ],
+            "note": "猫已躺进去，开口朝沙发侧"
+          },
+          {
+            "id": "2",
+            "label": "龟背竹位置",
+            "bbox": [
+              0.24,
+              0.36,
+              0.1,
+              0.2
+            ],
+            "note": "保留，别挡窝口"
+          },
+          {
+            "id": "3",
+            "label": "沙发侧地面",
+            "bbox": [
+              0.3,
+              0.6,
+              0.1,
+              0.18
+            ],
+            "note": "备选落点，需量通道"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有半包猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "猫已经在里面趴着，遮蔽感够，先不换",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "沿用",
+              "零花费"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "进深 40cm，比现有窝更省地，预算内",
+            "fit": "blocked",
+            "fitNote": "通道净宽与墙角 A 边长未量，量到通道 ≥60cm 且墙角 ≥45cm 才可行",
+            "confidence": "low",
+            "tags": [
+              "可拆洗",
+              "半包"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "沙发外沿到对面最窄处"
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "沿主墙可用长度"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "墙根到最近障碍物"
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "今天或周末拿卷尺，先量墙角 A 边长与通道净宽",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "量墙根到沙发外沿的可用进深，记下来",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "把龟背竹留在原位，确认不挡窝口",
+            "critical": false
+          },
+          {
+            "id": "c4",
+            "text": "把现有窝开口转向沙发侧，先别挪位置",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "退后一步补拍，避开人物把墙角到地面拍全",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "墙高与固定方式未知，且超预算"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "墙角 A 边长未量，60cm 宽可能放不下"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "半包有顶，启发式参考，非"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "通道未量，启发式参考，非"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 4,
+            "note": "落地窗直射，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "客厅动线旁，启发式参考，"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 3,
+            "note": "沙发侧常走人，启发式参考"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "继续把墙角当睡觉的藏身处，开口朝沙发侧更敢闭眼",
+          "whyNot": [
+            "靠窗直射光强时窝内偏热，猫会挪到阴面地板",
+            "通道若窄于 60cm，猫会绕开这个角"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放回窝里，别洗",
+              "今天做还是周末做？先定量尺时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝垫上有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。"
+      },
+      "applied": {
+        "verdict": "insufficient",
+        "headline": "还差「通道净宽、墙角 A 边长」没量，先别定",
+        "budget": {
+          "cap": 300,
+          "est": 129,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "现有半包窝",
+            "bbox": [
+              0.4,
+              0.62,
+              0.16,
+              0.2
+            ],
+            "note": "猫已躺进去，开口朝沙发侧"
+          },
+          {
+            "id": "2",
+            "label": "龟背竹位置",
+            "bbox": [
+              0.55,
+              0.62,
+              0.1,
+              0.2
+            ],
+            "note": "保留，别挡窝口"
+          },
+          {
+            "id": "3",
+            "label": "沙发侧地面",
+            "bbox": [
+              0.3,
+              0.6,
+              0.1,
+              0.18
+            ],
+            "note": "备选落点，需量通道"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有半包猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "猫已经在里面趴着，遮蔽感够，先不换",
+            "fit": "blocked",
+            "fitNote": "尺寸未记录；先量外径和占地，记录后再评估",
+            "confidence": "medium",
+            "tags": [
+              "沿用",
+              "零花费"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "进深 40cm，比现有窝更省地，预算内",
+            "fit": "blocked",
+            "fitNote": "还缺「通道净宽、墙角 A 边长、可用进深」；补齐后按尺寸复算",
+            "confidence": "low",
+            "tags": [
+              "可拆洗",
+              "半包",
+              "记忆棉"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "PASSAGE_WIDTH",
+            "strength": "weak",
+            "basisText": "缝太窄猫得侧身挤过去，它宁愿绕远路，久了这个位置就废了。",
+            "honest": true
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "今天或周末拿卷尺，先量墙角 A 边长与通道净宽",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "量墙根到沙发外沿的可用进深，记下来",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "把龟背竹留在原位，确认不挡窝口",
+            "critical": false
+          },
+          {
+            "id": "c4",
+            "text": "把现有窝开口转向沙发侧，先别挪位置",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "退后一步补拍，避开人物把墙角到地面拍全",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "墙高与固定方式未知，且超预算"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "墙角 A 边长未量，60cm 宽可能放不下"
+          },
+          {
+            "what": "关键尺寸「通道净宽」",
+            "reason": "还没量到，不能定摆放"
+          },
+          {
+            "what": "关键尺寸「墙角 A 边长」",
+            "reason": "还没量到，不能定摆放"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "半包有顶，启发式参考，非"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "通道未量，启发式参考，非"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 4,
+            "note": "落地窗直射，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "客厅动线旁，启发式参考，"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 3,
+            "note": "沙发侧常走人，启发式参考"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "继续把墙角当睡觉的藏身处，开口朝沙发侧更敢闭眼",
+          "whyNot": [
+            "靠窗直射光强时窝内偏热，猫会挪到阴面地板",
+            "通道若窄于 60cm，猫会绕开这个角"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放回窝里，别洗",
+              "今天做还是周末做？先定量尺时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝垫上有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动使用",
+            "then": "把窝换到更安静的角落"
+          },
+          {
+            "if": "第 7 天窝垫上还没有压痕或毛",
+            "then": "把旧垫子换成猫睡过的"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。",
+        "catFit": {
+          "verdict": "caution",
+          "items": [
+            {
+              "key": "hide",
+              "label": "能藏的地方",
+              "status": "pass",
+              "why": "半包结构三面遮挡，猫能缩进去闭眼睡，适应期也会更短",
+              "basisId": "HIDING_BOX_EFFECT",
+              "strength": "strong",
+              "basisText": "有个箱子可钻，猫两三天就缓过来；没处躲，要挨一个多星期。",
+              "honest": false
+            },
+            {
+              "key": "resources",
+              "label": "资源是否分开",
+              "status": "pass",
+              "why": "这个角落只做一个功能，照片里没看到水和食盆挤在一起",
+              "basisId": "MULTICAT_SEPARATION",
+              "strength": "consensus",
+              "basisText": "资源全挤在一处，强势的猫往中间一蹲，另一只连水都不敢喝。",
+              "honest": false
+            },
+            {
+              "key": "litter",
+              "label": "砂盆条件",
+              "status": "na",
+              "why": "这次方案不涉及砂盆，换砂盆方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "scratch",
+              "label": "抓挠位置",
+              "status": "na",
+              "why": "这次方案不涉及抓板，换抓板方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "vertical",
+              "label": "高处与栖架",
+              "status": "na",
+              "why": "这次方案不涉及高位，先不做爬架判断",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "climate",
+              "label": "温度/日照/风",
+              "status": "pass",
+              "why": "有直射日照，这块地板更暖，猫会当暖炕；夏天注意西晒",
+              "basisId": "SUNLIGHT_POSITION",
+              "strength": "weak",
+              "basisText": "晒得到太阳的那块地板温度更高，猫会把它当成天然的暖炕。",
+              "honest": false
+            }
+          ]
+        },
+        "usedMeasurements": [],
+        "litterCount": {
+          "basisId": "LITTER_BOX_COUNT",
+          "strength": "consensus",
+          "basisText": "只有一处厕所时，胆小的猫会排队等到憋不住，最后转去沙发角落。",
+          "honest": true,
+          "status": "warn",
+          "suggested": 2,
+          "text": "单猫建议 2 个砂盆分两处；多猫按猫数+1（2 个）只是经验值，不是不合格判定。"
+        }
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "quality",
+      "normalized": {
+        "status": "pass",
+        "score": 82,
+        "scene": {
+          "indoor": true,
+          "cornerVisible": true,
+          "floorVisible": true,
+          "obstruction": "some",
+          "note": "室内木地板，电视柜右侧墙角与地面交界清楚，能看出候选区被猫窝和抓板占位"
+        },
+        "issues": [
+          {
+            "code": "occluded",
+            "label": "地面被猫窝和抓板挡住一块",
+            "impact": "low",
+            "hint": "重拍时把猫窝和抓板先移开，露出完整墙角与地面边界",
+            "severity": "warn"
+          },
+          {
+            "code": "other",
+            "label": "缺少量尺参照",
+            "impact": "mid",
+            "hint": "在墙角贴一段卷尺或放把尺子再拍，便于后面读尺寸",
+            "severity": "warn"
+          }
+        ],
+        "photoTip": "同角度再拍一张移开用品的空地照，并把卷尺拉在墙角处一起入镜"
+      },
+      "applied": {
+        "status": "pass",
+        "score": 82,
+        "scene": {
+          "indoor": true,
+          "cornerVisible": true,
+          "floorVisible": true,
+          "obstruction": "some",
+          "note": "室内木地板，电视柜右侧墙角与地面交界清楚，能看出候选区被猫窝和抓板占位"
+        },
+        "issues": [
+          {
+            "code": "occluded",
+            "label": "地面被猫窝和抓板挡住一块",
+            "impact": "low",
+            "hint": "重拍时把猫窝和抓板先移开，露出完整墙角与地面边界",
+            "severity": "warn"
+          },
+          {
+            "code": "other",
+            "label": "缺少量尺参照",
+            "impact": "mid",
+            "hint": "在墙角贴一段卷尺或放把尺子再拍，便于后面读尺寸",
+            "severity": "warn"
+          }
+        ],
+        "photoTip": "同角度再拍一张移开用品的空地照，并把卷尺拉在墙角处一起入镜"
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "l0",
+      "normalized": {
+        "scene": {
+          "summary": "电视柜右侧墙角已摆着猫窝和抓板，地面是木地板，旁边有通道",
+          "roomGuess": "客厅",
+          "light": "bright",
+          "floor": "wood"
+        },
+        "recognition": "电视柜右侧墙角，现有灰色猫窝和方形抓板并排",
+        "boundary": "照片看不出墙角边长和通道净宽，这一步只能给方向，能不能放下要量过才算",
+        "verdict": "continue",
+        "verdictReason": "墙角位置本身有遮蔽潜力，但关键尺寸全缺，只能先量再定",
+        "regions": [
+          {
+            "id": "r1",
+            "label": "现有猫窝位",
+            "bbox": [
+              0.31,
+              0.3,
+              0.24,
+              0.24
+            ],
+            "verdict": "conditional",
+            "why": "贴墙角、有电视柜侧板挡一侧，具备半遮蔽条件",
+            "risk": "猫窝开口朝向通道，猫不进去可能因为太暴露"
+          },
+          {
+            "id": "r2",
+            "label": "现有抓板位",
+            "bbox": [
+              0.48,
+              0.44,
+              0.24,
+              0.22
+            ],
+            "verdict": "conditional",
+            "why": "抓板在墙角延伸段，属于日常动线边缘",
+            "risk": "抓板平放占地，和猫窝挤在同一段墙"
+          },
+          {
+            "id": "r3",
+            "label": "墙角上方墙面",
+            "bbox": [
+              0.55,
+              0.1,
+              0.2,
+              0.2
+            ],
+            "verdict": "unknown",
+            "why": "墙面空白，可考虑高位或壁挂方案",
+            "risk": "看不出墙体材质和上方净空，不能判断能否固定"
+          }
+        ],
+        "directions": [
+          {
+            "id": "d1",
+            "title": "墙角猫窝转向半遮蔽",
+            "pitch": "把现有猫窝挪到墙角最里侧，开口斜对通道，让猫能藏又能看到外面",
+            "regionId": "r1",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有灰色猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定猫窝最大宽度"
+              },
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定猫窝最大深度"
+              }
+            ],
+            "risk": "墙角太窄时猫窝只能斜放，遮蔽效果打折",
+            "confidence": "medium"
+          },
+          {
+            "id": "d2",
+            "title": "抓板贴墙立起省地",
+            "pitch": "把现有抓板靠墙角立起或贴墙固定，腾出地面给猫窝",
+            "regionId": "r2",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有方形抓板",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定抓板可立的高度与位置"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "立起后稳定性不足会倒，需要靠墙或固定",
+            "confidence": "medium"
+          },
+          {
+            "id": "d3",
+            "title": "墙角加半包窝替换",
+            "pitch": "若现有猫窝开口太大，换一个半包式窝贴墙角放，预算内可试",
+            "regionId": "r1",
+            "kit": "new",
+            "itemsPreview": [
+              {
+                "title": "半包式猫窝",
+                "type": "new"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定新窝最大宽度"
+              },
+              {
+                "key": "freeDepth",
+                "label": "可用进深",
+                "why": "决定猫窝进深上限"
+              }
+            ],
+            "risk": "没量宽度就买，可能放不进墙角",
+            "confidence": "low"
+          }
+        ],
+        "missing": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "why": "决定猫窝最大宽度"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "why": "决定最大深度"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "why": "低于 60cm 猫会绕行"
+          }
+        ],
+        "nextAction": "先把猫窝和抓板移开，量墙角两条边长和通道最窄处",
+        "heatmapNote": "热区集中在电视柜右侧墙角与地面交界，越靠里越有遮蔽",
+        "env": {
+          "floorType": "wood",
+          "nearAppliance": [],
+          "nearFood": false,
+          "draft": false,
+          "sunlight": "indirect",
+          "wallExterior": false,
+          "note": "木地板，墙角有亮光但看不出直射日照"
+        },
+        "recommend": {
+          "directionId": "d1",
+          "why": "不花钱，只挪现有猫窝，先改善遮蔽最省成本",
+          "alternativesNote": "d2 要动抓板固定，d3 要花钱买新窝，先折叠"
+        },
+        "disclaimer": "这是方向预览，不是摆放结论；关键尺寸补齐前不能判断能不能放下。"
+      },
+      "applied": {
+        "scene": {
+          "summary": "电视柜右侧墙角已摆着猫窝和抓板，地面是木地板，旁边有通道",
+          "roomGuess": "客厅",
+          "light": "bright",
+          "floor": "wood"
+        },
+        "recognition": "电视柜右侧墙角，现有灰色猫窝和方形抓板并排",
+        "boundary": "照片看不出墙角边长和通道净宽，这一步只能给方向，能不能放下要量过才算",
+        "verdict": "continue",
+        "verdictReason": "墙角位置本身有遮蔽潜力，但关键尺寸全缺，只能先量再定",
+        "regions": [
+          {
+            "id": "r1",
+            "label": "现有猫窝位",
+            "bbox": [
+              0.31,
+              0.3,
+              0.24,
+              0.24
+            ],
+            "verdict": "conditional",
+            "why": "贴墙角、有电视柜侧板挡一侧，具备半遮蔽条件",
+            "risk": "猫窝开口朝向通道，猫不进去可能因为太暴露"
+          },
+          {
+            "id": "r2",
+            "label": "现有抓板位",
+            "bbox": [
+              0.48,
+              0.44,
+              0.24,
+              0.22
+            ],
+            "verdict": "conditional",
+            "why": "抓板在墙角延伸段，属于日常动线边缘",
+            "risk": "抓板平放占地，和猫窝挤在同一段墙"
+          },
+          {
+            "id": "r3",
+            "label": "墙角上方墙面",
+            "bbox": [
+              0.55,
+              0.1,
+              0.2,
+              0.2
+            ],
+            "verdict": "unknown",
+            "why": "墙面空白，可考虑高位或壁挂方案",
+            "risk": "看不出墙体材质和上方净空，不能判断能否固定"
+          }
+        ],
+        "directions": [
+          {
+            "id": "d1",
+            "title": "墙角猫窝转向半遮蔽",
+            "pitch": "把现有猫窝挪到墙角最里侧，开口斜对通道，让猫能藏又能看到外面",
+            "regionId": "r1",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有灰色猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定猫窝最大宽度"
+              },
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定猫窝最大深度"
+              }
+            ],
+            "risk": "墙角太窄时猫窝只能斜放，遮蔽效果打折",
+            "confidence": "medium"
+          },
+          {
+            "id": "d2",
+            "title": "抓板贴墙立起省地",
+            "pitch": "把现有抓板靠墙角立起或贴墙固定，腾出地面给猫窝",
+            "regionId": "r2",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有方形抓板",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定抓板可立的高度与位置"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "立起后稳定性不足会倒，需要靠墙或固定",
+            "confidence": "medium"
+          },
+          {
+            "id": "d3",
+            "title": "墙角加半包窝替换",
+            "pitch": "若现有猫窝开口太大，换一个半包式窝贴墙角放，预算内可试",
+            "regionId": "r1",
+            "kit": "new",
+            "itemsPreview": [
+              {
+                "title": "半包式猫窝",
+                "type": "new"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定新窝最大宽度"
+              },
+              {
+                "key": "freeDepth",
+                "label": "可用进深",
+                "why": "决定猫窝进深上限"
+              }
+            ],
+            "risk": "没量宽度就买，可能放不进墙角",
+            "confidence": "low"
+          }
+        ],
+        "missing": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "why": "决定猫窝最大宽度"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "why": "决定最大深度"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "why": "低于 60cm 猫会绕行"
+          }
+        ],
+        "nextAction": "先把猫窝和抓板移开，量墙角两条边长和通道最窄处",
+        "heatmapNote": "热区集中在电视柜右侧墙角与地面交界，越靠里越有遮蔽",
+        "env": {
+          "floorType": "wood",
+          "nearAppliance": [],
+          "nearFood": false,
+          "draft": false,
+          "sunlight": "indirect",
+          "wallExterior": false,
+          "note": "木地板，墙角有亮光但看不出直射日照"
+        },
+        "recommend": {
+          "directionId": "d1",
+          "why": "不花钱，只挪现有猫窝，先改善遮蔽最省成本",
+          "alternativesNote": "d2 要动抓板固定，d3 要花钱买新窝，先折叠"
+        },
+        "disclaimer": "这是方向预览，不是摆放结论；关键尺寸补齐前不能判断能不能放下。"
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "ask",
+      "normalized": {
+        "reply": "这个点位在抓板前方通道上，先量通道净宽和墙角边长再定。",
+        "verdict": "conditional",
+        "pieces": [
+          "点位落在电视柜右侧墙角前的木地板上，正对现有抓板外沿，属于猫走动的通道。",
+          "猫窝和抓板已占住墙角，这里再放会挤占通道，猫更可能绕开不进去。",
+          "墙角两侧被电视柜侧板和墙面夹住，有半遮蔽潜力，但开口朝向要等尺寸再定。"
+        ],
+        "missing": [
+          "通道净宽",
+          "墙角两边净长",
+          "猫窝开口朝向"
+        ]
+      },
+      "applied": {
+        "reply": "这个点位在抓板前方通道上，先量通道净宽和墙角边长再定。",
+        "verdict": "conditional",
+        "pieces": [
+          "点位落在电视柜右侧墙角前的木地板上，正对现有抓板外沿，属于猫走动的通道。",
+          "猫窝和抓板已占住墙角，这里再放会挤占通道，猫更可能绕开不进去。",
+          "墙角两侧被电视柜侧板和墙面夹住，有半遮蔽潜力，但开口朝向要等尺寸再定。"
+        ],
+        "missing": [
+          "通道净宽",
+          "墙角两边净长",
+          "猫窝开口朝向"
+        ]
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "measure-r1",
+      "normalized": {
+        "round": 1,
+        "questions": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "endpoints": "电视柜右侧面到右边墙的转角处，沿墙根量",
+            "unit": "cm",
+            "why": "这个数决定猫窝最大宽度，小于 45cm 时中号猫窝只能斜放，遮蔽效果会打折",
+            "hint": "把猫窝和抓板先移开，沿墙根量到转角最里侧，量最窄处",
+            "example": "约 70",
+            "optional": false
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "endpoints": "墙角转角处沿右侧墙根往外，到抓板区外沿",
+            "unit": "cm",
+            "why": "这个数决定猫窝最大深度，小于 50cm 时窝身会顶到通道",
+            "hint": "垂直墙根量，别斜着量",
+            "example": "约 55",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "corridorWidth"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 0,
+        "askNote": "这轮先量墙角两条边，下一轮再量通道宽度"
+      },
+      "applied": {
+        "round": 1,
+        "questions": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "endpoints": "电视柜右侧面到右边墙的转角处，沿墙根量",
+            "unit": "cm",
+            "why": "这个数决定猫窝最大宽度，小于 45cm 时中号猫窝只能斜放，遮蔽效果会打折",
+            "hint": "把猫窝和抓板先移开，沿墙根量到转角最里侧，量最窄处",
+            "example": "约 70",
+            "optional": false
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "endpoints": "墙角转角处沿右侧墙根往外，到抓板区外沿",
+            "unit": "cm",
+            "why": "这个数决定猫窝最大深度，小于 50cm 时窝身会顶到通道",
+            "hint": "垂直墙根量，别斜着量",
+            "example": "约 55",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "corridorWidth",
+          "cornerWidthA",
+          "freeDepth",
+          "cornerWidthB"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 0,
+        "askNote": "这轮先量这两个就够。"
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "measure-r2",
+      "normalized": {
+        "round": 2,
+        "questions": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "endpoints": "电视柜前沿到对面墙（或对面家具）",
+            "unit": "cm",
+            "why": "低于 60cm 猫更可能绕着走，开口斜对通道就没意义",
+            "hint": "量最窄处，垂直量，别斜着量",
+            "example": "约 62",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "freeDepth",
+          "obstructionH",
+          "ceilingFree",
+          "outletDist",
+          "doorSwing",
+          "windowDist"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 2,
+        "askNote": "墙角两边已量到 80 和 70，这轮只补通道净宽这一个数"
+      },
+      "applied": {
+        "round": 2,
+        "questions": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "endpoints": "电视柜前沿到对面墙（或对面家具）",
+            "unit": "cm",
+            "why": "低于 60cm 猫更可能绕着走，开口斜对通道就没意义",
+            "hint": "量最窄处，垂直量，别斜着量",
+            "example": "约 62",
+            "optional": false
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "endpoints": "墙根 → 最近的障碍物/通道边",
+            "unit": "cm",
+            "why": "决定猫窝进深上限",
+            "hint": "垂直墙面量，别斜着量",
+            "example": "约 80",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "corridorWidth",
+          "freeDepth"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 2,
+        "askNote": "这轮先量这两个就够。"
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "measure-r3",
+      "normalized": {
+        "round": 3,
+        "questions": [
+          {
+            "key": "obstructionH",
+            "label": "遮挡物高度",
+            "endpoints": "该区域内最高的家具/物品 → 地面",
+            "unit": "cm",
+            "why": "影响高低位方案",
+            "hint": "量区域内最高那件东西",
+            "example": "约 80",
+            "optional": false
+          },
+          {
+            "key": "ceilingFree",
+            "label": "上方净空",
+            "endpoints": "地面 → 正上方最近物体",
+            "unit": "cm",
+            "why": "猫爬架高度上限",
+            "hint": "站在落点位上往上看",
+            "example": "约 80",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "outletDist",
+          "doorSwing",
+          "windowDist"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 4,
+        "askNote": "关键尺寸已齐，可以出方案了"
+      },
+      "applied": {
+        "round": 3,
+        "questions": [],
+        "remainingKeys": [],
+        "totalTargets": 4,
+        "attemptedTargets": 4,
+        "askNote": "关键尺寸已齐，可以出方案了。"
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "plan",
+      "normalized": {
+        "verdict": "conditional",
+        "headline": "墙角尺寸够放半包窝加抓板，先落实预算与旧物处理",
+        "budget": {
+          "cap": 300,
+          "est": 208.9,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "猫窝候选区",
+            "bbox": [
+              0.31,
+              0.3,
+              0.24,
+              0.24
+            ],
+            "note": "贴墙角最里侧，开口斜对通道"
+          },
+          {
+            "id": "2",
+            "label": "抓板候选区",
+            "bbox": [
+              0.48,
+              0.44,
+              0.24,
+              0.22
+            ],
+            "note": "放在猫每天路过的墙角延伸段"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "进深 40cm 小于可用进深 52cm，三面围挡留一个口",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "可拆洗",
+              "半包"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴合墙角，不额外占通道",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "贴合墙角",
+              "省空间"
+            ]
+          },
+          {
+            "id": "i3",
+            "type": "reuse",
+            "title": "现有灰色猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "先留用，挪到墙角最里侧试一周",
+            "fit": "blocked",
+            "fitNote": "旧窝外径未量，无法确认是否超出墙角 A 边长 80cm；量出外径 ≤75cm 才可原位保留",
+            "confidence": "low",
+            "tags": [
+              "保留物"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": 80,
+            "status": "pass",
+            "note": "放 45cm 宽猫窝有余量"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 70,
+            "status": "pass",
+            "note": "够放抓板与窝的深度"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 52,
+            "status": "pass",
+            "note": "窝进深 40cm 可放下"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": 62,
+            "status": "pass",
+            "note": "余量小，窝不能再往外挪"
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的猫窝",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "周六上午在墙角现场，先量旧窝外径是否 ≤75cm",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把旧窝挪到墙角最里侧，开口斜对通道",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "抓板平放在窝右侧墙角延伸段，别挡通道",
+            "critical": false
+          },
+          {
+            "id": "c4",
+            "text": "新窝垫子先放旧衣服捂两天再摆进去",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "确认墙角上方无插座与悬挂物",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "高 140cm，墙面固定方式与承重未知，且预算 329 已超 300"
+          },
+          {
+            "what": "靠墙猫爬架 45×120",
+            "reason": "需打孔固定，墙体能否承重未确认"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "三面有围挡，启发式参考，"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "净宽 62cm 余量偏小"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "只见间接亮光，启发式参考"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "未见噪音家电，启发式参考"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 4,
+            "note": "在电视柜旁日常路过处，启"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角窝当成白天打盹的藏身处，抓板用来伸懒腰",
+          "whyNot": [
+            "新窝带仓库味，头两天可能只绕着走",
+            "通道只剩 62cm，猫可能贴着另一侧绕行"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪位置，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进新窝，别洗",
+              "今天做还是周末做？先定一个时间",
+              "窝开口是否斜对通道"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "窝里有没有压痕或毛发",
+              "抓板有没有新抓痕"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留",
+              "0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内抓板没有新抓痕",
+            "then": "把抓板挪到沙发旁或门口"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。"
+      },
+      "applied": {
+        "verdict": "conditional",
+        "headline": "墙角尺寸够放半包窝加抓板，先落实预算与旧物处理",
+        "budget": {
+          "cap": 300,
+          "est": 178.9,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "猫窝候选区",
+            "bbox": [
+              0.31,
+              0.3,
+              0.24,
+              0.24
+            ],
+            "note": "贴墙角最里侧，开口斜对通道"
+          },
+          {
+            "id": "2",
+            "label": "抓板候选区",
+            "bbox": [
+              0.48,
+              0.44,
+              0.24,
+              0.22
+            ],
+            "note": "放在猫每天路过的墙角延伸段"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "进深 40cm 小于可用进深 52cm，三面围挡留一个口",
+            "fit": "ok",
+            "fitNote": "宽 40cm、深 45cm，通道剩 62cm",
+            "confidence": "medium",
+            "tags": [
+              "可拆洗",
+              "半包",
+              "记忆棉"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴合墙角，不额外占通道",
+            "fit": "ok",
+            "fitNote": "宽 40cm、深 40cm，通道剩 62cm",
+            "confidence": "medium",
+            "tags": [
+              "贴合墙角",
+              "省空间",
+              "瓦楞纸"
+            ]
+          },
+          {
+            "id": "i3",
+            "type": "reuse",
+            "title": "现有灰色猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "先留用，挪到墙角最里侧试一周",
+            "fit": "blocked",
+            "fitNote": "尺寸未记录；先量外径和占地，记录后再评估",
+            "confidence": "low",
+            "tags": [
+              "保留物"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": 62,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "PASSAGE_WIDTH",
+            "strength": "weak",
+            "basisText": "缝太窄猫得侧身挤过去，它宁愿绕远路，久了这个位置就废了。",
+            "honest": true
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 80,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": 52,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的猫窝",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "周六上午在墙角现场，先量旧窝外径是否 ≤75cm",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把旧窝挪到墙角最里侧，开口斜对通道",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "抓板平放在窝右侧墙角延伸段，别挡通道",
+            "critical": false
+          },
+          {
+            "id": "c4",
+            "text": "新窝垫子先放旧衣服捂两天再摆进去",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "确认墙角上方无插座与悬挂物",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "高 140cm，墙面固定方式与承重未知，且预算 329 已超 300"
+          },
+          {
+            "what": "靠墙猫爬架 45×120",
+            "reason": "需打孔固定，墙体能否承重未确认"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "三面有围挡，启发式参考，"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "净宽 62cm 余量偏小"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "只见间接亮光，启发式参考"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "未见噪音家电，启发式参考"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 4,
+            "note": "在电视柜旁日常路过处，启"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角窝当成白天打盹的藏身处，抓板用来伸懒腰",
+          "whyNot": [
+            "新窝带仓库味，头两天可能只绕着走",
+            "通道只剩 62cm，猫可能贴着另一侧绕行"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪位置，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进新窝，别洗",
+              "今天做还是周末做？先定一个时间",
+              "窝开口是否斜对通道"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "窝里有没有压痕或毛发",
+              "抓板有没有新抓痕"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留",
+              "0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内抓板没有新抓痕",
+            "then": "把抓板挪到沙发旁或门口"
+          },
+          {
+            "if": "7 天内猫一次都没主动使用",
+            "then": "把窝换到更安静的角落"
+          },
+          {
+            "if": "第 7 天窝垫上还没有压痕或毛",
+            "then": "把旧垫子换成猫睡过的"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。",
+        "catFit": {
+          "verdict": "caution",
+          "items": [
+            {
+              "key": "hide",
+              "label": "能藏的地方",
+              "status": "pass",
+              "why": "半包结构三面遮挡，猫能缩进去闭眼睡，适应期也会更短",
+              "basisId": "HIDING_BOX_EFFECT",
+              "strength": "strong",
+              "basisText": "有个箱子可钻，猫两三天就缓过来；没处躲，要挨一个多星期。",
+              "honest": false
+            },
+            {
+              "key": "resources",
+              "label": "资源是否分开",
+              "status": "pass",
+              "why": "这个角落只做一个功能，照片里没看到水和食盆挤在一起",
+              "basisId": "MULTICAT_SEPARATION",
+              "strength": "consensus",
+              "basisText": "资源全挤在一处，强势的猫往中间一蹲，另一只连水都不敢喝。",
+              "honest": false
+            },
+            {
+              "key": "litter",
+              "label": "砂盆条件",
+              "status": "na",
+              "why": "这次方案不涉及砂盆，换砂盆方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "scratch",
+              "label": "抓挠位置",
+              "status": "warn",
+              "why": "只有水平瓦楞板，缺竖直面，猫没法把身体整个拉长",
+              "basisId": "SCRATCH_POST_FORM",
+              "strength": "consensus",
+              "basisText": "竖直的麻绳面能让猫把身子整个拉长，顺带在脚垫上留下自己的气味。",
+              "honest": false
+            },
+            {
+              "key": "vertical",
+              "label": "高处与栖架",
+              "status": "na",
+              "why": "这次方案不涉及高位，先不做爬架判断",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "climate",
+              "label": "温度/日照/风",
+              "status": "pass",
+              "why": "木地板/地毯比瓷砖暖，猫的舒适温度比人高，冬天再加厚垫",
+              "basisId": "THERMAL_COMFORT",
+              "strength": "consensus",
+              "basisText": "人觉得 20 ℃ 刚好，猫却偏冷，它会自己去找晒得到太阳的那块地板。",
+              "honest": false
+            }
+          ]
+        },
+        "usedMeasurements": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "valueCm": 62
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "valueCm": 80
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "valueCm": 70
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "valueCm": 52
+          }
+        ],
+        "litterCount": {
+          "basisId": "LITTER_BOX_COUNT",
+          "strength": "consensus",
+          "basisText": "只有一处厕所时，胆小的猫会排队等到憋不住，最后转去沙发角落。",
+          "honest": true,
+          "status": "warn",
+          "suggested": 2,
+          "text": "单猫建议 2 个砂盆分两处；多猫按猫数+1（2 个）只是经验值，不是不合格判定。"
+        }
+      }
+    },
+    {
+      "image": "img2",
+      "stage": "plan-missing",
+      "normalized": {
+        "verdict": "insufficient",
+        "headline": "还差「通道净宽、墙角 A 边长」没量，先别定",
+        "budget": {
+          "cap": 300,
+          "est": 208.9,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "猫窝候选区",
+            "bbox": [
+              0.31,
+              0.3,
+              0.24,
+              0.24
+            ],
+            "note": "贴墙角，电视柜侧板挡一侧"
+          },
+          {
+            "id": "2",
+            "label": "抓板候选区",
+            "bbox": [
+              0.48,
+              0.44,
+              0.24,
+              0.22
+            ],
+            "note": "在墙角延伸段，属动线边缘"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "半包结构，开口斜对通道，猫能藏又能看到外面",
+            "fit": "blocked",
+            "fitNote": "墙角 A 边长与可用进深未量，无法确认 45×40 放得下；量到 A 边 ≥50cm、进深 ≥45c",
+            "confidence": "low",
+            "tags": [
+              "可拆洗",
+              "半包"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴合墙角，不额外占通道",
+            "fit": "blocked",
+            "fitNote": "墙角 B 边长未量，无法确认 40cm 贴得平；量到 B 边 ≥45cm 再定",
+            "confidence": "low",
+            "tags": [
+              "贴合墙角",
+              "省空间"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 50,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "决定猫窝最大宽度"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "决定抓板能否贴平"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "墙根到通道边"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "猫侧身挤会绕路"
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥45cm 的猫窝",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "今天或周末，在墙角贴卷尺拍一张，先量 A 边与进深",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把现有猫窝和抓板先移开，露出完整墙角与地面边界",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "量墙根到最近障碍物的进深，记下来",
+            "critical": true
+          },
+          {
+            "id": "c4",
+            "text": "量电视柜外沿到对面墙的最窄通道",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "确认墙角上方有没有插座或挂件",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "预算 329 已超 300，且墙面固定方式未知"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "宽度 60cm，墙角 A 边未量，可能放不下"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 4,
+            "note": "启发式参考，非实测"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝就把垫子换成旧衣服",
+          "day14": "还不进就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角当睡觉的藏身处，抓板用来伸懒腰",
+          "whyNot": [
+            "新窝带塑料味，头几天可能只绕着走",
+            "墙角若太窄只能斜放，遮蔽感打折"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪位置"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进去，先别洗",
+              "今天做还是周末做？先定一个量尺时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝里有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留",
+              "0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内抓板没有新抓痕",
+            "then": "把抓板挪到猫刚睡醒伸懒腰的位置"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。"
+      },
+      "applied": {
+        "verdict": "insufficient",
+        "headline": "还差「通道净宽、墙角 A 边长」没量，先别定",
+        "budget": {
+          "cap": 300,
+          "est": 178.9,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "猫窝候选区",
+            "bbox": [
+              0.31,
+              0.3,
+              0.24,
+              0.24
+            ],
+            "note": "贴墙角，电视柜侧板挡一侧"
+          },
+          {
+            "id": "2",
+            "label": "抓板候选区",
+            "bbox": [
+              0.48,
+              0.44,
+              0.24,
+              0.22
+            ],
+            "note": "在墙角延伸段，属动线边缘"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "new",
+            "title": "半封闭猫窝 45×40",
+            "sku": "SKU-001",
+            "dimsCm": {
+              "w": 45,
+              "d": 40,
+              "h": 38
+            },
+            "price": 129,
+            "why": "半包结构，开口斜对通道，猫能藏又能看到外面",
+            "fit": "blocked",
+            "fitNote": "还缺「通道净宽、墙角 A 边长、可用进深」；补齐后按尺寸复算",
+            "confidence": "low",
+            "tags": [
+              "可拆洗",
+              "半包",
+              "记忆棉"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴合墙角，不额外占通道",
+            "fit": "blocked",
+            "fitNote": "还缺「通道净宽、墙角 A 边长、可用进深」；补齐后按尺寸复算",
+            "confidence": "low",
+            "tags": [
+              "贴合墙角",
+              "省空间",
+              "瓦楞纸"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "PASSAGE_WIDTH",
+            "strength": "weak",
+            "basisText": "缝太窄猫得侧身挤过去，它宁愿绕远路，久了这个位置就废了。",
+            "honest": true
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥45cm 的猫窝",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "今天或周末，在墙角贴卷尺拍一张，先量 A 边与进深",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把现有猫窝和抓板先移开，露出完整墙角与地面边界",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "量墙根到最近障碍物的进深，记下来",
+            "critical": true
+          },
+          {
+            "id": "c4",
+            "text": "量电视柜外沿到对面墙的最窄通道",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "确认墙角上方有没有插座或挂件",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "预算 329 已超 300，且墙面固定方式未知"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "宽度 60cm，墙角 A 边未量，可能放不下"
+          },
+          {
+            "what": "关键尺寸「通道净宽」",
+            "reason": "还没量到，不能定摆放"
+          },
+          {
+            "what": "关键尺寸「墙角 A 边长」",
+            "reason": "还没量到，不能定摆放"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "启发式参考，非实测"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 4,
+            "note": "启发式参考，非实测"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝就把垫子换成旧衣服",
+          "day14": "还不进就换个更安静的角落"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角当睡觉的藏身处，抓板用来伸懒腰",
+          "whyNot": [
+            "新窝带塑料味，头几天可能只绕着走",
+            "墙角若太窄只能斜放，遮蔽感打折"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪位置"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进去，先别洗",
+              "今天做还是周末做？先定一个量尺时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝里有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留",
+              "0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内抓板没有新抓痕",
+            "then": "把抓板挪到猫刚睡醒伸懒腰的位置"
+          },
+          {
+            "if": "7 天内猫一次都没主动使用",
+            "then": "把窝换到更安静的角落"
+          },
+          {
+            "if": "第 7 天窝垫上还没有压痕或毛",
+            "then": "把旧垫子换成猫睡过的"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。",
+        "catFit": {
+          "verdict": "caution",
+          "items": [
+            {
+              "key": "hide",
+              "label": "能藏的地方",
+              "status": "pass",
+              "why": "半包结构三面遮挡，猫能缩进去闭眼睡，适应期也会更短",
+              "basisId": "HIDING_BOX_EFFECT",
+              "strength": "strong",
+              "basisText": "有个箱子可钻，猫两三天就缓过来；没处躲，要挨一个多星期。",
+              "honest": false
+            },
+            {
+              "key": "resources",
+              "label": "资源是否分开",
+              "status": "pass",
+              "why": "这个角落只做一个功能，照片里没看到水和食盆挤在一起",
+              "basisId": "MULTICAT_SEPARATION",
+              "strength": "consensus",
+              "basisText": "资源全挤在一处，强势的猫往中间一蹲，另一只连水都不敢喝。",
+              "honest": false
+            },
+            {
+              "key": "litter",
+              "label": "砂盆条件",
+              "status": "na",
+              "why": "这次方案不涉及砂盆，换砂盆方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "scratch",
+              "label": "抓挠位置",
+              "status": "warn",
+              "why": "只有水平瓦楞板，缺竖直面，猫没法把身体整个拉长",
+              "basisId": "SCRATCH_POST_FORM",
+              "strength": "consensus",
+              "basisText": "竖直的麻绳面能让猫把身子整个拉长，顺带在脚垫上留下自己的气味。",
+              "honest": false
+            },
+            {
+              "key": "vertical",
+              "label": "高处与栖架",
+              "status": "na",
+              "why": "这次方案不涉及高位，先不做爬架判断",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "climate",
+              "label": "温度/日照/风",
+              "status": "pass",
+              "why": "木地板/地毯比瓷砖暖，猫的舒适温度比人高，冬天再加厚垫",
+              "basisId": "THERMAL_COMFORT",
+              "strength": "consensus",
+              "basisText": "人觉得 20 ℃ 刚好，猫却偏冷，它会自己去找晒得到太阳的那块地板。",
+              "honest": false
+            }
+          ]
+        },
+        "usedMeasurements": [],
+        "litterCount": {
+          "basisId": "LITTER_BOX_COUNT",
+          "strength": "consensus",
+          "basisText": "只有一处厕所时，胆小的猫会排队等到憋不住，最后转去沙发角落。",
+          "honest": true,
+          "status": "warn",
+          "suggested": 2,
+          "text": "单猫建议 2 个砂盆分两处；多猫按猫数+1（2 个）只是经验值，不是不合格判定。"
+        }
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "quality",
+      "normalized": {
+        "status": "pass",
+        "score": 82,
+        "scene": {
+          "indoor": true,
+          "cornerVisible": true,
+          "floorVisible": true,
+          "obstruction": "some",
+          "note": "室内光线清楚，电视柜与门之间的墙角、地面交界和进深都可见，只是测量的人蹲在角落前方，挡住了墙脚根部和部分地面。"
+        },
+        "issues": [
+          {
+            "code": "occluded",
+            "label": "人挡住墙脚",
+            "impact": "mid",
+            "hint": "重拍时人往旁边退半步，让墙根与地面交界那条线完整露出来。",
+            "severity": "warn"
+          }
+        ],
+        "photoTip": "保持这个机位和高度，等人让开墙脚后再按一张，把墙角到地板的接缝和两侧边界都拍全。"
+      },
+      "applied": {
+        "status": "pass",
+        "score": 82,
+        "scene": {
+          "indoor": true,
+          "cornerVisible": true,
+          "floorVisible": true,
+          "obstruction": "some",
+          "note": "室内光线清楚，电视柜与门之间的墙角、地面交界和进深都可见，只是测量的人蹲在角落前方，挡住了墙脚根部和部分地面。"
+        },
+        "issues": [
+          {
+            "code": "occluded",
+            "label": "人挡住墙脚",
+            "impact": "mid",
+            "hint": "重拍时人往旁边退半步，让墙根与地面交界那条线完整露出来。",
+            "severity": "warn"
+          }
+        ],
+        "photoTip": "保持这个机位和高度，等人让开墙脚后再按一张，把墙角到地板的接缝和两侧边界都拍全。"
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "l0",
+      "normalized": {
+        "scene": {
+          "summary": "客厅电视柜与门之间的墙角，地面有木地板，旁边已有一个灰色猫窝和一块猫抓板",
+          "roomGuess": "客厅",
+          "light": "bright",
+          "floor": "wood"
+        },
+        "recognition": "电视柜右侧与门框之间的墙角，墙脚处有人蹲着拉卷尺，旁边放着灰",
+        "boundary": "照片里人挡住墙脚根部，进深和通道净宽都看不出，这一步只能给方向，能不能放下要量过",
+        "verdict": "continue",
+        "verdictReason": "墙角位置有遮蔽潜力，但通道净宽与进深未量，只能有条件继续",
+        "regions": [
+          {
+            "id": "r1",
+            "label": "墙角猫窝候选位",
+            "bbox": [
+              0.3,
+              0.55,
+              0.18,
+              0.25
+            ],
+            "verdict": "conditional",
+            "why": "两面墙夹角能形成半遮蔽，猫更可能真的进去睡",
+            "risk": "人蹲在墙脚前，根部与地面交界被挡，进深未知"
+          },
+          {
+            "id": "r2",
+            "label": "电视柜右侧地面",
+            "bbox": [
+              0.1,
+              0.62,
+              0.16,
+              0.22
+            ],
+            "verdict": "conditional",
+            "why": "紧邻电视柜侧面，可借家具形成一侧遮挡",
+            "risk": "离电视柜近，柜面设备噪音与走线情况看不出"
+          },
+          {
+            "id": "r3",
+            "label": "门框前通道",
+            "bbox": [
+              0.42,
+              0.55,
+              0.14,
+              0.28
+            ],
+            "verdict": "blocked",
+            "why": "门开合范围与过人通道重叠",
+            "risk": "放这里会占通道，门开合范围未量"
+          }
+        ],
+        "directions": [
+          {
+            "id": "d1",
+            "title": "复用现有猫窝挪进墙角",
+            "pitch": "把已有的灰色猫窝往墙角里推，让两侧墙形成半包围，猫更可能真的进去睡",
+            "regionId": "r1",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有灰色猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定猫窝最大宽度"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行，人也过不去"
+              }
+            ],
+            "risk": "墙角根部被挡，进深不足时猫窝会凸出占通道",
+            "confidence": "medium"
+          },
+          {
+            "id": "d2",
+            "title": "墙角加半包式猫窝",
+            "pitch": "在墙角放一个半包式猫窝，靠墙两面当背，正面朝通道",
+            "regionId": "r1",
+            "kit": "new",
+            "itemsPreview": [
+              {
+                "title": "半包式猫窝",
+                "type": "new"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定最大深度"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "预算内可选范围有限，尺寸不合会挤占通道",
+            "confidence": "low"
+          },
+          {
+            "id": "d3",
+            "title": "电视柜侧地面放猫抓板",
+            "pitch": "把现有猫抓板挪到电视柜侧面动线上，抓挠落在日常经过处",
+            "regionId": "r2",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有猫抓板",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "freeDepth",
+                "label": "可用进深",
+                "why": "决定抓板摆放后是否挡路"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "离电视柜近，柜面设备噪音情况看不出",
+            "confidence": "medium"
+          }
+        ],
+        "missing": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "why": "低于 60cm 猫会绕行，也影响人通行"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "why": "决定猫窝进深上限与是否凸出占道"
+          },
+          {
+            "key": "doorSwing",
+            "label": "门开合范围",
+            "why": "避免猫窝落在门扇扫过的区域"
+          }
+        ],
+        "nextAction": "先量墙角到对面最窄处的通道净宽，再量墙根到最近障碍物的进深",
+        "heatmapNote": "热区集中在墙角与电视柜侧面，门框前通道因开合与过人需求标为不宜",
+        "env": {
+          "floorType": "wood",
+          "nearAppliance": [],
+          "nearFood": false,
+          "draft": false,
+          "sunlight": "indirect",
+          "wallExterior": false,
+          "note": "木地板，画面有亮光但看不出直射阳光，未见食盆水碗与噪音家电"
+        },
+        "recommend": {
+          "directionId": "d1",
+          "why": "不花钱，先把现有猫窝挪进墙角试位置，改动成本最低",
+          "alternativesNote": "买新窝和挪抓板先折叠，等通道净宽与进深量出来再定"
+        },
+        "disclaimer": "这是方向预览，不是摆放结论；关键尺寸补齐前不能判断能不能放下。"
+      },
+      "applied": {
+        "scene": {
+          "summary": "客厅电视柜与门之间的墙角，地面有木地板，旁边已有一个灰色猫窝和一块猫抓板",
+          "roomGuess": "客厅",
+          "light": "bright",
+          "floor": "wood"
+        },
+        "recognition": "电视柜右侧与门框之间的墙角，墙脚处有人蹲着拉卷尺，旁边放着灰",
+        "boundary": "照片里人挡住墙脚根部，进深和通道净宽都看不出，这一步只能给方向，能不能放下要量过",
+        "verdict": "continue",
+        "verdictReason": "墙角位置有遮蔽潜力，但通道净宽与进深未量，只能有条件继续",
+        "regions": [
+          {
+            "id": "r1",
+            "label": "墙角猫窝候选位",
+            "bbox": [
+              0.3,
+              0.55,
+              0.18,
+              0.25
+            ],
+            "verdict": "conditional",
+            "why": "两面墙夹角能形成半遮蔽，猫更可能真的进去睡",
+            "risk": "人蹲在墙脚前，根部与地面交界被挡，进深未知"
+          },
+          {
+            "id": "r2",
+            "label": "电视柜右侧地面",
+            "bbox": [
+              0.1,
+              0.62,
+              0.16,
+              0.22
+            ],
+            "verdict": "conditional",
+            "why": "紧邻电视柜侧面，可借家具形成一侧遮挡",
+            "risk": "离电视柜近，柜面设备噪音与走线情况看不出"
+          },
+          {
+            "id": "r3",
+            "label": "门框前通道",
+            "bbox": [
+              0.42,
+              0.55,
+              0.14,
+              0.28
+            ],
+            "verdict": "blocked",
+            "why": "门开合范围与过人通道重叠",
+            "risk": "放这里会占通道，门开合范围未量"
+          }
+        ],
+        "directions": [
+          {
+            "id": "d1",
+            "title": "复用现有猫窝挪进墙角",
+            "pitch": "把已有的灰色猫窝往墙角里推，让两侧墙形成半包围，猫更可能真的进去睡",
+            "regionId": "r1",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有灰色猫窝",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthA",
+                "label": "墙角 A 边长",
+                "why": "决定猫窝最大宽度"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行，人也过不去"
+              }
+            ],
+            "risk": "墙角根部被挡，进深不足时猫窝会凸出占通道",
+            "confidence": "medium"
+          },
+          {
+            "id": "d2",
+            "title": "墙角加半包式猫窝",
+            "pitch": "在墙角放一个半包式猫窝，靠墙两面当背，正面朝通道",
+            "regionId": "r1",
+            "kit": "new",
+            "itemsPreview": [
+              {
+                "title": "半包式猫窝",
+                "type": "new"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "cornerWidthB",
+                "label": "墙角 B 边长",
+                "why": "决定最大深度"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "预算内可选范围有限，尺寸不合会挤占通道",
+            "confidence": "low"
+          },
+          {
+            "id": "d3",
+            "title": "电视柜侧地面放猫抓板",
+            "pitch": "把现有猫抓板挪到电视柜侧面动线上，抓挠落在日常经过处",
+            "regionId": "r2",
+            "kit": "reuse",
+            "itemsPreview": [
+              {
+                "title": "现有猫抓板",
+                "type": "reuse"
+              }
+            ],
+            "firstMeasurements": [
+              {
+                "key": "freeDepth",
+                "label": "可用进深",
+                "why": "决定抓板摆放后是否挡路"
+              },
+              {
+                "key": "corridorWidth",
+                "label": "通道净宽",
+                "why": "低于 60cm 猫会绕行"
+              }
+            ],
+            "risk": "离电视柜近，柜面设备噪音情况看不出",
+            "confidence": "medium"
+          }
+        ],
+        "missing": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "why": "低于 60cm 猫会绕行，也影响人通行"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "why": "决定猫窝进深上限与是否凸出占道"
+          },
+          {
+            "key": "doorSwing",
+            "label": "门开合范围",
+            "why": "避免猫窝落在门扇扫过的区域"
+          }
+        ],
+        "nextAction": "先量墙角到对面最窄处的通道净宽，再量墙根到最近障碍物的进深",
+        "heatmapNote": "热区集中在墙角与电视柜侧面，门框前通道因开合与过人需求标为不宜",
+        "env": {
+          "floorType": "wood",
+          "nearAppliance": [],
+          "nearFood": false,
+          "draft": false,
+          "sunlight": "indirect",
+          "wallExterior": false,
+          "note": "木地板，画面有亮光但看不出直射阳光，未见食盆水碗与噪音家电"
+        },
+        "recommend": {
+          "directionId": "d1",
+          "why": "不花钱，先把现有猫窝挪进墙角试位置，改动成本最低",
+          "alternativesNote": "买新窝和挪抓板先折叠，等通道净宽与进深量出来再定"
+        },
+        "disclaimer": "这是方向预览，不是摆放结论；关键尺寸补齐前不能判断能不能放下。"
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "ask",
+      "normalized": {
+        "reply": "这个点位在门框前通道上，先别定；要量通道净宽和门开合范围。",
+        "verdict": "conditional",
+        "pieces": [
+          "你点的位置在门框与电视柜之间的过道上，紧挨着门框下沿。",
+          "画面里已有卷尺和标注的 800mm 可用宽度，但那是墙面宽度，不是通道净宽。",
+          "灰色猫窝现在放在电视柜前，挪到墙角前要先确认门开合不会扫到。",
+          "猫抓板在右侧地毯边，点位离它不远，动线还算顺。"
+        ],
+        "missing": [
+          "通道净宽",
+          "门开合范围",
+          "墙角进深"
+        ]
+      },
+      "applied": {
+        "reply": "这个点位在门框前通道上，先别定；要量通道净宽和门开合范围。",
+        "verdict": "conditional",
+        "pieces": [
+          "你点的位置在门框与电视柜之间的过道上，紧挨着门框下沿。",
+          "画面里已有卷尺和标注的 800mm 可用宽度，但那是墙面宽度，不是通道净宽。",
+          "灰色猫窝现在放在电视柜前，挪到墙角前要先确认门开合不会扫到。",
+          "猫抓板在右侧地毯边，点位离它不远，动线还算顺。"
+        ],
+        "missing": [
+          "通道净宽",
+          "门开合范围",
+          "墙角进深"
+        ]
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "measure-r1",
+      "normalized": {
+        "round": 1,
+        "questions": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "endpoints": "电视柜侧面到门框墙边",
+            "unit": "cm",
+            "why": "低于 55cm 现有猫窝会卡住放不平",
+            "hint": "沿墙根水平量最窄处",
+            "example": "约 70",
+            "optional": false
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "endpoints": "电视柜前沿到对面沙发或墙",
+            "unit": "cm",
+            "why": "低于 60cm 猫会绕行，人也过不去",
+            "hint": "量最窄处，垂直量",
+            "example": "约 62",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "freeDepth",
+          "doorSwing"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 0,
+        "askNote": "这轮只要这两个数就够了"
+      },
+      "applied": {
+        "round": 1,
+        "questions": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "endpoints": "电视柜侧面到门框墙边",
+            "unit": "cm",
+            "why": "低于 55cm 现有猫窝会卡住放不平",
+            "hint": "沿墙根水平量最窄处",
+            "example": "约 70",
+            "optional": false
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "endpoints": "电视柜前沿到对面沙发或墙",
+            "unit": "cm",
+            "why": "低于 60cm 猫会绕行，人也过不去",
+            "hint": "量最窄处，垂直量",
+            "example": "约 62",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "corridorWidth",
+          "cornerWidthA",
+          "freeDepth",
+          "doorSwing"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 0,
+        "askNote": "这轮先量这两个就够。"
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "measure-r2",
+      "normalized": {
+        "round": 2,
+        "questions": [
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "endpoints": "墙角根部到电视柜正面最外沿",
+            "unit": "cm",
+            "why": "进深低于 45cm 时猫窝会凸出占通道，猫更可能绕着走",
+            "hint": "垂直墙面量，从墙根到柜子最外沿，量最浅处",
+            "example": "约 50",
+            "optional": false
+          },
+          {
+            "key": "doorSwing",
+            "label": "门开合范围",
+            "endpoints": "门扇完全打开时扫过的边缘到墙角根部",
+            "unit": "cm",
+            "why": "猫窝落进门扇扫过的区域，开门时会撞到，猫更可能不敢进去",
+            "hint": "把门推到最大开度，量门边到墙根的距离",
+            "example": "约 70",
+            "optional": true
+          }
+        ],
+        "remainingKeys": [
+          "cornerWidthB",
+          "obstructionH",
+          "ceilingFree",
+          "outletDist",
+          "windowDist"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 2,
+        "askNote": "这轮量完进深就能判断猫窝会不会凸出占道，门开合范围可跳过"
+      },
+      "applied": {
+        "round": 2,
+        "questions": [
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "endpoints": "墙角根部到电视柜正面最外沿",
+            "unit": "cm",
+            "why": "进深低于 45cm 时猫窝会凸出占通道，猫更可能绕着走",
+            "hint": "垂直墙面量，从墙根到柜子最外沿，量最浅处",
+            "example": "约 50",
+            "optional": false
+          },
+          {
+            "key": "doorSwing",
+            "label": "门开合范围",
+            "endpoints": "门扇完全打开时扫过的边缘到墙角根部",
+            "unit": "cm",
+            "why": "猫窝落进门扇扫过的区域，开门时会撞到，猫更可能不敢进去",
+            "hint": "把门推到最大开度，量门边到墙根的距离",
+            "example": "约 70",
+            "optional": true
+          }
+        ],
+        "remainingKeys": [
+          "freeDepth",
+          "doorSwing"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 2,
+        "askNote": "这轮先量这两个就够。"
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "measure-r3",
+      "normalized": {
+        "round": 3,
+        "questions": [
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "endpoints": "沿侧墙 → 墙面可用的长度",
+            "unit": "cm",
+            "why": "决定最大深度",
+            "hint": "从墙角量到最近的遮挡物",
+            "example": "约 80",
+            "optional": false
+          },
+          {
+            "key": "obstructionH",
+            "label": "遮挡物高度",
+            "endpoints": "该区域内最高的家具/物品 → 地面",
+            "unit": "cm",
+            "why": "影响高低位方案",
+            "hint": "量区域内最高那件东西",
+            "example": "约 80",
+            "optional": false
+          }
+        ],
+        "remainingKeys": [
+          "ceilingFree",
+          "outletDist",
+          "windowDist"
+        ],
+        "totalTargets": 4,
+        "attemptedTargets": 4,
+        "askNote": "关键尺寸已齐，可以出方案了"
+      },
+      "applied": {
+        "round": 3,
+        "questions": [],
+        "remainingKeys": [],
+        "totalTargets": 4,
+        "attemptedTargets": 4,
+        "askNote": "关键尺寸已齐，可以出方案了。"
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "plan",
+      "normalized": {
+        "verdict": "conditional",
+        "headline": "墙角 80cm 宽、进深 52cm，现有猫窝可推进去，通道剩",
+        "budget": {
+          "cap": 300,
+          "est": 0,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "墙角猫窝候选位",
+            "bbox": [
+              0.3,
+              0.55,
+              0.18,
+              0.25
+            ],
+            "note": "两面墙夹角，现有灰窝推进去"
+          },
+          {
+            "id": "2",
+            "label": "电视柜右侧地面",
+            "bbox": [
+              0.1,
+              0.62,
+              0.16,
+              0.22
+            ],
+            "note": "备选位，借柜侧挡一侧"
+          },
+          {
+            "id": "3",
+            "label": "门框前通道",
+            "bbox": [
+              0.42,
+              0.55,
+              0.14,
+              0.28
+            ],
+            "note": "门开合 85cm，别放这里"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有灰色猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "推进墙角，两侧墙形成半包围，猫更可能真的进去睡",
+            "fit": "ok",
+            "fitNote": "窝的外径还没量，需现场确认 ≤80cm 宽、≤52cm 深",
+            "confidence": "medium",
+            "tags": [
+              "复用",
+              "零预算"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴墙角不占通道，猫睡醒伸爪就够到",
+            "fit": "ok",
+            "fitNote": "",
+            "confidence": "medium",
+            "tags": [
+              "贴合墙角",
+              "省空间"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": 80,
+            "status": "pass",
+            "note": "放 45cm 宽窝后两侧各留余量"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": 52,
+            "status": "pass",
+            "note": "窝深 40—45cm 可贴墙"
+          },
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": 62,
+            "status": "pass",
+            "note": "窝凸出后需复测，别低于 60"
+          },
+          {
+            "key": "cornerWidthB",
+            "label": "墙角 B 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "侧墙可用长度没量"
+          },
+          {
+            "key": "doorSwing",
+            "label": "门开合范围",
+            "op": "<=",
+            "valueCm": 52,
+            "actualCm": 85,
+            "status": "fail",
+            "note": "门开合 85cm，会扫到墙角前缘"
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥45cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "周六上午在墙角现场，先量现有灰窝外径是否 ≤80×52cm",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把灰窝推进墙角，两侧贴墙留一个朝通道的口",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "量窝凸出后通道最窄处，确认仍 ≥60cm",
+            "critical": true
+          },
+          {
+            "id": "c4",
+            "text": "把旧垫子或旧衣服放进窝里，先别洗",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "确认门全开时不会撞到窝，必要时把窝往电视柜侧挪 5cm",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "高 140cm，墙面固定方式与承重未知，且会占通道"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "宽 60cm 加进深 50cm，凸出后通道可能不足 60cm，需先复测"
+          },
+          {
+            "what": "窗台吸盘猫窝 55×35",
+            "reason": "照片看不到窗台进深与玻璃条件，无法判断"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "两面墙夹角，启发式参考，"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "剩 62cm，启发式参考"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "只见间接光，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "未见噪音家电，启发式参考"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 3,
+            "note": "在门与电视柜之间，启发式"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换到电视柜右侧再试"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角当睡觉的藏身处，背靠两面墙",
+          "whyNot": [
+            "门开合 85cm 会扫到墙角前缘，猫可能不敢久待",
+            "新位置头几天它只会绕着走"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进窝，别洗",
+              "今天做还是周末做？先定一个时间",
+              "窝推进去后复测通道最窄处"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝里有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen",
+              "抓板有没有新的抓痕"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动进窝",
+            "then": "把窝挪到电视柜右侧地面"
+          },
+          {
+            "if": "7 天内抓板没有新抓痕",
+            "then": "把抓板挪到窝出口旁"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。"
+      },
+      "applied": {
+        "verdict": "conditional",
+        "headline": "墙角 80cm 宽、进深 52cm，现有猫窝可推进去，通道剩",
+        "budget": {
+          "cap": 300,
+          "est": 49.9,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "墙角猫窝候选位",
+            "bbox": [
+              0.3,
+              0.55,
+              0.18,
+              0.25
+            ],
+            "note": "两面墙夹角，现有灰窝推进去"
+          },
+          {
+            "id": "2",
+            "label": "电视柜右侧地面",
+            "bbox": [
+              0.1,
+              0.62,
+              0.16,
+              0.22
+            ],
+            "note": "备选位，借柜侧挡一侧"
+          },
+          {
+            "id": "3",
+            "label": "门框前通道",
+            "bbox": [
+              0.42,
+              0.55,
+              0.14,
+              0.28
+            ],
+            "note": "门开合 85cm，别放这里"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有灰色猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "推进墙角，两侧墙形成半包围，猫更可能真的进去睡",
+            "fit": "blocked",
+            "fitNote": "尺寸未记录；先量外径和占地，记录后再评估",
+            "confidence": "medium",
+            "tags": [
+              "复用",
+              "零预算"
+            ]
+          },
+          {
+            "id": "i2",
+            "type": "new",
+            "title": "L 型墙角猫抓板 40×40",
+            "sku": "SKU-011",
+            "dimsCm": {
+              "w": 40,
+              "d": 40,
+              "h": 2
+            },
+            "price": 49.9,
+            "why": "贴墙角不占通道，猫睡醒伸爪就够到",
+            "fit": "ok",
+            "fitNote": "宽 40cm、深 40cm，通道剩 62cm",
+            "confidence": "medium",
+            "tags": [
+              "贴合墙角",
+              "省空间",
+              "瓦楞纸"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": 62,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "PASSAGE_WIDTH",
+            "strength": "weak",
+            "basisText": "缝太窄猫得侧身挤过去，它宁愿绕远路，久了这个位置就废了。",
+            "honest": true
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 80,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": 52,
+            "status": "pass",
+            "note": "",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥45cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "周六上午在墙角现场，先量现有灰窝外径是否 ≤80×52cm",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "把灰窝推进墙角，两侧贴墙留一个朝通道的口",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "量窝凸出后通道最窄处，确认仍 ≥60cm",
+            "critical": true
+          },
+          {
+            "id": "c4",
+            "text": "把旧垫子或旧衣服放进窝里，先别洗",
+            "critical": false
+          },
+          {
+            "id": "c5",
+            "text": "确认门全开时不会撞到窝，必要时把窝往电视柜侧挪 5cm",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "高 140cm，墙面固定方式与承重未知，且会占通道"
+          },
+          {
+            "what": "沙发式猫窝 60×50",
+            "reason": "宽 60cm 加进深 50cm，凸出后通道可能不足 60cm，需先复测"
+          },
+          {
+            "what": "窗台吸盘猫窝 55×35",
+            "reason": "照片看不到窗台进深与玻璃条件，无法判断"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "两面墙夹角，启发式参考，"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "剩 62cm，启发式参考"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "只见间接光，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "未见噪音家电，启发式参考"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 3,
+            "note": "在门与电视柜之间，启发式"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝的话，把窝垫换成旧衣服",
+          "day14": "还不进窝就换到电视柜右侧再试"
+        },
+        "behavior": {
+          "likelyUse": "大概率把墙角当睡觉的藏身处，背靠两面墙",
+          "whyNot": [
+            "门开合 85cm 会扫到墙角前缘，猫可能不敢久待",
+            "新位置头几天它只会绕着走"
+          ],
+          "firstSign": "三天内没有主动趴进去，先别挪，等到第 7 天再判断"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进窝，别洗",
+              "今天做还是周末做？先定一个时间",
+              "窝推进去后复测通道最窄处"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝里有没有压痕或毛发"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen",
+              "抓板有没有新的抓痕"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动进窝",
+            "then": "把窝挪到电视柜右侧地面"
+          },
+          {
+            "if": "7 天内抓板没有新抓痕",
+            "then": "把抓板挪到窝出口旁"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。",
+        "catFit": {
+          "verdict": "caution",
+          "items": [
+            {
+              "key": "hide",
+              "label": "能藏的地方",
+              "status": "warn",
+              "why": "只有开放式垫子，没有三面遮挡，猫不会把它当藏身处",
+              "basisId": "HIDING_ENCLOSURE",
+              "strength": "consensus",
+              "basisText": "三面挡住只留一个口，猫缩进去才觉得背后没人，敢闭眼睡。",
+              "honest": false
+            },
+            {
+              "key": "resources",
+              "label": "资源是否分开",
+              "status": "pass",
+              "why": "这个角落只做一个功能，照片里没看到水和食盆挤在一起",
+              "basisId": "MULTICAT_SEPARATION",
+              "strength": "consensus",
+              "basisText": "资源全挤在一处，强势的猫往中间一蹲，另一只连水都不敢喝。",
+              "honest": false
+            },
+            {
+              "key": "litter",
+              "label": "砂盆条件",
+              "status": "na",
+              "why": "这次方案不涉及砂盆，换砂盆方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "scratch",
+              "label": "抓挠位置",
+              "status": "warn",
+              "why": "只有水平瓦楞板，缺竖直面，猫没法把身体整个拉长",
+              "basisId": "SCRATCH_POST_FORM",
+              "strength": "consensus",
+              "basisText": "竖直的麻绳面能让猫把身子整个拉长，顺带在脚垫上留下自己的气味。",
+              "honest": false
+            },
+            {
+              "key": "vertical",
+              "label": "高处与栖架",
+              "status": "na",
+              "why": "这次方案不涉及高位，先不做爬架判断",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "climate",
+              "label": "温度/日照/风",
+              "status": "pass",
+              "why": "木地板/地毯比瓷砖暖，猫的舒适温度比人高，冬天再加厚垫",
+              "basisId": "THERMAL_COMFORT",
+              "strength": "consensus",
+              "basisText": "人觉得 20 ℃ 刚好，猫却偏冷，它会自己去找晒得到太阳的那块地板。",
+              "honest": false
+            }
+          ]
+        },
+        "usedMeasurements": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "valueCm": 62
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "valueCm": 80
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "valueCm": 52
+          },
+          {
+            "key": "doorSwing",
+            "label": "门开合范围",
+            "valueCm": 85
+          }
+        ],
+        "litterCount": {
+          "basisId": "LITTER_BOX_COUNT",
+          "strength": "consensus",
+          "basisText": "只有一处厕所时，胆小的猫会排队等到憋不住，最后转去沙发角落。",
+          "honest": true,
+          "status": "warn",
+          "suggested": 2,
+          "text": "单猫建议 2 个砂盆分两处；多猫按猫数+1（2 个）只是经验值，不是不合格判定。"
+        }
+      }
+    },
+    {
+      "image": "img3",
+      "stage": "plan-missing",
+      "normalized": {
+        "verdict": "insufficient",
+        "headline": "还差「通道净宽、墙角 A 边长」没量，先别定",
+        "budget": {
+          "cap": 300,
+          "est": 0,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "墙角猫窝候选位",
+            "bbox": [
+              0.3,
+              0.55,
+              0.18,
+              0.25
+            ],
+            "note": "两面墙夹角，可形成半遮蔽"
+          },
+          {
+            "id": "2",
+            "label": "电视柜右侧地面",
+            "bbox": [
+              0.1,
+              0.62,
+              0.16,
+              0.22
+            ],
+            "note": "借电视柜侧面做一侧遮挡"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有灰色猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "复用现有窝，先量外径再决定推多深",
+            "fit": "blocked",
+            "fitNote": "窝外径与墙角边长、通道净宽都未量，无法判断凸出是否挡人",
+            "confidence": "low",
+            "tags": [
+              "复用"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "照片里人蹲着挡住墙根，需现场拉尺"
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": 45,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "决定猫窝最大宽度"
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": 40,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "墙根到通道边，决定窝会不会凸出"
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "今天或周末选一个时间，在墙角地面拉尺量通道净宽",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "沿主墙量墙角 A 边长，记到厘米",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "量墙根到通道边的可用进深",
+            "critical": true
+          },
+          {
+            "id": "c4",
+            "text": "量现有灰窝外径（宽×深）",
+            "critical": true
+          },
+          {
+            "id": "c5",
+            "text": "确认门完全打开时是否扫到墙角",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "预算 329 已超 300，且墙高与固定方式未知"
+          },
+          {
+            "what": "猫窝抓板组合 70×45",
+            "reason": "70cm 宽需墙角 A 边长 ≥70cm，尚未量"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "两面墙夹角，启发式参考，"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "通道宽度未量，启发式参考"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "只见间接光，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "未见噪音家电，启发式参考"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 3,
+            "note": "在电视柜与门之间，启发式"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝就把垫子换成旧衣服",
+          "day14": "还不进就换到更安静的墙角"
+        },
+        "behavior": {
+          "likelyUse": "把灰窝推进墙角后，猫更可能缩进去睡",
+          "whyNot": [
+            "新位置带家具和地板味，头几天可能只绕着走",
+            "窝凸出挡通道时，猫会绕远路"
+          ],
+          "firstSign": "三天内有没有在窝里留下压痕或毛发"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进去，先别洗",
+              "今天做还是周末做？先定一个量尺时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝垫上有没有压痕"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动进窝",
+            "then": "把窝往电视柜侧面挪 20cm 再试"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。"
+      },
+      "applied": {
+        "verdict": "insufficient",
+        "headline": "还差「通道净宽、墙角 A 边长」没量，先别定",
+        "budget": {
+          "cap": 300,
+          "est": 0,
+          "status": "within"
+        },
+        "annotations": [
+          {
+            "id": "1",
+            "label": "墙角猫窝候选位",
+            "bbox": [
+              0.3,
+              0.55,
+              0.18,
+              0.25
+            ],
+            "note": "两面墙夹角，可形成半遮蔽"
+          },
+          {
+            "id": "2",
+            "label": "电视柜右侧地面",
+            "bbox": [
+              0.1,
+              0.62,
+              0.16,
+              0.22
+            ],
+            "note": "借电视柜侧面做一侧遮挡"
+          }
+        ],
+        "items": [
+          {
+            "id": "i1",
+            "type": "reuse",
+            "title": "现有灰色猫窝",
+            "sku": null,
+            "dimsCm": {
+              "w": 0,
+              "d": 0,
+              "h": 0
+            },
+            "price": 0,
+            "why": "复用现有窝，先量外径再决定推多深",
+            "fit": "blocked",
+            "fitNote": "尺寸未记录；先量外径和占地，记录后再评估",
+            "confidence": "low",
+            "tags": [
+              "复用"
+            ]
+          }
+        ],
+        "constraints": [
+          {
+            "key": "corridorWidth",
+            "label": "通道净宽",
+            "op": ">=",
+            "valueCm": 60,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "PASSAGE_WIDTH",
+            "strength": "weak",
+            "basisText": "缝太窄猫得侧身挤过去，它宁愿绕远路，久了这个位置就废了。",
+            "honest": true
+          },
+          {
+            "key": "cornerWidthA",
+            "label": "墙角 A 边长",
+            "op": ">=",
+            "valueCm": null,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          },
+          {
+            "key": "freeDepth",
+            "label": "可用进深",
+            "op": ">=",
+            "valueCm": null,
+            "actualCm": null,
+            "status": "unknown",
+            "note": "还没量，不能确认",
+            "estimate": false,
+            "basisId": "REST_SIZE_STRETCH",
+            "strength": "consensus",
+            "basisText": "休息点要能让猫整个身体伸展开；「猫窝必须比猫大 2 倍」没有出处，只能做宽松判断。",
+            "honest": true
+          }
+        ],
+        "checklist": [
+          {
+            "id": "c0",
+            "text": "周六上午去店里，先看可用进深≥40cm 的用品",
+            "critical": true
+          },
+          {
+            "id": "c1",
+            "text": "今天或周末选一个时间，在墙角地面拉尺量通道净宽",
+            "critical": true
+          },
+          {
+            "id": "c2",
+            "text": "沿主墙量墙角 A 边长，记到厘米",
+            "critical": true
+          },
+          {
+            "id": "c3",
+            "text": "量墙根到通道边的可用进深",
+            "critical": true
+          },
+          {
+            "id": "c4",
+            "text": "量现有灰窝外径（宽×深）",
+            "critical": true
+          },
+          {
+            "id": "c5",
+            "text": "确认门完全打开时是否扫到墙角",
+            "critical": false
+          }
+        ],
+        "blocked": [
+          {
+            "what": "三层猫爬架 60×50×140",
+            "reason": "预算 329 已超 300，且墙高与固定方式未知"
+          },
+          {
+            "what": "猫窝抓板组合 70×45",
+            "reason": "70cm 宽需墙角 A 边长 ≥70cm，尚未量"
+          },
+          {
+            "what": "关键尺寸「通道净宽」",
+            "reason": "还没量到，不能定摆放"
+          },
+          {
+            "what": "关键尺寸「墙角 A 边长」",
+            "reason": "还没量到，不能定摆放"
+          }
+        ],
+        "radar": [
+          {
+            "key": "hide",
+            "label": "藏身感",
+            "score": 4,
+            "note": "两面墙夹角，启发式参考，"
+          },
+          {
+            "key": "path",
+            "label": "通道",
+            "score": 3,
+            "note": "通道宽度未量，启发式参考"
+          },
+          {
+            "key": "sun",
+            "label": "日照",
+            "score": 2,
+            "note": "只见间接光，启发式参考，"
+          },
+          {
+            "key": "quiet",
+            "label": "安静",
+            "score": 3,
+            "note": "未见噪音家电，启发式参考"
+          },
+          {
+            "key": "flow",
+            "label": "动线",
+            "score": 3,
+            "note": "在电视柜与门之间，启发式"
+          }
+        ],
+        "aftercare": {
+          "day7": "猫不进窝就把垫子换成旧衣服",
+          "day14": "还不进就换到更安静的墙角"
+        },
+        "behavior": {
+          "likelyUse": "把灰窝推进墙角后，猫更可能缩进去睡",
+          "whyNot": [
+            "新位置带家具和地板味，头几天可能只绕着走",
+            "窝凸出挡通道时，猫会绕远路"
+          ],
+          "firstSign": "三天内有没有在窝里留下压痕或毛发"
+        },
+        "observe": [
+          {
+            "day": 1,
+            "title": "第 1 天",
+            "checks": [
+              "把旧垫子放进去，先别洗",
+              "今天做还是周末做？先定一个量尺时间"
+            ]
+          },
+          {
+            "day": 3,
+            "title": "第 3 天",
+            "checks": [
+              "3 天内不用不算失败，先别挪位置",
+              "看窝垫上有没有压痕"
+            ]
+          },
+          {
+            "day": 7,
+            "title": "第 7 天",
+            "checks": [
+              "主动使用次数 ≥2 次就保留；0 次就执行 ifThen"
+            ]
+          }
+        ],
+        "ifThen": [
+          {
+            "if": "7 天内猫一次都没主动进窝",
+            "then": "把窝往电视柜侧面挪 20cm 再试"
+          },
+          {
+            "if": "第 7 天窝垫上还没有压痕或毛",
+            "then": "把旧垫子换成猫睡过的"
+          }
+        ],
+        "disclaimer": "以交付时的尺寸条件为准，落地前请现场确认。",
+        "catFit": {
+          "verdict": "caution",
+          "items": [
+            {
+              "key": "hide",
+              "label": "能藏的地方",
+              "status": "warn",
+              "why": "只有开放式垫子，没有三面遮挡，猫不会把它当藏身处",
+              "basisId": "HIDING_ENCLOSURE",
+              "strength": "consensus",
+              "basisText": "三面挡住只留一个口，猫缩进去才觉得背后没人，敢闭眼睡。",
+              "honest": false
+            },
+            {
+              "key": "resources",
+              "label": "资源是否分开",
+              "status": "pass",
+              "why": "这个角落只做一个功能，照片里没看到水和食盆挤在一起",
+              "basisId": "MULTICAT_SEPARATION",
+              "strength": "consensus",
+              "basisText": "资源全挤在一处，强势的猫往中间一蹲，另一只连水都不敢喝。",
+              "honest": false
+            },
+            {
+              "key": "litter",
+              "label": "砂盆条件",
+              "status": "na",
+              "why": "这次方案不涉及砂盆，换砂盆方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "scratch",
+              "label": "抓挠位置",
+              "status": "na",
+              "why": "这次方案不涉及抓板，换抓板方案时再看",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "vertical",
+              "label": "高处与栖架",
+              "status": "na",
+              "why": "这次方案不涉及高位，先不做爬架判断",
+              "basisId": "NA-RULE",
+              "strength": "consensus",
+              "basisText": "这次方案不涉及的功能，必须明确标「不涉及」，不能因为「没发现问题」就算通过。",
+              "honest": false
+            },
+            {
+              "key": "climate",
+              "label": "温度/日照/风",
+              "status": "pass",
+              "why": "木地板/地毯比瓷砖暖，猫的舒适温度比人高，冬天再加厚垫",
+              "basisId": "THERMAL_COMFORT",
+              "strength": "consensus",
+              "basisText": "人觉得 20 ℃ 刚好，猫却偏冷，它会自己去找晒得到太阳的那块地板。",
+              "honest": false
+            }
+          ]
+        },
+        "usedMeasurements": [],
+        "litterCount": {
+          "basisId": "LITTER_BOX_COUNT",
+          "strength": "consensus",
+          "basisText": "只有一处厕所时，胆小的猫会排队等到憋不住，最后转去沙发角落。",
+          "honest": true,
+          "status": "warn",
+          "suggested": 2,
+          "text": "单猫建议 2 个砂盆分两处；多猫按猫数+1（2 个）只是经验值，不是不合格判定。"
+        }
+      }
+    }
+  ]
+}

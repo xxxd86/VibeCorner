@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: 语法 / DOM 契约 / 冒烟
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 语法检查（服务端 + 前端全部 JS）
+        run: |
+          set -e
+          for f in app/server/*.mjs app/public/js/*.js scripts/*.mjs tests/*.mjs; do
+            node --check "$f"
+          done
+          echo "syntax OK"
+
+      - name: 前端契约检查（41 个必需 ID + 资源引用）
+        run: node tests/dom-check.mjs
+
+      - name: 启动服务 + 健康检查 + 关键页面
+        env:
+          # CI 里没有真实 Key：analyze 会 503，其余接口应正常
+          DEEPSEEK_API_KEY: 'sk-ci-placeholder'
+          PORT: '8848'
+          HOST: '127.0.0.1'
+        run: |
+          set -e
+          node app/server/index.mjs & SRV=$!
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8848/api/health >/dev/null; then break; fi
+            sleep 1
+          done
+          echo "--- health ---"; curl -fsS http://127.0.0.1:8848/api/health
+          echo; echo "--- evidence ---"; curl -fsS http://127.0.0.1:8848/api/evidence | head -c 200
+          echo; echo "--- pages ---"
+          for p in / /share.html /manifest.webmanifest /js/app.js /js/share.js /styles/base.css; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8848$p")
+            echo "$p -> $code"; test "$code" = "200"
+          done
+          echo "--- gzip ---"
+          enc=$(curl -s -H 'Accept-Encoding: gzip' -o /dev/null -w '%{content_type} %{size_download}' http://127.0.0.1:8848/styles/components.css)
+          echo "components.css: $enc"
+          kill $SRV
+
+      - name: 真模型回归（仅当配置了仓库 Secret）
+        if: ${{ secrets.DEEPSEEK_API_KEY != '' }}
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          PORT: '8848'
+        run: |
+          node app/server/index.mjs & SRV=$!
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8848/api/health >/dev/null && break; sleep 1; done
+          node scripts/test-ai.mjs --quick || true
+          kill $SRV

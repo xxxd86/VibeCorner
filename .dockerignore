@@ -1,0 +1,13 @@
+.git
+.github
+.scratch
+.agents
+.lark
+.kiro
+.claude
+tests/screens
+docs/screens
+docs/demo
+app/data
+node_modules
+*.log

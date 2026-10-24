@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FAF6F0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>猫角落 Corner · 家庭分享</title>
+  <meta name="description" content="只读分享页：这个角落的位置判断、尺寸条件和方案。仅家庭内分享，24 小时内有效。">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="猫角落">
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/share.css">
+</head>
+<body class="share-body">
+
+<div id="share-root" data-state="loading">
+
+  <!-- loading -->
+  <div id="share-loading" class="share-loading" aria-busy="true" aria-label="正在加载分享">
+    <div class="share-skeleton share-skeleton-brand"></div>
+    <div class="share-skeleton share-skeleton-title"></div>
+    <div class="share-skeleton share-skeleton-meta"></div>
+    <div class="share-skeleton share-skeleton-decision"></div>
+    <div class="share-skeleton share-skeleton-photo"></div>
+    <div class="share-skeleton share-skeleton-line"></div>
+    <div class="share-skeleton share-skeleton-line short"></div>
+    <p class="share-loading-note">正在打开这个角落…</p>
+  </div>
+
+  <!-- expired / invalid -->
+  <div id="share-invalid" class="share-invalid" hidden>
+    <div class="share-invalid-art" aria-hidden="true">
+      <svg viewBox="0 0 220 140" fill="none">
+        <path d="M110 16v86" stroke="#8C857B" stroke-opacity=".3" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M110 102 24 128M110 102 196 128" stroke="#8C857B" stroke-opacity=".24" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M52 66h44M52 78h22" stroke="#8C857B" stroke-opacity=".4" stroke-width="1.4" stroke-linecap="round"/>
+        <rect x="126" y="52" width="48" height="34" rx="6" stroke="#D2603A" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="5 5"/>
+        <circle cx="150" cy="69" r="15" fill="var(--accent-soft)"/>
+        <path d="M150 62v9M150 75.5v.01" stroke="#D2603A" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M34 112c6-9 20-9 26 0" stroke="#8C857B" stroke-opacity=".3" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>链接已失效</h1>
+    <p>分享已撤销，或超过了 24 小时。让家人重新生成一次链接就行。</p>
+    <a class="share-btn share-btn-primary" href="/">了解猫角落</a>
+  </div>
+
+  <!-- ready -->
+  <main id="share-content" class="share-page" hidden>
+    <p class="share-topline share-ttl">仅家庭内分享 · 剩余 <span id="share-expiry">24</span> 小时 · 不可下载原图</p>
+
+    <header class="share-head share-header">
+      <a class="share-brand" href="/" aria-label="猫角落 Corner">corner<span class="share-brand-dot">.</span></a>
+      <h1 id="share-title" class="share-title">这个角落的方案</h1>
+      <div class="share-meta">
+        <span id="share-owner" class="share-owner">家的角落</span>
+        <span class="share-meta-dot" aria-hidden="true">·</span>
+        <time id="share-created">刚刚</time>
+      </div>
+    </header>
+
+    <section id="share-decision" class="decision-banner" data-tone="warn" aria-live="polite"></section>
+
+    <div id="share-photo-wrap" class="share-photo-wrap">
+      <img id="share-photo" class="share-photo" alt="这个角落的标注图" hidden>
+      <div id="share-photo-legend" class="share-photo-legend"></div>
+    </div>
+
+    <section class="share-section">
+      <h2 class="share-section-title">位置判断</h2>
+      <p class="share-section-note">先看猫会不会用，再看放不放得下。</p>
+      <div id="share-catfit" class="share-catfit"></div>
+    </section>
+
+    <section class="share-section">
+      <h2 class="share-section-title">尺寸条件</h2>
+      <div id="share-constraints" class="share-constraints"></div>
+    </section>
+
+    <section class="share-section">
+      <h2 class="share-section-title">方案</h2>
+      <div id="share-items" class="share-items"></div>
+    </section>
+
+    <section class="share-section">
+      <h2 class="share-section-title">家人意见</h2>
+      <p class="share-section-note">点一个态度就行，不用登录。同一位置以最后一次为准。</p>
+      <div id="share-vote" class="share-vote"></div>
+    </section>
+
+    <footer class="share-foot">
+      <p id="share-disclaimer">以交付时的尺寸条件为准，落地前请现场确认。</p>
+      <p class="share-readonly">这是只读分享页，不能修改方案。</p>
+    </footer>
+  </main>
+</div>
+
+<div id="dev-error-banner" hidden></div>
+
+<script>
+window.onerror = function (m, src, line) { var b = document.getElementById('dev-error-banner'); if (!b) return; b.textContent = String(m) + ' @ ' + (src || '') + ':' + (line || 0); b.hidden = false; };
+window.addEventListener('unhandledrejection', function (e) { var b = document.getElementById('dev-error-banner'); if (!b) return; var r = e.reason; b.textContent = 'unhandled: ' + ((r && (r.stack || r.message)) || r); b.hidden = false; });
+</script>
+<script type="module" src="/js/share.js"></script>
+</body>
+</html>

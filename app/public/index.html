@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FAF6F0">
+  <title>猫角落 Corner · 先看清这个角落，再决定怎么改</title>
+  <meta name="description" content="拍下家里一个角落，免费判断值不值得改、下一步该量哪里；量完 1—2 个关键尺寸，拿到标注图、放置建议、尺寸条件和现场确认清单。">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="猫角落">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/screens.css">
+</head>
+<body>
+
+<div id="app" data-theme="light" data-ready="0">
+
+  <!-- =====================================================
+       左栏 · 品牌 / 新的角落 / 最近会话
+       ===================================================== -->
+  <aside id="rail" data-collapsed="false" data-open="false">
+    <button id="btn-sessions" type="button" class="btn-sessions" aria-label="历史角落" aria-expanded="false" aria-controls="session-list">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <div id="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M6 13V9.5A3.5 3.5 0 0 1 9.5 6H13"/>
+        <path d="M19 6h3.5A3.5 3.5 0 0 1 26 9.5V13"/>
+        <path d="M26 19v3.5a3.5 3.5 0 0 1-3.5 3.5H19"/>
+        <path d="M13 26H9.5A3.5 3.5 0 0 1 6 22.5V19"/>
+        <circle class="logo-dot" cx="16" cy="16" r="3.1"/>
+      </svg>
+      <span class="brand-word">corner<span class="dot">.</span></span>
+    </div>
+
+    <button id="btn-new" type="button" class="btn btn-primary btn-block">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>
+      <span>新的角落</span>
+    </button>
+
+    <div class="rail-label">最近</div>
+    <nav id="session-list" aria-label="历史角落"></nav>
+
+    <div id="rail-footer">
+      <button id="btn-privacy" type="button" class="btn btn-ghost btn-block">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.4 5.2 6.1v5.2c0 3.9 2.7 7 6.8 8.3 4.1-1.3 6.8-4.4 6.8-8.3V6.1z"/>
+          <path d="m9.3 11.9 1.9 1.9 3.5-3.7"/>
+        </svg>
+        <span>隐私与数据</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- =====================================================
+       中栏 · 会话流 + 输入中枢
+       ===================================================== -->
+  <main id="stage">
+    <header id="stage-top">
+      <div class="stage-title-wrap">
+        <h1 id="stage-title">新的角落</h1>
+        <div id="stage-meta"><span id="stage-chip" class="chip chip-l0">未开始</span></div>
+      </div>
+      <button id="btn-help" type="button" class="btn btn-icon" aria-label="怎么用" title="怎么用">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.6"/>
+          <path d="M9.7 9.4a2.4 2.4 0 1 1 3.1 2.3c-.6.2-1 .8-1 1.4v.4"/>
+          <circle cx="11.9" cy="16.3" r=".85" fill="currentColor" stroke="none"/>
+        </svg>
+      </button>
+      <button id="btn-panel-toggle" type="button" class="btn btn-icon only-mobile" aria-label="空间画布" title="空间画布">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.6"/><path d="M15.2 4.5v15"/></svg>
+      </button>
+    </header>
+
+    <div id="feed" role="log" aria-live="polite">
+
+      <!-- 欢迎态（静态首屏；app.js 启动后用 feed.clearFeed()+addWelcome() 覆盖） -->
+      <section class="welcome" aria-labelledby="welcome-title">
+        <div class="welcome-eyebrow">
+          <span class="brand-mark">corner.</span>
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          <span class="eyebrow-text">空间判断，不靠猜</span>
+        </div>
+
+        <h2 class="welcome-title" id="welcome-title">先看清这个角落，<br>再决定<span class="mark">怎么改</span>。</h2>
+
+        <p class="welcome-lede">拍一张角落 → 看清能怎么改 → 量 2 个尺寸，拿到能带去店里的清单。</p>
+
+        <ol class="welcome-steps">
+          <li><span class="step-num mono">01</span><span class="step-text">拍一张角落</span></li>
+          <li><span class="step-num mono">02</span><span class="step-text">看清能怎么改</span></li>
+          <li><span class="step-num mono">03</span><span class="step-text">量 2 个尺寸，拿到清单</span></li>
+        </ol>
+
+        <div class="example-block">
+          <div class="ex-head">
+            <span class="ex-label">从一个常见的角落开始</span>
+            <span class="ex-hint">选一个，或直接拍照</span>
+          </div>
+          <div class="example-grid">
+
+            <button class="example-card" type="button" data-example="电视柜右边那个墙角">
+              <span class="ex-art" aria-hidden="true">
+                <svg viewBox="0 0 96 68" fill="none">
+                  <path d="M22 55V12M22 55h64" stroke="currentColor" stroke-opacity=".28" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M22 19 84 29" stroke="currentColor" stroke-opacity=".14" stroke-width="1.2" stroke-dasharray="2 5" stroke-linecap="round"/>
+                  <path d="M47 31 73 27.5 77 44.5 50 49Z" fill="var(--accent)" fill-opacity=".08" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="4 4" stroke-linejoin="round"/>
+                  <circle cx="43.5" cy="23" r="6.2" fill="var(--accent)"/>
+                  <text x="43.5" y="25.8" text-anchor="middle" font-size="8" font-family="ui-monospace,Consolas,monospace" fill="#FFF8F3">1</text>
+                </svg>
+              </span>
+              <span class="ex-title">电视柜右侧墙角</span>
+              <span class="ex-sub">宽 1.2m · 可放 55cm 窝，也有 0 元方案</span>
+              <svg class="ex-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg>
+            </button>
+
+            <button class="example-card" type="button" data-example="窗边 1.2 米空墙">
+              <span class="ex-art" aria-hidden="true">
+                <svg viewBox="0 0 96 68" fill="none">
+                  <rect x="28" y="9" width="40" height="34" rx="2.2" stroke="currentColor" stroke-opacity=".4" stroke-width="1.4"/>
+                  <path d="M48 9v34M28 26h40" stroke="currentColor" stroke-opacity=".2" stroke-width="1.1"/>
+                  <path d="M77 13 81 9M80 21h5M73 8v-4" stroke="var(--accent)" stroke-opacity=".85" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M22 58h52" stroke="currentColor" stroke-opacity=".3" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M22 54v8M74 54v8" stroke="currentColor" stroke-opacity=".4" stroke-width="1.2" stroke-linecap="round"/>
+                  <text x="48" y="52" text-anchor="middle" font-size="8.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">1.2 m</text>
+                </svg>
+              </span>
+              <span class="ex-title">窗边 1.2 米空墙</span>
+              <span class="ex-sub">可放 60cm 爬架，也有 0 元方案</span>
+              <svg class="ex-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg>
+            </button>
+
+            <button class="example-card" type="button" data-example="猫砂盆总被踢砂">
+              <span class="ex-art" aria-hidden="true">
+                <svg viewBox="0 0 96 68" fill="none">
+                  <path d="M20 36h42l-5 18H25z" stroke="currentColor" stroke-opacity=".45" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M25 43h32" stroke="currentColor" stroke-opacity=".16" stroke-width="1.1"/>
+                  <path d="M24 21c6-6 16-6 22 0" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="3 4"/>
+                  <circle cx="73" cy="50" r="1.5" fill="currentColor" fill-opacity=".45"/>
+                  <circle cx="80" cy="43" r="1.2" fill="currentColor" fill-opacity=".35"/>
+                  <circle cx="68" cy="58" r="1.1" fill="currentColor" fill-opacity=".3"/>
+                  <circle cx="85" cy="54" r="1" fill="currentColor" fill-opacity=".25"/>
+                  <circle cx="76" cy="59" r=".9" fill="currentColor" fill-opacity=".22"/>
+                </svg>
+              </span>
+              <span class="ex-title">猫砂盆总被踢砂</span>
+              <span class="ex-sub">换个落点就好，0 元方案优先</span>
+              <svg class="ex-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 3.5 13 8l-4.5 4.5"/></svg>
+            </button>
+
+          </div>
+        </div>
+
+        <p class="welcome-keep">不买也行 —— 0 元方案和买新品同权展示，且排在前面。</p>
+
+        <div class="welcome-trust">
+          <span>关键尺寸缺失不下结论</span>
+          <span>0 元复用优先</span>
+          <span>先量，再买</span>
+        </div>
+      </section>
+
+      <!-- V2.1 目标选择：ui-logic 填「你最想解决哪个？」+ 4 个 .goal-choice，初始隐藏 -->
+      <div id="goal-choices" hidden></div>
+      <!-- V2.1 等待步骤：ui-logic 填 li[data-state=done|active|todo]，初始隐藏 -->
+      <ol id="wait-steps" hidden></ol>
+    </div>
+
+    <footer id="composer">
+      <div id="suggest-chips">
+        <button class="suggest-chip" type="button">通道多宽</button>
+        <button class="suggest-chip" type="button">门口能放吗</button>
+        <button class="suggest-chip" type="button">窗边晒吗</button>
+        <button class="suggest-chip" type="button">预算 300</button>
+      </div>
+      <div id="composer-box">
+        <button id="btn-attach" type="button" class="btn btn-icon" aria-label="上传照片" title="上传照片">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3.6 9.6a2 2 0 0 1 2-2.1h1.9l1.4-2.1h6.2l1.4 2.1h1.9a2 2 0 0 1 2 2.1v7.7a2 2 0 0 1-2 2.1H5.6a2 2 0 0 1-2-2.1z"/>
+            <circle cx="12" cy="13" r="3.2"/>
+          </svg>
+        </button>
+        <input id="file-input" type="file" accept="image/*" hidden>
+        <textarea id="composer-input" rows="1" placeholder="拍下角落，或说说你想放什么…" aria-label="描述你想改造的角落"></textarea>
+        <button id="btn-send" type="button" class="btn btn-primary btn-icon" aria-label="发送" title="发送">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5.5M6.2 11.3 12 5.5l5.8 5.8"/></svg>
+        </button>
+      </div>
+      <div id="composer-foot">
+        <div class="composer-foot-main">
+          <button id="btn-foot-info" type="button" class="foot-info" aria-label="隐私与数据" title="隐私与数据">
+            <svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.6"/>
+              <path d="M12 11v5.2M12 7.6v.01"/>
+            </svg>
+          </button>
+          <button id="btn-cat-profile" type="button" class="chip chip-profile" aria-haspopup="dialog" title="设置猫的情况">
+            <svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6.6 9.4 5.6 4.9l4.6 3.1M17.4 9.4l1-4.5-4.6 3.1"/>
+              <circle cx="12" cy="13.2" r="6.2"/>
+              <path d="M9.9 12.9h.01M14.1 12.9h.01"/>
+            </svg>
+            <span>猫：中型 · 1 只</span>
+          </button>
+          <span class="foot-note foot-note-long">照片只用于这一次分析。右上角可随时删除，删除即从服务器移除。</span>
+          <span class="foot-note foot-note-short">仅用于本次分析</span>
+        </div>
+        <span class="kbd-hint mono">Enter 发送 · Shift + Enter 换行</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- =====================================================
+       右栏 · 空间画布（沉浸深色）
+       ===================================================== -->
+  <aside id="canvas-panel" data-open="false" data-empty="true">
+    <div class="panel-head">
+      <span class="panel-title">空间画布</span>
+      <span id="canvas-badge" class="chip">未上传</span>
+    </div>
+
+    <div id="panel-empty">
+      <div class="empty-art" aria-hidden="true">
+        <svg viewBox="0 0 340 244" fill="none">
+          <defs>
+            <radialGradient id="corner-glow" cx="50%" cy="60%" r="64%">
+              <stop offset="0" stop-color="#D2603A" stop-opacity=".22"/>
+              <stop offset=".62" stop-color="#D2603A" stop-opacity=".06"/>
+              <stop offset="1" stop-color="#D2603A" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="170" cy="138" rx="164" ry="116" fill="url(#corner-glow)"/>
+
+          <!-- 取景框角标 -->
+          <g stroke="#F5EFE8" stroke-width="1.4" stroke-linecap="round" stroke-opacity=".18">
+            <path d="M8 22V10h14"/>
+            <path d="M318 10h14v12"/>
+            <path d="M332 222v12h-14"/>
+            <path d="M22 234H8v-12"/>
+          </g>
+
+          <!-- 房间转角 -->
+          <g stroke="#F5EFE8" stroke-linecap="round" fill="none">
+            <path d="M170 16v134" stroke-width="1.5" stroke-opacity=".42"/>
+            <path d="M170 150 18 197" stroke-width="1.5" stroke-opacity=".36"/>
+            <path d="M170 150 322 197" stroke-width="1.5" stroke-opacity=".36"/>
+            <path d="M170 143 34 187" stroke-width="1.2" stroke-opacity=".17"/>
+            <path d="M170 143 306 187" stroke-width="1.2" stroke-opacity=".17"/>
+            <path d="M170 150 66 230" stroke-width="1" stroke-opacity=".08"/>
+            <path d="M170 150 170 240" stroke-width="1" stroke-opacity=".07"/>
+            <path d="M170 150 268 228" stroke-width="1" stroke-opacity=".07"/>
+          </g>
+
+          <!-- 候选区域 -->
+          <g>
+            <path d="M198 163 275 152.5 296 189 212 203Z" fill="#D2603A" fill-opacity=".1" stroke="#E2835D" stroke-opacity=".9" stroke-width="1.5" stroke-dasharray="5 5" stroke-linejoin="round"/>
+            <path d="M298 144 296 152" stroke="#E2835D" stroke-opacity=".5" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="191" cy="156" r="9.4" fill="#E2835D"/>
+            <text x="191" y="159.5" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="9.5" fill="#141110">1</text>
+            <text x="300" y="141" font-family="ui-monospace,Consolas,monospace" font-size="9.5" fill="#E2835D" fill-opacity=".92">能放?</text>
+          </g>
+
+          <!-- 猫 -->
+          <g>
+            <ellipse cx="127" cy="200" rx="31" ry="5.5" fill="#000000" fill-opacity=".3"/>
+            <path d="M112 197c-2.4-15 4-27 15-27s17.4 12 15 27z" fill="#F5EFE8" fill-opacity=".94"/>
+            <circle cx="126" cy="160" r="10" fill="#F5EFE8" fill-opacity=".94"/>
+            <path d="M118.6 153.8 116.2 143.6l7.4 4.8zM133.4 153.8 135.8 143.6l-7.4 4.8z" fill="#F5EFE8" fill-opacity=".94"/>
+            <path d="M142 193c10.4 0 15-7.8 10.2-15" stroke="#F5EFE8" stroke-opacity=".94" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </g>
+
+          <!-- 尺寸线 -->
+          <g stroke="#F5EFE8" stroke-width="1.2" stroke-linecap="round" stroke-opacity=".44" fill="none">
+            <path d="M48 216h86"/>
+            <path d="M48 210.5v11M134 210.5v11"/>
+            <path d="m52 212.2-3.6 3.8 3.6 3.8M130 212.2l3.6 3.8-3.6 3.8"/>
+          </g>
+          <text x="91" y="208.5" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="9.5" fill="#F5EFE8" fill-opacity=".52">60 cm</text>
+        </svg>
+      </div>
+      <p>传一张照片，画布上会直接标出「能放 / 有条件 / 别放」的区域。</p>
+      <div class="empty-legend">
+        <span><span class="dot ok"></span>能放</span>
+        <span><span class="dot mid"></span>有条件</span>
+        <span><span class="dot no"></span>别放</span>
+      </div>
+    </div>
+
+    <div id="canvas-stage" data-visible="false">
+      <canvas id="scene-canvas"></canvas>
+      <div id="canvas-hint" data-show="false"></div>
+      <div id="canvas-toolbar">
+        <button id="btn-zoom-out" type="button" class="btn btn-icon" aria-label="缩小" title="缩小">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12h13"/></svg>
+        </button>
+        <button id="btn-zoom-fit" type="button" class="btn btn-icon" aria-label="适应" title="适应画布">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9.2 4.4H5.9A1.5 1.5 0 0 0 4.4 5.9v3.3M14.8 4.4h3.3a1.5 1.5 0 0 1 1.5 1.5v3.3M19.6 14.8v3.3a1.5 1.5 0 0 1-1.5 1.5h-3.3M9.2 19.6H5.9a1.5 1.5 0 0 1-1.5-1.5v-3.3"/>
+          </svg>
+        </button>
+        <button id="btn-zoom-in" type="button" class="btn btn-icon" aria-label="放大" title="放大">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.5v13M5.5 12h13"/></svg>
+        </button>
+        <button id="btn-pick-mode" type="button" class="btn btn-chip" aria-pressed="false">
+          <svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="6.6"/>
+            <path d="M12 2.6v3.6M12 17.8v3.6M2.6 12h3.6M17.8 12h3.6"/>
+          </svg>
+          <span>点选位置</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 画布图例：由 ui-logic 填充 .legend-chip（data-visible=false 时隐藏但保留占位） -->
+    <div id="canvas-legend" data-visible="false" aria-label="画布标注图例"></div>
+
+    <div id="measure-dock" data-visible="false">
+      <div class="dock-head"><span>测量进度</span><span id="measure-progress" class="mono">0/0</span></div>
+      <div class="progress"><div id="measure-progress-bar" style="width:0%"></div></div>
+      <div id="measure-dock-list"></div>
+    </div>
+
+    <div id="deliver-dock" data-visible="false">
+      <button id="btn-deliver" type="button" class="btn btn-primary btn-block">生成可执行方案</button>
+      <button id="btn-export" type="button" class="btn btn-ghost btn-block" disabled>导出标注图</button>
+    </div>
+
+    <div class="panel-foot">
+      <span class="mono">JPG / PNG</span>
+      <span>长边压到 1280 · 只用于这一次分析</span>
+    </div>
+  </aside>
+
+</div>
+
+<div id="toast-host" aria-live="polite"></div>
+
+<div id="modal-host" data-open="false">
+  <!-- 猫的情况 · 隐藏模板。
+       注意：app.js 的 openModal() 会清空 #modal-host，ui-logic 需在 boot 时把本节点
+       remove 保存引用（或打开前 clone），再把可用副本放进 modal 的 .modal-body。
+       这里按 lead 要求只用 button[data-value][aria-pressed]，不用原生表单控件；
+       hidden inputs 仅作初始值快照，不渲染。 -->
+  <section id="cat-profile-form" class="cat-profile-form" hidden aria-label="猫的情况">
+    <p class="cpf-intro">按你家猫的实际情况选。判断「位置合不合适」时，体型、年龄和家里猫的数量会改变结论。</p>
+
+    <div class="cpf-group" data-field="catSize">
+      <div class="cpf-label">体型</div>
+      <div class="cpf-options" role="group" aria-label="猫的体型">
+        <button type="button" class="cpf-option" data-value="small" aria-pressed="false">小型</button>
+        <button type="button" class="cpf-option" data-value="medium" aria-pressed="true">中型</button>
+        <button type="button" class="cpf-option" data-value="large" aria-pressed="false">大型</button>
+      </div>
+      <p class="cpf-hint">影响砂盆、通道和猫窝的尺寸判定。不确定就选「中型」。</p>
+    </div>
+
+    <div class="cpf-group" data-field="catAge">
+      <div class="cpf-label">月龄</div>
+      <div class="cpf-options" role="group" aria-label="猫的月龄">
+        <button type="button" class="cpf-option" data-value="kitten" aria-pressed="false">幼猫</button>
+        <button type="button" class="cpf-option" data-value="adult" aria-pressed="true">成年</button>
+        <button type="button" class="cpf-option" data-value="senior" aria-pressed="false">老年</button>
+      </div>
+      <p class="cpf-hint">老年猫会提高「低台阶、易进出」的优先级。</p>
+    </div>
+
+    <div class="cpf-group" data-field="cats">
+      <div class="cpf-label">家里几只猫</div>
+      <div class="cpf-options" role="group" aria-label="家里有几只猫">
+        <button type="button" class="cpf-option" data-value="1" aria-pressed="true">1 只</button>
+        <button type="button" class="cpf-option" data-value="2" aria-pressed="false">2 只</button>
+        <button type="button" class="cpf-option" data-value="3" aria-pressed="false">3 只以上</button>
+      </div>
+      <p class="cpf-hint">多猫家庭会检查资源是否分开摆。</p>
+    </div>
+
+    <div class="cpf-group" data-field="floorType">
+      <div class="cpf-label">冬季地面</div>
+      <div class="cpf-options" role="group" aria-label="冬季地面材质">
+        <button type="button" class="cpf-option" data-value="wood" aria-pressed="false">木地板</button>
+        <button type="button" class="cpf-option" data-value="tile" aria-pressed="false">瓷砖</button>
+        <button type="button" class="cpf-option" data-value="carpet" aria-pressed="false">地毯</button>
+      </div>
+      <p class="cpf-hint">影响保暖与日照建议；不确定可以先不选。</p>
+    </div>
+
+    <div class="cpf-hidden-inputs" hidden>
+      <input type="hidden" name="catSize" value="medium">
+      <input type="hidden" name="catAge" value="adult">
+      <input type="hidden" name="cats" value="1">
+      <input type="hidden" name="multiCat" value="false">
+      <input type="hidden" name="floorType" value="unknown">
+    </div>
+  </section>
+</div>
+
+<div id="basis-popover" data-open="false" role="dialog" aria-modal="false"><div class="basis-pop-body"></div></div>
+<div id="dev-error-banner" hidden></div>
+
+<script>
+window.onerror = function (m, src, line) { var b = document.getElementById('dev-error-banner'); if (!b) return; b.textContent = String(m) + ' @ ' + (src || '') + ':' + (line || 0); b.hidden = false; };
+window.addEventListener('unhandledrejection', function (e) { var b = document.getElementById('dev-error-banner'); if (!b) return; var r = e.reason; b.textContent = 'unhandled: ' + ((r && (r.stack || r.message)) || r); b.hidden = false; });
+</script>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>

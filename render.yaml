@@ -1,0 +1,30 @@
+# Render Blueprint —— 点一次就能拿到公网链接
+# 用法：Render Dashboard → New → Blueprint → 选这个仓库 → Apply
+# 然后在服务的 Environment 里填 DEEPSEEK_API_KEY（不会写进仓库）
+services:
+  - type: web
+    name: vibe-corner
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: ""
+    startCommand: node app/server/index.mjs
+    healthCheckPath: /api/health
+    autoDeploy: true # ← push 到 main 自动重新部署
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: HOST
+        value: 0.0.0.0
+      # 公网部署必须关闭内网限制，否则分享页 /s/<token> 会 403
+      - key: SHARE_LAN_ONLY
+        value: "0"
+      - key: SHARE_TTL_HOURS
+        value: "24"
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com
+      - key: DEEPSEEK_MODEL
+        value: deepseek-flash
+      - key: DEEPSEEK_API_KEY
+        sync: false # ← 在 Dashboard 里手动填，仓库里没有
