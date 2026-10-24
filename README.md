@@ -56,6 +56,23 @@ AI 是 DeepSeek 多模态（`deepseek-flash`，支持图片输入）。
 真实 DeepSeek + 真实家庭照片 + 真实分享投票，不是剪辑合成。逐段说明见 [docs/demo/README.md](docs/demo/README.md)；
 重新录制：`node --experimental-websocket scripts/make-demo-video.mjs --w=390 --h=844 --out=docs/demo/corner-demo-phone.mp4`。
 
+## 部署与自动构建
+
+仓库：<https://github.com/xxxd86/VibeCorner>
+详细步骤：[docs/DEPLOY.md](docs/DEPLOY.md)
+
+| 触发 | 自动做什么 | 结果在哪 |
+|---|---|---|
+| `git push` 到 `main` | `.github/workflows/ci.yml`：`node --check` 全量语法 + DOM 契约（41 个必需 id）+ 启动服务冒烟（health/evidence/页面/gzip） | Actions 里绿勾 / 红叉 |
+| `git push` 到 `main` | `.github/workflows/docker.yml`：构建镜像并推到 GHCR | `ghcr.io/xxxd86/vibecorner:latest` → [包页面](https://github.com/xxxd86/VibeCorner/pkgs/container/vibecorner) |
+| `git push` 到 `main` | `.github/workflows/deploy-render.yml`：若配了 `RENDER_DEPLOY_HOOK`，触发 Render 重新部署 | Render 上的公网 URL |
+| 手动 | Render Blueprint（`render.yaml` 已在仓库里）→ `New → Blueprint` 选本仓库 | 形如 `https://vibe-corner-xxxx.onrender.com` |
+
+> **为什么不能直接用 GitHub Pages**：这个应用有服务端（持有 API Key、SSE 流式、落盘照片），
+> Pages 只能放静态文件。公网链接请走 Render / Docker / VPS，见 [docs/DEPLOY.md](docs/DEPLOY.md)。
+
+本地跑 `run.cmd`；部署到公网时后端会把 `SHARE_LAN_ONLY` 设为 `0`（否则家庭分享页只放行内网）。
+
 ## 跑起来
 
 ```powershell
