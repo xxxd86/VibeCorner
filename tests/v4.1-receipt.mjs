@@ -136,7 +136,9 @@ const SLEEP = (ms) => ({ type: 'sleep', ms });
 
 const PIN_CARD = `(() => {
   const card = document.querySelector('.card-votes'); if (!card) return 'no-card';
+  window.__qaCardHome = { parent: card.parentElement, next: card.nextElementSibling };
   window.__qaCardStyle = card.getAttribute('style') || '';
+  document.body.appendChild(card);
   card.style.position = 'fixed'; card.style.left = '8px'; card.style.right = '8px';
   card.style.top = '64px'; card.style.bottom = '96px'; card.style.zIndex = '90';
   card.style.overflow = 'auto'; card.style.background = 'var(--bg, #fbf7f1)';
@@ -144,7 +146,10 @@ const PIN_CARD = `(() => {
 })()`;
 const UNPIN_CARD = `(() => {
   const card = document.querySelector('.card-votes'); if (!card) return 'no-card';
-  card.setAttribute('style', window.__qaCardStyle || ''); return 'unpinned';
+  card.setAttribute('style', window.__qaCardStyle || '');
+  const home = window.__qaCardHome;
+  if (home && home.parent && home.parent.isConnected) home.parent.insertBefore(card, home.next && home.next.parentElement === home.parent ? home.next : null);
+  return 'unpinned';
 })()`;
 
 function owner390ReloadSteps() {
@@ -164,7 +169,7 @@ function owner390Steps() {
     SLEEP(1000),
     EVAL('initial', `JSON.stringify((() => {
       const sid = window.__corner.state.session?.id || '';
-      return { sid, handoff: (document.querySelector('.card-handoff .handoff-share-status')?.textContent || '').trim(), votesCard: !!document.querySelector('.card-votes'), toasts: [...document.querySelectorAll('#toast-host .toast')].map((n) => n.textContent.trim()), respondsRead: sid ? localStorage.getItem('corner.respondsRead.' + sid) : null, votesRead: sid ? localStorage.getItem('corner.votesRead.' + sid) : null };
+      return { sid, handoff: (document.querySelector('.card-handoff .handoff-share-status')?.textContent || '').trim(), votesCard: !!document.querySelector('.card-votes'), toasts: [...document.querySelectorAll('#toast-host .toast')].map((n) => n.textContent.trim()), tinyButtons: [...document.querySelectorAll('#feed button')].filter((b) => b.offsetParent && b.getBoundingClientRect().height < 40).length, respondsRead: sid ? localStorage.getItem('corner.respondsRead.' + sid) : null, votesRead: sid ? localStorage.getItem('corner.votesRead.' + sid) : null };
     })())`),
     EVAL('addPhotoRespondAndRefresh', `(async () => {
       const token = '${token}';
@@ -194,7 +199,7 @@ function owner1440Steps() {
     SLEEP(1200),
     EVAL('firstNoBaseline', `JSON.stringify((() => {
       const sid = window.__corner.state.session?.id || '';
-      return { sid, toasts: [...document.querySelectorAll('#toast-host .toast')].map((n) => n.textContent.trim()), chip: (document.querySelector('.card-votes .respond-unread-chip')?.textContent || '').trim(), chipAria: document.querySelector('.card-votes .respond-unread-chip')?.getAttribute('aria-label') || '', handoff: (document.querySelector('.card-handoff .handoff-share-status')?.textContent || '').trim(), respondsRead: sid ? localStorage.getItem('corner.respondsRead.' + sid) : null };
+      return { sid, toasts: [...document.querySelectorAll('#toast-host .toast')].map((n) => n.textContent.trim()), tinyButtons: [...document.querySelectorAll('#feed button')].filter((b) => b.offsetParent && b.getBoundingClientRect().height < 40).length, chip: (document.querySelector('.card-votes .respond-unread-chip')?.textContent || '').trim(), chipAria: document.querySelector('.card-votes .respond-unread-chip')?.getAttribute('aria-label') || '', handoff: (document.querySelector('.card-handoff .handoff-share-status')?.textContent || '').trim(), respondsRead: sid ? localStorage.getItem('corner.respondsRead.' + sid) : null };
     })())`),
     EVAL('markInitialRead', `(async () => {
       document.querySelector('.card-votes')?.click();
@@ -307,6 +312,7 @@ async function main() {
     const init = get(p1.out, 'initial');
     check(init?.sid === sessionId, '390 打开本轮会话', JSON.stringify({ got: init?.sid, want: sessionId }));
     check(init?.votesCard === false, '初始无家人意见卡（0 条回应）', JSON.stringify(init?.votesCard));
+    check(init?.tinyButtons === 0, '390 tinyButtons=0', JSON.stringify(init?.tinyButtons));
     check(/等待家人意见/.test(init?.handoff || ''), '初始 handoff「等待家人意见」', JSON.stringify(init?.handoff));
     check((init?.toasts || []).length === 0 && init?.respondsRead == null, '初始无 toast、无 respondsRead 基线', JSON.stringify(init));
     const add = get(p1.out, 'addPhotoRespondAndRefresh');
@@ -343,6 +349,7 @@ async function main() {
     const first = get(p2.out, 'firstNoBaseline');
     if (first) {
       check(first.sid === sessionId, '1440 打开本轮会话', JSON.stringify({ got: first.sid, want: sessionId }));
+      check(first.tinyButtons === 0, '1440 tinyButtons=0', JSON.stringify(first.tinyButtons));
       check((first.toasts || []).length === 0, '首次无基线：不 toast', JSON.stringify(first.toasts));
       check(/^新 1$/.test(first.chip || ''), '首次无基线：仅「新 1」角标', JSON.stringify(first.chip));
       check(first.chipAria === '1 条新回应', '首次无基线：aria-label「1 条新回应」', JSON.stringify(first.chipAria));
@@ -375,7 +382,7 @@ async function main() {
     const single = get(p2.out, 'singleNoPhotoToast');
     if (single) {
       check((single.toasts || []).some((t) => /家人回应了你 · 我周末来量/.test(t)), '1 条无照片 → toast「家人回应了你 · 我周末来量」', JSON.stringify(single.toasts));
-      check(single.baselineBefore === '11' && single.respondsRead === '11', '未读时基线保持 11', JSON.stringify(single));
+      check(single.baselineBefore === '12' && single.respondsRead === '12', '未读时基线保持 12', JSON.stringify(single));
     } else check(false, '读取单条无照片 toast', 'missing');
     const two = get(p2.out, 'twoRespondsToast');
     if (two) {

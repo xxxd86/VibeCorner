@@ -228,13 +228,14 @@ const stepsMain1440 = [
     unread: (document.querySelector('.card-votes')||{}).dataset?.unread || null,
     chip: (document.querySelector('.vote-unread-chip')||{}).textContent || ''
   })`),
-  EVAL('scrollVotes', `(() => {
+  EVAL('preScrollVotes', `(() => {
     const f = document.getElementById('feed'); const n = document.querySelector('.card-votes');
     if (!n) return 'no';
-    if (f) { const fr = f.getBoundingClientRect(), nr = n.getBoundingClientRect(); f.scrollTop += (nr.top - fr.top) - 40; return 'feed'; }
-    n.scrollIntoView({ block: 'center' }); return 'intoView';
+    if (f) { const fr = f.getBoundingClientRect(), nr = n.getBoundingClientRect(); f.scrollTop += (nr.top - fr.top) - (f.clientHeight - 150); return 'pre'; }
+    return 'no-feed';
   })()`),
-  SLEEP(900),
+  { type: 'wheel', x: 720, y: 450, deltaY: 240 },
+  SLEEP(1000),
   EVAL('unreadCleared', `JSON.stringify({
     unread: (document.querySelector('.card-votes')||{}).dataset?.unread || null,
     chip: (document.querySelector('.vote-unread-chip')||{}).textContent || ''

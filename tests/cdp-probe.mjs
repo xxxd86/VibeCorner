@@ -318,6 +318,36 @@ async function main() {
             await sleep(200);
           }
           res.value = { url: st.url };
+        } else if (st.type === 'wheel') {
+          const wx = Number(st.x) || 400;
+          const wy = Number(st.y) || 400;
+          const dy = Number(st.deltaY) || 400;
+          await cdp.call('Input.dispatchMouseEvent', { type: 'mouseWheel', x: wx, y: wy, deltaX: 0, deltaY: dy });
+          res.value = { wheel: dy };
+        } else if (st.type === 'shotClip') {
+          const rectRaw = await evalExpr(`JSON.stringify((() => { const el = document.querySelector(${JSON.stringify(st.sel)}); if (!el) return null; const r = el.getBoundingClientRect(); let x = 0, y = 0, n = el; while (n) { x += n.offsetLeft || 0; y += n.offsetTop || 0; n = n.offsetParent; } return { x, y, width: r.width, height: r.height }; })())`, 5000);
+          let rect = null;
+          try { rect = JSON.parse(rectRaw || 'null'); } catch { rect = null; }
+          if (!rect || !(rect.width > 0) || !(rect.height > 0)) {
+            res.ok = false; res.detail = 'shotClip 元素不可见/不存在: ' + st.sel;
+          } else {
+            let fname = st.name ? String(st.name) : `clip-${idx}`;
+            if (!/\.png$/i.test(fname)) fname += '.png';
+            mkdirSync(SHOTS_DIR, { recursive: true });
+            const pad = Number(st.pad) || 8;
+            const clip = {
+              x: Math.max(0, Math.round(rect.x - pad)),
+              y: Math.max(0, Math.round(rect.y - pad)),
+              width: Math.ceil(rect.width + pad * 2),
+              height: Math.ceil(rect.height + pad * 2),
+              scale: 1,
+            };
+            const sh = await cdp.call('Page.captureScreenshot', { format: 'png', fromSurface: true, captureBeyondViewport: true, clip }, 25000);
+            const buf = Buffer.from(sh.data, 'base64');
+            const file = join(SHOTS_DIR, fname);
+            writeFileSync(file, buf);
+            res.shot = { file: file.replace(ROOT + '\\', ''), bytes: buf.length };
+          }
         } else if (st.type === 'shot' || st.type === 'shotIf') {
           let should = true;
           if (st.type === 'shotIf') {
