@@ -1,7 +1,7 @@
 name: 部署到 Render
 
 # push 到 main 时触发 Render 重新部署（可选）
-# 前置：在仓库 Settings → Secrets and variables → Actions 里加 RENDER_DEPLOY_HOOK
+# 前置：仓库 Settings → Secrets and variables → Actions 里加 RENDER_DEPLOY_HOOK
 #       （Render 服务页 → Settings → Deploy Hook 复制 URL）
 on:
   push:
@@ -11,13 +11,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
     steps:
+      - name: 未配置 Deploy Hook
+        if: env.HOOK == ''
+        run: echo "未配置 RENDER_DEPLOY_HOOK，跳过。见 docs/DEPLOY.md 路线 A"
+
       - name: 触发 Render Deploy Hook
-        if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}
+        if: env.HOOK != ''
         run: |
           echo "触发部署…"
-          curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+          curl -fsS -X POST "$HOOK"
           echo "已触发（部署进度在 Render Dashboard 查看）"
-      - name: 未配置 Deploy Hook 时跳过
-        if: ${{ secrets.RENDER_DEPLOY_HOOK == '' }}
-        run: echo "未配置 RENDER_DEPLOY_HOOK，跳过。见 docs/DEPLOY.md"
